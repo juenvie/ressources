@@ -208,6 +208,7 @@ a:hover {
 .nav-principale ul {
   list-style: none;
   display: flex;
+  flex-wrap: wrap;
   gap: 0.25rem;
   padding: 0;
 }
@@ -576,6 +577,7 @@ a:hover {
 
 .ligne-recherche {
   display: flex;
+  flex-direction: column;
   gap: 0.6rem;
 }
 
@@ -1459,6 +1461,7 @@ a:hover {
 
   .ligne-recherche {
     flex: 1;
+    flex-direction: row;
   }
 
   .filtres-chips {
