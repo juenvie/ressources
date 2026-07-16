@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "static-site",
+      "runtimeExecutable": "/bin/bash",
+      "runtimeArgs": ["-c", "cd '/private/tmp/claude-501/-Users-julien-Desktop-JU-EN-VIE-Ressources--site-/8b54bf7a-34bb-41f0-921c-33f82afa5eff/scratchpad/preview' && exec python3 -m http.server 8934"],
+      "port": 8934
+    }
+  ]
+}

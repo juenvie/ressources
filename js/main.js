@@ -31,6 +31,20 @@
     );
   }
 
+  /** Un partenaire « code seul » : actif et pourvu d'un code, mais sans
+      lien de parrainage (certains fonctionnent uniquement au code, ex.
+      Fortuneo). La carte s'affiche alors active, avec sa pastille code,
+      mais sans bouton Découvrir. */
+  function estCodeSeul(lien) {
+    return lien.statut === "actif" && !estLienPret(lien) && !!lien.codePromo;
+  }
+
+  /** Une carte est « utilisable » (donc non grisée) si elle a un vrai
+      lien OU si c'est un partenaire code seul. */
+  function estUtilisable(lien) {
+    return estLienPret(lien) || estCodeSeul(lien);
+  }
+
   /** Une url de réseau social est réelle si ce n'est pas un placeholder. */
   function estUrlReelle(url) {
     return typeof url === "string" && url.length > 0 && !url.startsWith("LIEN_A_REMPLIR");
@@ -64,26 +78,24 @@
   var ICONE_COPIE =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
 
-  var ICONE_PARTAGE =
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>';
-
   /* ---------- 2. Construction des cartes produit ---------- */
 
-  function construireBadges(lien, pret) {
-    var morceaux = [];
-    if (lien.badge && BADGES[lien.badge]) {
-      var b = BADGES[lien.badge];
-      morceaux.push('<span class="badge ' + b.classe + '">' + echapper(b.label) + "</span>");
-    }
-    if (!pret) {
-      morceaux.push('<span class="badge badge-bientot">Bientôt</span>');
-    }
-    if (morceaux.length === 0) return "";
-    return '<div class="badges-carte">' + morceaux.join("") + "</div>";
+  /* Badges optionnels d'un produit (ex. « Mon préféré »). Le statut
+     « Bientôt » n'a plus de badge : le bouton « Bientôt disponible » en
+     bas de carte le signale déjà. */
+  function construireBadges(lien) {
+    if (!lien.badge || !BADGES[lien.badge]) return "";
+    var b = BADGES[lien.badge];
+    return (
+      '<div class="badges-carte"><span class="badge ' +
+      b.classe + '">' + echapper(b.label) + "</span></div>"
+    );
   }
 
   function construireCarte(lien, position) {
     var pret = estLienPret(lien);
+    var codeSeul = estCodeSeul(lien);
+    var utilisable = pret || codeSeul;
     var nom = echapper(lien.nom);
 
     var html = '<div class="entete-carte">';
@@ -103,53 +115,59 @@
     html += "<h3>" + nom + "</h3>";
     html += "</div>";
 
-    if (lien.resume) {
-      html += '<p class="resume">' + echapper(lien.resume) + "</p>";
-    }
+    /* Pas de texte descriptif sur la carte (le résumé reste dans l'index
+       de recherche, voir dataset.recherche plus bas). Seule l'accroche
+       perso, si Julien l'a remplie, s'affiche. */
     if (accrocheRemplie(lien.accroche)) {
       html += '<p class="accroche">' + echapper(lien.accroche) + "</p>";
     }
 
-    html += construireBadges(lien, pret);
+    html += construireBadges(lien);
 
     if (lien.codePromo) {
+      var code = echapper(lien.codePromo);
+      var libelleCopie = 'aria-label="Copier le code ' + code + " de " + nom + '"';
+      /* Le code est copiable de deux façons : tap sur la pastille dorée,
+         ou tap sur le bouton copier juste à côté (même action). */
       html +=
+        '<div class="ligne-code">' +
         '<button type="button" class="code-promo" data-action="copier-code" data-code="' +
-        echapper(lien.codePromo) +
-        '" aria-label="Copier le code ' +
-        echapper(lien.codePromo) +
-        " de " +
-        nom +
-        '">' +
-        '<span class="etiquette">Code</span> ' +
-        echapper(lien.codePromo) +
-        "</button>";
+        code + '" ' + libelleCopie + ">" +
+        '<span class="etiquette">Code</span> ' + code +
+        "</button>" +
+        '<button type="button" class="btn-icone btn-copier-code" data-action="copier-code" data-code="' +
+        code + '" ' + libelleCopie + ">" + ICONE_COPIE + "</button>" +
+        "</div>";
     }
 
-    html += '<div class="actions-carte">';
-    if (pret) {
-      html +=
-        '<a class="btn-lien" href="' +
-        echapper(lien.url) +
-        '" target="_blank" rel="sponsored noopener">Découvrir</a>';
-      html +=
-        '<button type="button" class="btn-icone" data-action="copier-lien" data-url="' +
-        echapper(lien.url) +
-        '" aria-label="Copier le lien de ' + nom + '">' + ICONE_COPIE + "</button>";
-      html +=
-        '<button type="button" class="btn-icone" data-action="partager" data-url="' +
-        echapper(lien.url) +
-        '" data-nom="' + nom + '" aria-label="Partager ' + nom + '">' + ICONE_PARTAGE + "</button>";
-    } else {
-      html += '<span class="btn-lien desactive">Bientôt disponible</span>';
+    /* Bouton d'action. Cartes code seul : aucun bouton (la pastille code
+       suffit). Sinon : « Découvrir » (lien réel) ou « Bientôt disponible »
+       (à venir). La carte reste cliquable en entier via le JS. */
+    if (!codeSeul) {
+      html += '<div class="actions-carte">';
+      if (pret) {
+        html +=
+          '<a class="btn-lien" href="' +
+          echapper(lien.url) +
+          '" target="_blank" rel="sponsored noopener">Découvrir</a>';
+      } else {
+        html += '<span class="btn-lien desactive">Bientôt disponible</span>';
+      }
+      html += "</div>";
     }
-    html += "</div>";
+
+    /* Mention de l'avantage (ex. « 5% de réduction »), centrée en bas de
+       carte. Affichée seulement si le champ avantage est renseigné. */
+    if (lien.avantage) {
+      html += '<p class="avantage-promo">' + echapper(lien.avantage) + "</p>";
+    }
 
     var carte = document.createElement("article");
-    carte.className = "carte-lien revele" + (pret ? "" : " a-venir");
+    carte.className =
+      "carte-lien revele" + (utilisable ? "" : " a-venir") + (pret ? " carte-cliquable" : "");
     carte.dataset.recherche = normaliser(lien.nom + " " + (lien.resume || ""));
     carte.dataset.nom = normaliser(lien.nom);
-    carte.dataset.pret = pret ? "1" : "0";
+    carte.dataset.pret = utilisable ? "1" : "0";
     carte.dataset.position = String(position);
     carte.innerHTML = html;
     return carte;
@@ -236,7 +254,6 @@
 
     var chipsConteneur = toolbar.querySelector(".filtres-chips");
     var champ = toolbar.querySelector("input[type='search']");
-    var tri = toolbar.querySelector(".selecteur-tri");
 
     /* Chips : « Tout » + une par sous-catégorie */
     var filtreActif = "tout";
@@ -294,29 +311,6 @@
 
     if (champ) {
       champ.addEventListener("input", appliquer);
-    }
-
-    if (tri) {
-      tri.addEventListener("change", function () {
-        var mode = tri.value;
-        zone.querySelectorAll(".grille-liens").forEach(function (grille) {
-          var cartes = Array.prototype.slice.call(grille.children);
-          cartes.sort(function (a, b) {
-            if (mode === "alpha") {
-              return a.dataset.nom.localeCompare(b.dataset.nom, "fr");
-            }
-            if (mode === "disponibles") {
-              if (a.dataset.pret !== b.dataset.pret) {
-                return a.dataset.pret === "1" ? -1 : 1;
-              }
-            }
-            return Number(a.dataset.position) - Number(b.dataset.position);
-          });
-          cartes.forEach(function (carte) {
-            grille.appendChild(carte);
-          });
-        });
-      });
     }
   }
 
@@ -572,6 +566,26 @@
     }, 2200);
   }
 
+  /* Repli de copie pour les navigateurs sans API clipboard (ou qui la
+     refusent) : textarea invisible + execCommand, la méthode classique. */
+  function copierTexteRepli(texte, messageSucces) {
+    var zone = document.createElement("textarea");
+    zone.value = texte;
+    zone.setAttribute("readonly", "");
+    zone.style.position = "fixed";
+    zone.style.opacity = "0";
+    document.body.appendChild(zone);
+    zone.select();
+    var reussi = false;
+    try {
+      reussi = document.execCommand("copy");
+    } catch (erreur) {
+      reussi = false;
+    }
+    document.body.removeChild(zone);
+    afficherToast(reussi ? messageSucces : "Copie impossible sur ce navigateur");
+  }
+
   function copierTexte(texte, messageSucces) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(texte).then(
@@ -579,11 +593,11 @@
           afficherToast(messageSucces);
         },
         function () {
-          afficherToast("Copie impossible sur ce navigateur");
+          copierTexteRepli(texte, messageSucces);
         }
       );
     } else {
-      afficherToast("Copie impossible sur ce navigateur");
+      copierTexteRepli(texte, messageSucces);
     }
   }
 
@@ -604,25 +618,28 @@
     true
   );
 
-  /* Un seul écouteur pour toutes les actions des cartes */
+  /* Un seul écouteur pour les interactions des cartes. */
   document.addEventListener("click", function (evenement) {
+    /* 1. Boutons de copie du code : prioritaires, jamais de navigation. */
     var bouton = evenement.target.closest("[data-action]");
-    if (!bouton) return;
-
-    var action = bouton.dataset.action;
-    if (action === "copier-lien") {
-      copierTexte(bouton.dataset.url, "Lien copié");
-    } else if (action === "copier-code") {
-      copierTexte(bouton.dataset.code, "Code " + bouton.dataset.code + " copié");
-    } else if (action === "partager") {
-      var donnees = { title: bouton.dataset.nom, url: bouton.dataset.url };
-      if (navigator.share) {
-        navigator.share(donnees).catch(function () {
-          /* Partage annulé par l'utilisateur : rien à faire */
-        });
-      } else {
-        copierTexte(bouton.dataset.url, "Lien copié, prêt à partager");
+    if (bouton) {
+      if (bouton.dataset.action === "copier-code") {
+        copierTexte(bouton.dataset.code, "Code " + bouton.dataset.code + " copié");
       }
+      return;
+    }
+
+    /* 2. Clic ailleurs sur une carte avec lien : ouvre le lien de
+          parrainage, comme le bouton Découvrir. Un clic direct sur le
+          bouton s'ouvre nativement (laissé passer), et on ne navigue pas
+          pendant une sélection de texte. */
+    if (evenement.target.closest("a")) return;
+    if (window.getSelection && String(window.getSelection())) return;
+    var carte = evenement.target.closest(".carte-lien");
+    if (!carte) return;
+    var lien = carte.querySelector("a.btn-lien[href]");
+    if (lien) {
+      window.open(lien.href, "_blank", "noopener");
     }
   });
 

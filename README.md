@@ -42,10 +42,12 @@ Règles automatiques du moteur :
 
 | Ce que tu fais dans `liens.js` | Ce qui se passe sur le site |
 |---|---|
-| `url` commence par `LIEN_A_REMPLIR` | Carte grisée + badge « Bientôt », jamais de lien mort |
-| `url` est un vrai lien | Carte active, bouton Découvrir cliquable |
+| `url` commence par `LIEN_A_REMPLIR` (et pas de `codePromo`) | Carte grisée + badge « Bientôt », jamais de lien mort |
+| `url` est un vrai lien | Carte active : toute la carte est cliquable vers le lien (plus de bouton Découvrir) |
+| `codePromo` rempli mais `url` en `LIEN_A_REMPLIR` | Carte active « code seul » : pastille copiable, pas de bouton Découvrir (ex. Fortuneo) |
 | `statut: "a-venir"` | Carte grisée même si l'url est réelle (pour préparer à l'avance) |
-| `codePromo: "13385764"` | Encadré doré copiable en un tap (déjà en place pour Fortuneo) |
+| `codePromo: "JUENVIE5"` | Encadré doré copiable (tap sur la pastille ou sur le bouton copier à côté) |
+| `avantage: "5% de réduction"` | Légende centrée discrète sous le bouton, pour dire ce que le code offre |
 | `accroche` commence par `[` | La phrase n'est pas affichée (placeholder) |
 | `accroche: "Je l'utilise depuis Bangkok"` | La phrase perso s'affiche en italique orange |
 | `badge: "prefere"` | Badge « Mon préféré » sur la carte (liste des clés dans `BADGES`) |
@@ -61,7 +63,8 @@ Dans `data/liens.js`, copie un bloc existant de la même sous-catégorie, colle 
   categorie: "creation",             // voyage | sport | creation
   sousCategorie: "materiel",         // une clé déclarée dans CATEGORIES
   url: "LIEN_A_REMPLIR_INSTA360",
-  codePromo: null,
+  codePromo: null,                   // ex. "JUENVIE5" → pastille dorée copiable
+  avantage: null,                    // ex. "5 % de réduction avec le code"
   resume: "Caméras 360 pour des plans impossibles.",
   accroche: "[Pourquoi j'utilise ce produit]",
   badge: null,

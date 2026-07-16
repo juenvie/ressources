@@ -552,13 +552,21 @@ a:hover {
 
 /* ---------- 6. Toolbar (recherche, filtres, tri) ---------- */
 
+/* Sur mobile la toolbar défile avec la page : avec les puces sur
+   plusieurs lignes, la garder collée mangerait un tiers de l'écran.
+   Sur desktop (une seule ligne) elle reste collée en haut. */
 .toolbar {
-  position: sticky;
-  top: 0;
   z-index: 20;
   padding: 0.85rem 0;
   background: rgba(26, 18, 8, 0.92);
   border-bottom: 1px solid var(--bordure-douce);
+}
+
+@media (min-width: 720px) {
+  .toolbar {
+    position: sticky;
+    top: 0;
+  }
 }
 
 @supports (backdrop-filter: blur(12px)) {
@@ -619,31 +627,29 @@ a:hover {
   box-shadow: 0 0 0 3px rgba(232, 96, 28, 0.25);
 }
 
-.selecteur-tri {
-  min-height: 48px;
-  padding: 0.55rem 2.2rem 0.55rem 1rem;
-  border: 1px solid var(--bordure-douce);
-  border-radius: 999px;
-  background: var(--fond-carte)
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23FFA96B' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")
-    no-repeat right 0.9rem center;
-  color: var(--texte);
-  font: 600 0.9rem var(--font-corps);
-  appearance: none;
-  -webkit-appearance: none;
-  cursor: pointer;
-}
-
+/* Sur mobile, les puces s'enroulent sur plusieurs lignes : tout est
+   visible d'un coup, aucun défilement horizontal. Sur desktop elles
+   tiennent sur une ligne (défilable au cas où). */
 .filtres-chips {
   display: flex;
-  gap: 0.5rem;
-  overflow-x: auto;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
   padding-bottom: 0.25rem;
-  scrollbar-width: none;
 }
 
-.filtres-chips::-webkit-scrollbar {
-  display: none;
+@media (min-width: 720px) {
+  .filtres-chips {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .filtres-chips::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .chip {
@@ -750,20 +756,26 @@ a:hover {
   margin-top: 1.2rem;
 }
 
+/* Deux cartes par ligne dès le mobile pour limiter le scroll vertical,
+   trois sur grand écran. align-items:stretch (défaut) : les cartes d'une
+   même rangée font la même hauteur (alignées côte à côte), mais chaque
+   rangée s'adapte à son contenu — pas de vide imposé par la carte la plus
+   haute de la page. */
 .grille-liens {
   display: grid;
-  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 720px) {
   .grille-liens {
-    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
 }
 
 @media (min-width: 1024px) {
   .grille-liens {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -786,6 +798,13 @@ a:hover {
   transform: translateY(-3px) scale(1.015);
   background: var(--fond-carte-hover);
   box-shadow: var(--ombre-glow);
+}
+
+/* Toute la carte est cliquable (vers le lien de parrainage) quand elle
+   a un vrai lien. La navigation est gérée en JS ; les boutons de copie
+   du code gardent leur propre action. */
+.carte-cliquable {
+  cursor: pointer;
 }
 
 .carte-lien.a-venir {
@@ -842,11 +861,6 @@ a:hover {
   line-height: 1.3;
 }
 
-.carte-lien .resume {
-  color: var(--texte-secondaire);
-  font-size: 0.9rem;
-}
-
 .carte-lien .accroche {
   font: italic 600 0.92rem var(--font-titre);
   color: var(--orange-glow);
@@ -856,6 +870,54 @@ a:hover {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
+}
+
+/* Mention de l'avantage : légende centrée sous le bouton Découvrir.
+   Ton neutre chaud (taupe) volontairement discret et distinct des
+   accents orange/dorés du reste de la carte. */
+.avantage-promo {
+  margin-top: 0.55rem;
+  text-align: center;
+  color: var(--texte-tertiaire);
+  font: 700 0.72rem var(--font-corps);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* Ligne code copiable : la pastille dorée ET le bouton copier à côté
+   déclenchent la même copie du code (deux cibles, une seule action).
+   margin-top:auto ancre le bloc code+bouton+avantage en bas de carte,
+   pour un alignement uniforme quand les cartes font la même hauteur. */
+.ligne-code {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+/* Quand un bouton suit la ligne de code, c'est elle qui absorbe l'espace
+   libre : le bouton reste collé juste en dessous. */
+.ligne-code + .actions-carte {
+  margin-top: 0;
+}
+
+/* Dans la ligne, la pastille s'étire à la même hauteur que le bouton */
+.ligne-code .code-promo {
+  align-self: auto;
+}
+
+.btn-copier-code {
+  border: 1px dashed var(--or-dore);
+  color: var(--or-dore);
+  background: rgba(245, 200, 66, 0.09);
+}
+
+.btn-copier-code:hover {
+  border-color: var(--or-dore);
+  color: var(--or-dore);
+  background: rgba(245, 200, 66, 0.18);
 }
 
 /* Code promo copiable */
@@ -885,6 +947,92 @@ a:hover {
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: var(--texte-tertiaire);
+}
+
+/* ---------- Cartes compactes en 2 colonnes (mobile) ----------
+   Sous 640px, deux cartes par ligne : on resserre l'espacement, on
+   réduit un peu les éléments et on limite le résumé à 2 lignes. La
+   pastille de code passe en pleine largeur (le bouton copier séparé,
+   trop à l'étroit à cette largeur, est masqué : un tap sur la pastille
+   copie déjà le code). */
+@media (max-width: 639px) {
+  .carte-lien {
+    gap: 0.5rem;
+    padding: 0.8rem 0.8rem 0.85rem;
+    border-left-width: 3px;
+  }
+
+  .entete-carte {
+    gap: 0.5rem;
+  }
+
+  .icone-lien {
+    width: 34px;
+    height: 34px;
+    font-size: 0.95rem;
+    border-radius: 9px;
+  }
+
+  .icone-lien.avec-logo {
+    padding: 4px;
+  }
+
+  .carte-lien h3 {
+    min-width: 0;
+    font-size: 0.8rem;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+
+
+  .ligne-code .code-promo {
+    flex: 1;
+    min-width: 0;
+    justify-content: center;
+    text-align: center;
+    overflow-wrap: anywhere;
+    min-height: 36px;
+    padding: 0.28rem 0.5rem;
+    font-size: 0.74rem;
+  }
+
+  /* Label « CODE » masqué sur mobile : la pastille dorée pointillée se
+     reconnaît déjà comme un code, et ça laisse la place au code lui-même. */
+  .code-promo .etiquette {
+    display: none;
+  }
+
+  /* Sélecteur plus spécifique que .btn-icone (défini plus bas) pour
+     bien masquer le bouton copier séparé sur mobile. */
+  .ligne-code .btn-copier-code {
+    display: none;
+  }
+
+  /* Boutons Découvrir / Bientôt : texte réduit, la carte garde sa taille. */
+  .carte-lien .btn-lien {
+    min-height: 38px;
+    padding: 0.45rem 0.7rem;
+    font-size: 0.78rem;
+  }
+
+  .carte-lien .badge {
+    font-size: 0.64rem;
+    padding: 0.18rem 0.55rem;
+  }
+
+  .avantage-promo {
+    margin-top: 0.4rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* Puces de filtre : plus compactes pour tenir sur 2-3 lignes sans
+     défilement horizontal. */
+  .chip {
+    min-height: 36px;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.76rem;
+  }
 }
 
 /* Actions */
@@ -1055,11 +1203,6 @@ a:hover {
   border: 1px solid rgba(232, 96, 28, 0.4);
 }
 
-.badge-bientot {
-  background: rgba(122, 92, 58, 0.25);
-  color: var(--texte-secondaire);
-  border: 1px solid rgba(122, 92, 58, 0.6);
-}
 
 /* ---------- 9. Réseaux sociaux ---------- */
 
