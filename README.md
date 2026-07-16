@@ -36,14 +36,14 @@ url: "LIEN_A_REMPLIR_GETYOURGUIDE",
 url: "https://www.getyourguide.fr/?partner_id=TONID",
 ```
 
-C'est tout. La carte passe automatiquement de « Bientôt » à active, avec bouton Découvrir, copie du lien et partage.
+C'est tout. La carte passe automatiquement de « Bientôt » à active, avec le bouton Découvrir (et toute la carte devient cliquable vers ton lien).
 
 Règles automatiques du moteur :
 
 | Ce que tu fais dans `liens.js` | Ce qui se passe sur le site |
 |---|---|
-| `url` commence par `LIEN_A_REMPLIR` (et pas de `codePromo`) | Carte grisée + badge « Bientôt », jamais de lien mort |
-| `url` est un vrai lien | Carte active : toute la carte est cliquable vers le lien (plus de bouton Découvrir) |
+| `url` commence par `LIEN_A_REMPLIR` (et pas de `codePromo`) | Carte grisée « Bientôt disponible », jamais de lien mort |
+| `url` est un vrai lien | Carte active : bouton Découvrir + toute la carte cliquable vers le lien |
 | `codePromo` rempli mais `url` en `LIEN_A_REMPLIR` | Carte active « code seul » : pastille copiable, pas de bouton Découvrir (ex. Fortuneo) |
 | `statut: "a-venir"` | Carte grisée même si l'url est réelle (pour préparer à l'avance) |
 | `codePromo: "JUENVIE5"` | Encadré doré copiable (tap sur la pastille ou sur le bouton copier à côté) |
@@ -64,8 +64,8 @@ Dans `data/liens.js`, copie un bloc existant de la même sous-catégorie, colle 
   sousCategorie: "materiel",         // une clé déclarée dans CATEGORIES
   url: "LIEN_A_REMPLIR_INSTA360",
   codePromo: null,                   // ex. "JUENVIE5" → pastille dorée copiable
-  avantage: null,                    // ex. "5 % de réduction avec le code"
-  resume: "Caméras 360 pour des plans impossibles.",
+  avantage: null,                    // ex. "5% de réduction" (légende sous le bouton)
+  resume: "Caméras 360 pour des plans impossibles.",  // non affiché, sert à la recherche
   accroche: "[Pourquoi j'utilise ce produit]",
   badge: null,
   icone: "🎥",                        // emoji de repli
