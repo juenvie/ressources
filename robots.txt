@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Remplace le domaine par ta vraie URL GitHub Pages (voir README.md)
+Sitemap: https://juenvie.github.io/ressources/sitemap.xml

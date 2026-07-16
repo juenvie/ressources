@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sport · Mon équipement running, du footing au marathon | Ju.en.vie</title>
+  <meta name="description" content="Chaussures, montres GPS, audio, nutrition et récupération : l'équipement running que j'utilise pour préparer mes marathons. Liens et recommandations sur une seule page.">
+  <meta name="theme-color" content="#1A1208">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Ju.en.vie">
+  <meta property="og:title" content="Sport · Mon équipement running, du footing au marathon">
+  <meta property="og:description" content="Chaussures, montres, nutrition et récupération : mon setup running au complet.">
+  <meta property="og:url" content="https://juenvie.github.io/ressources/sport.html">
+  <meta property="og:image" content="https://juenvie.github.io/ressources/assets/og-image.png">
+  <meta property="og:locale" content="fr_FR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sport · Mon équipement running, du footing au marathon">
+  <meta name="twitter:description" content="Chaussures, montres, nutrition et récupération : mon setup running au complet.">
+  <meta name="twitter:image" content="https://juenvie.github.io/ressources/assets/og-image.png">
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="apple-touch-icon" href="assets/logo.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="lien-evitement" href="#contenu">Aller au contenu</a>
+
+  <header class="entete">
+    <div class="conteneur">
+      <a class="logo" href="index.html"><img class="logo-img" src="assets/logo.png" alt="" width="34" height="34"> Ju en Vie</a>
+      <nav class="nav-principale" aria-label="Navigation principale">
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="voyage.html">Voyage</a></li>
+          <li><a href="sport.html" aria-current="page">Sport</a></li>
+          <li><a href="creation.html">Création</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <section class="hero">
+      <div class="conteneur">
+        <div class="hero-contenu">
+          <span class="label-section">Ressources running</span>
+          <h1>Courir mieux, <em>du footing au marathon</em>.</h1>
+          <p class="sous-titre">Chaussures • Montres • Audio • Nutrition • Récupération</p>
+          <p class="micro-texte">L'équipement qui m'accompagne à l'entraînement et le jour de course. Chaque lien soutient mon travail sans rien changer pour toi.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="toolbar">
+      <div class="conteneur">
+        <div class="ligne-recherche">
+          <div class="champ-recherche">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+            <label class="visuellement-cache" for="recherche">Rechercher une ressource running</label>
+            <input type="search" id="recherche" placeholder="Rechercher une marque, un produit..." autocomplete="off">
+          </div>
+          <label class="visuellement-cache" for="tri">Trier les ressources</label>
+          <select class="selecteur-tri" id="tri">
+            <option value="recommande">Ordre recommandé</option>
+            <option value="alpha">De A à Z</option>
+            <option value="disponibles">Disponibles d'abord</option>
+          </select>
+        </div>
+        <div class="filtres-chips" role="group" aria-label="Filtrer par sous-catégorie"></div>
+      </div>
+    </div>
+
+    <div class="zone-liens conteneur" data-categorie="sport"></div>
+    <noscript><p class="conteneur">Active JavaScript pour afficher les ressources et les liens.</p></noscript>
+  </main>
+
+  <footer class="pied-page">
+    <div class="conteneur">
+      <a class="logo-footer" href="index.html" aria-label="Retour à l'accueil"><img src="assets/logo.png" alt="" width="40" height="40"></a>
+      <ul class="liens-reseaux" data-reseaux></ul>
+      <p class="mention-affiliation">Certains liens présents sur ce site sont affiliés. Cela ne change pas le prix que vous payez mais permet de soutenir mon travail.</p>
+      <p class="signature-marque">Ju.en.vie · Sport × Voyage × Liberté</p>
+    </div>
+  </footer>
+
+  <button type="button" class="retour-haut" aria-label="Retour en haut de page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <script src="data/liens.js" defer></script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>
