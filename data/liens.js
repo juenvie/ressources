@@ -38,7 +38,7 @@
    ------------------------------------------------------------ */
 const RESEAUX = [
   { id: "instagram", nom: "Instagram", icone: "📸", url: "https://www.instagram.com/ju.en.vie/" },
-  { id: "tiktok",    nom: "TikTok",    icone: "🎵", url: "https://www.tiktok.com/@ju.en.vie" },
+  { id: "tiktok",    nom: "TikTok",    icone: "🎵", url: "https://www.tiktok.com/@juenvie" },
   { id: "youtube",   nom: "YouTube",   icone: "▶️", url: "LIEN_A_REMPLIR_YOUTUBE" },
   { id: "mail",      nom: "Contact",   icone: "✉️", url: "LIEN_A_REMPLIR_MAILTO" },
   { id: "linkedin",  nom: "LinkedIn",  icone: "💼", url: "LIEN_A_REMPLIR_LINKEDIN" },
