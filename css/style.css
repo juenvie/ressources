@@ -645,6 +645,9 @@ a:hover {
     gap: 0.5rem;
     overflow-x: auto;
     scrollbar-width: none;
+    /* Fondu au bord droit : signale qu'il reste des puces à faire défiler */
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 44px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 44px), transparent);
   }
 
   .filtres-chips::-webkit-scrollbar {
@@ -1602,8 +1605,12 @@ a:hover {
     align-items: center;
   }
 
+  /* flex-basis explicite : sans elle, les puces (nowrap, non rétrécissables)
+     écrasent le champ de recherche à ~60px. Le champ garde une largeur
+     confortable, les puces défilent dans l'espace restant. */
   .ligne-recherche {
-    flex: 1;
+    flex: 1 1 280px;
+    min-width: 240px;
     flex-direction: row;
   }
 
