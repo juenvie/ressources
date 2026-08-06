@@ -1,0 +1,48 @@
+PHOTOS DES GUIDES
+=================
+
+Ce dossier contient les photos web des articles, plus un sous dossier par
+destination où déposer les fichiers bruts sortis du téléphone ou de l'appareil.
+
+Comment ça marche
+-----------------
+
+1. Tu déposes tes photos originales dans le sous dossier de la destination :
+   australie/  bali/  komodo/  laos/  new-york/  philippines/  vietnam/
+
+2. On génère les versions web à la racine de ce dossier, en deux tailles,
+   nommées destination-sujet-800.jpg et destination-sujet-1200.jpg.
+   Exemple : philippines-el-nido-lagon-1200.jpg
+
+3. Les originaux partent ensuite dans assets/photos/originaux/destination/
+   pour ne pas alourdir le dossier des photos servies par le site.
+
+Générer les deux tailles à la main
+----------------------------------
+
+  sips -Z 1200 -s format jpeg -s formatOptions 55 originale.jpg --out sujet-1200.jpg
+  sips -Z 800  -s format jpeg -s formatOptions 55 originale.jpg --out sujet-800.jpg
+
+L'option -Z contraint la plus grande dimension, ce qui marche aussi bien pour
+une photo verticale que horizontale.
+
+L'image de la carte sur guides.html
+-----------------------------------
+
+Chaque guide a une photo de carte au format paysage 4/3, nommée simplement
+d'après la destination, à la racine de ce dossier :
+
+  bali.jpg  komodo.jpg  laos.jpg  new-york.jpg  philippines.jpg  vietnam.jpg
+  australie.jpg
+
+Taille conseillée : 1200 x 900 px, moins de 300 Ko. Pour recadrer en 4/3
+depuis une photo horizontale :
+
+  sips -c 2250 3000 originale.jpg --out recadree.jpg
+  sips --resampleWidth 1200 -s format jpeg -s formatOptions 58 recadree.jpg --out philippines.jpg
+
+Tant qu'un fichier de carte est absent, la carte affiche le dégradé sunset du
+site à la place de la photo : rien ne casse, mais c'est moins joli.
+
+Pense à remplir l'attribut alt de chaque image dans le HTML : une description
+courte de ce qu'on voit, utile pour l'accessibilité et pour le référencement.

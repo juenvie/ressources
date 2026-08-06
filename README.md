@@ -8,10 +8,28 @@ Affiliate Hub/
   voyage.html       Ressources voyage
   sport.html        Ressources running
   creation.html     Ressources création vidéo
+  australie.html    Page pilier de l'univers PVT Australie
+  australie-visa.html      Étape 1 : le visa Working Holiday 417
+  australie-assurance.html Étape 2 : choisir son assurance
+  australie-budget.html    Étape 3 : le budget du PVT
+  australie-argent.html    Étape 4 : banque, impôts et superannuation
+  australie-arrivee.html   Étape 5 : les premiers jours sur place
+  australie-88-jours.html  Étape 6 : le travail spécifié
+  comparatif-assurance-voyage.html  Comparatif : choisir son assurance
+  comparatif-esim.html              Comparatif : choisir son eSIM
+  code-promo-getyourguide.html      Gabarit de page code promo
+  guides.html       Les guides de voyage par destination
+  guide-bali.html        Article : voyager à Bali
+  guide-komodo.html      Article : la croisière de Komodo
+  guide-laos.html        Article : voyager au Laos
+  guide-vietnam.html     Article : voyager au Vietnam
+  guide-philippines.html Article : voyager aux Philippines
+  guide-new-york.html    Article : une semaine à New York
   css/style.css     Tout le style (thème sombre chaud Ju.en.vie)
   js/main.js        Moteur d'affichage (lit data/liens.js)
   data/liens.js     ⭐ LE fichier à modifier au quotidien
-  assets/           Favicon, og-image, logo, photo hero (2 tailles)
+  assets/           Favicon, og-image, logo
+  assets/photos/    Toutes les photos du site (originaux dans un sous dossier)
   assets/logos/     Un logo carré par marque, utilisé sur les cartes produit
   robots.txt        SEO
   sitemap.xml       SEO
@@ -197,9 +215,124 @@ Chaque produit rattaché à une marque identifiable affiche son vrai logo (`asse
 
 Pas besoin de fond blanc ni de recadrage : chaque logo est affiché dans un chip clair automatique (`icone-lien.avec-logo` dans `style.css`) qui gère le contraste, que le logo soit sombre, blanc ou coloré. Si le fichier n'existe pas ou ne charge pas, le site retombe automatiquement sur l'emoji, jamais d'icône cassée (écouteur `error` global dans `main.js`).
 
-## Photo hero et logo
+## L'univers Australie
 
-La photo du hero de l'accueil vit dans `assets/` en deux tailles générées depuis l'original (`portrait-rooftop-skyline-bangkok-640.jpg` pour mobile, `-1080.jpg` pour desktop). Pour la changer : remplace ces deux fichiers en gardant les mêmes noms (ou change les chemins dans le `<img class="photo-hero">` de `index.html`). L'original à la racine du dossier ne sert pas au site, tu peux le déplacer où tu veux.
+L'Australie n'est pas un guide parmi les autres, c'est un silo complet : une page pilier `australie.html` et six articles `australie-*.html` qui se renvoient les uns aux autres. C'est la structure la plus efficace en référencement : le pilier capte la recherche large (« PVT Australie »), chaque article capte une recherche précise (« 88 jours », « assurance PVT », « Tax File Number »), et les liens internes font remonter tout le bloc.
+
+Les quatre portes d'entrée sont le menu principal, la carte de `guides.html`, la carte « Tout le PVT en Australie » de la page Voyage (pilotée depuis `liens.js`), et les liens internes des articles pays.
+
+**Règle à respecter en ajoutant un article :** une intention de recherche par page. Si tu écris sur les certificats RSA et White Card, ce n'est pas dans la page job, c'est une page à part, sinon les deux se cannibalisent dans Google.
+
+**Chaque page renvoie vers sa source officielle.** Le visa vers le Department of Home Affairs, les impôts et la superannuation vers l'Australian Taxation Office, les salaires vers le Fair Work Ombudsman, la santé vers Services Australia. C'est ce qui différencie ces pages des articles recopiés de forums, et ces liens sont à revérifier une fois par an.
+
+**Les six pages portent encore une balise `noindex`** parce qu'il y reste des chiffres personnels à ajouter (marqués en italique pointillé). Le jour où tu les remplis : supprime la ligne `<meta name="robots" content="noindex, follow">`, puis ajoute l'URL dans `sitemap.xml`, un bloc commenté y montre le format.
+
+## Les pages qui convertissent
+
+Trois pages ne racontent pas un voyage, elles répondent à une intention d'achat. Ce sont celles qui rapportent.
+
+`comparatif-assurance-voyage.html` et `comparatif-esim.html` répondent aux requêtes « quelle assurance voyage » et « quelle eSIM choisir ». Elles s'appuient sur un tableau comparatif (`.tableau-comparatif`, défilement horizontal automatique sur téléphone) qui donne le positionnement de chaque acteur, jamais des chiffres figés : les tarifs et les garanties changent trop vite pour qu'un tableau daté reste honnête.
+
+`code-promo-getyourguide.html` est le gabarit à dupliquer pour chaque partenaire dont tu as un code. Les gens tapent « code promo + marque » avec la carte bleue à la main, c'est la requête la plus proche de l'achat qui existe.
+
+**Dupliquer le gabarit pour un nouveau partenaire :**
+
+1. Copie `code-promo-getyourguide.html` en `code-promo-{marque}.html`.
+2. Change le titre, la description, le canonical, le code dans `data-code` et le lien affilié.
+3. Adapte les trois questions fréquentes, et surtout le bloc de données structurées `FAQPage` du `<head>` : c'est lui qui peut faire apparaître les questions directement dans Google.
+4. Ajoute l'URL dans `sitemap.xml`.
+
+Le bouton de copie fonctionne sans code supplémentaire : `main.js` écoute tous les éléments portant `data-action="copier-code"`, sur n'importe quelle page.
+
+Les deux comparatifs sont aussi des cartes de la page Voyage, dans la sous-catégorie « Mes comparatifs », pilotées depuis `liens.js` avec `interne: true`. Elles apparaissent donc dans la recherche et les filtres comme les autres ressources.
+
+**La date de vérification** en bas de ces pages (`.date-maj`) n'est pas décorative : sur un sujet où les prix bougent, c'est un signal de fraîcheur pour le lecteur et pour Google. Mets la à jour quand tu revois la page.
+
+## Deux composants pour aérer les articles
+
+Deux blocs réutilisables, en HTML et CSS pur, sans image ni librairie.
+
+**Les repères** (`.reperes`) : quatre chiffres clés en tête d'article, juste sous le sommaire. Durée, nombre d'étapes, saison, monnaie. Ils donnent le format du voyage avant même la première phrase.
+
+```html
+<div class="reperes">
+  <div class="repere"><b>3 semaines</b><span>Durée</span></div>
+  <div class="repere texte"><b>Dong</b><span>Monnaie</span></div>
+</div>
+```
+
+La classe `texte` réduit la taille pour les valeurs qui ne sont pas un nombre, sinon elles débordent.
+
+**La frise** (`.frise`) : les étapes de l'itinéraire numérotées et reliées par un trait, en ouverture de la section itinéraire. La numérotation est automatique, il suffit d'ajouter un `<li>`.
+
+```html
+<ol class="frise">
+  <li>Hanoi<span>Le vieux quartier et le point de départ vers le nord</span></li>
+  <li>Sapa<span>Rizières en terrasses et sentiers entre les hameaux</span></li>
+</ol>
+```
+
+## Les guides de voyage
+
+`guides.html` liste les articles sous forme de cartes. Chaque carte pointe vers une page `guide-*.html` : un article de blog classique, pensé pour le référencement (un titre unique, une description, un fil d'Ariane, un sommaire ancré et un maillage vers la page Voyage).
+
+La carte « Mes guides de voyage » de la page Voyage renvoie vers `guides.html`. Elle est pilotée depuis `data/liens.js` comme les autres, avec deux champs propres aux liens internes : `interne: true` (ouverture dans le même onglet, sans `rel="sponsored"`) et `libelleAction` pour le texte du bouton.
+
+**Tant qu'un article n'est pas écrit**, il porte deux garde fous à retirer le jour de la publication :
+
+1. `<meta name="robots" content="noindex, follow">` dans le `<head>`, pour que Google n'indexe pas une page vide.
+2. Son absence de `sitemap.xml` (un bloc commenté y montre quoi ajouter).
+
+Les paragraphes affichés en italique barré de pointillés (`class="a-ecrire"`) marquent ce qu'il reste à écrire. Supprime la ligne quand tu remplis la partie.
+
+**Ajouter un nouveau guide :** duplique `guide-laos.html`, change le titre, la description, le canonical, le fil d'Ariane, le sommaire et les sections. Puis ajoute une carte dans `guides.html` et une entrée dans le bloc « Les autres guides » des articles existants.
+
+**Mettre une photo dans un article :**
+
+```html
+<figure class="photo-article portrait">   <!-- retire "portrait" pour une photo paysage -->
+  <img src="assets/photos/guides/ma-photo-1200.jpg"
+       srcset="assets/photos/guides/ma-photo-800.jpg 800w, assets/photos/guides/ma-photo-1200.jpg 1200w"
+       sizes="(min-width: 560px) 440px, 100vw"
+       width="900" height="1200" loading="lazy"
+       alt="Description courte de la photo">
+</figure>
+```
+
+Les photos verticales sont bridées à 440 px de large pour ne pas transformer l'article en couloir. Les photos horizontales prennent toute la colonne de lecture, avec `sizes="(min-width: 800px) 720px, 100vw"`.
+
+## Photos et logo
+
+Toutes les photos du site vivent dans `assets/photos/`, rangées en trois niveaux :
+
+```
+assets/photos/            versions web des pages principales
+  guides/                 versions web des articles, plus un dossier de dépôt
+    australie/ bali/ komodo/ laos/ new-york/ philippines/ vietnam/
+  originaux/              originaux pleine résolution, jamais servis par le site
+    site/ australie/ bali/ komodo/ laos/ new-york/ philippines/ vietnam/
+```
+
+Le principe : tu déposes tes photos brutes dans `guides/{destination}/`, on génère les deux tailles web à la racine de `guides/`, puis les originaux partent dans `originaux/{destination}/`. Le mode d'emploi complet est dans `assets/photos/guides/LISEZ-MOI.txt`.
+
+| Fichier | Où il s'affiche |
+| --- | --- |
+| `portrait-rooftop-skyline-bangkok-640.jpg` / `-1080.jpg` | photo de fond du hero de l'accueil |
+| `run-sunset-bali-640.jpg` / `-960.jpg` | portrait du hero de `sport.html` |
+| `coworking-640.jpg` / `-960.jpg` | portrait du hero de `creation.html` |
+| `piscine-bondi-sydney-640.jpg` / `-960.jpg` | photo du hero de `voyage.html` |
+| `categorie-voyage.jpg`, `categorie-sport.jpg`, `categorie-creation-coworking.jpg` | fond des trois cartes de l'accueil |
+| `guides/{destination}.jpg` | photo de la carte de `guides.html`, format paysage 4/3 |
+| `guides/laos-*.jpg`, `guides/bali-*.jpg`, `guides/vietnam-*.jpg`, `guides/komodo-*.jpg`, `guides/australie-*.jpg` | photos placées dans les articles correspondants |
+
+**Changer une photo de hero :** remplace les deux fichiers en gardant les mêmes noms (ou change les chemins dans le `<img>` de la page). Pour regénérer les deux tailles depuis un original, en ligne de commande :
+
+```bash
+sips --resampleWidth 640 -s format jpeg -s formatOptions 55 originaux/ma-photo.jpg --out ma-photo-640.jpg
+sips --resampleWidth 960 -s format jpeg -s formatOptions 55 originaux/ma-photo.jpg --out ma-photo-960.jpg
+```
+
+Le cadrage du portrait (quelle partie de la photo reste visible dans la pastille ronde sur mobile) se règle avec une seule ligne dans `style.css` : `--cadrage-portrait` sur les classes `.portrait-sport`, `.portrait-creation` et `.portrait-voyage`. Le premier pourcentage est horizontal, le second vertical (plus il est petit, plus on voit le haut de la photo).
 
 Le logo `assets/logo.png` est utilisé à trois endroits : header (cliquable vers l'accueil), footer (idem) et icône Apple de l'écran d'accueil. Un seul fichier à remplacer pour tout mettre à jour.
 

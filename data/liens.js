@@ -28,6 +28,10 @@
    - statut        "actif" | "a-venir"
                    Note : un lien "actif" avec une url placeholder est
                    quand même affiché en « Bientôt », jamais de lien mort.
+   - interne       true si l'url pointe vers une page du site (ex.
+                   "guides.html") : la carte s'ouvre alors dans le même
+                   onglet et sans rel="sponsored", réservé aux liens affiliés
+   - libelleAction texte du bouton de la carte, "Découvrir" par défaut
    ============================================================ */
 
 /* ------------------------------------------------------------
@@ -75,6 +79,7 @@ const CATEGORIES = {
     page: "voyage.html",
     description: "Réservations, connectivité, banques, assurances et bagages. Tout ce qui me permet de partir loin, longtemps, l'esprit léger.",
     sousCategories: {
+      "comparatifs": "Mes comparatifs",
       "reservation": "Réservation et activités",
       "esim":        "eSIM et connectivité",
       "banque":      "Banques et argent",
@@ -120,6 +125,38 @@ const CATEGORIES = {
 const LIENS = [
 
   /* ================= VOYAGE ================= */
+
+  /* --- Mes comparatifs (pages du site, pas des partenaires) --- */
+  {
+    id: "comparatif-assurance",
+    nom: "Quelle assurance voyage choisir",
+    categorie: "voyage",
+    sousCategorie: "comparatifs",
+    url: "comparatif-assurance-voyage.html",
+    interne: true,
+    libelleAction: "Lire le comparatif",
+    codePromo: null,
+    resume: "Carte bancaire, plafonds, franchise, sports exclus : comment lire un contrat.",
+    accroche: "[BROUILLON : Le poste où l'on économise cent euros et où l'on en perd dix mille.]",
+    badge: null,
+    icone: "🛡️",
+    statut: "actif",
+  },
+  {
+    id: "comparatif-esim",
+    nom: "Quelle eSIM choisir",
+    categorie: "voyage",
+    sousCategorie: "comparatifs",
+    url: "comparatif-esim.html",
+    interne: true,
+    libelleAction: "Lire le comparatif",
+    codePromo: null,
+    resume: "eSIM, carte SIM locale ou itinérance : ce qui coûte le moins cher selon le voyage.",
+    accroche: "[BROUILLON : Une eSIM pour les premiers jours, une SIM locale ensuite si je reste.]",
+    badge: null,
+    icone: "📶",
+    statut: "actif",
+  },
 
   /* --- Réservation et activités --- */
   {
@@ -640,17 +677,34 @@ const LIENS = [
 
   /* --- Mes guides de voyage --- */
   {
-    id: "guides-juenvie",
-    nom: "Guides Ju.en.vie",
+    id: "pvt-australie-section",
+    nom: "Tout le PVT en Australie",
     categorie: "voyage",
     sousCategorie: "guides",
-    url: "LIEN_A_REMPLIR_GUIDES_PDF",
+    url: "australie.html",
+    interne: true,
+    libelleAction: "Voir la section",
     codePromo: null,
-    resume: "Mes futurs guides PDF par destination, en préparation.",
+    resume: "Visa 417, assurance, budget, banque, arrivée et 88 jours.",
+    accroche: "[BROUILLON : La section que j'alimente depuis l'Australie, au fur et à mesure des démarches.]",
+    badge: null,
+    icone: "🇦🇺",
+    statut: "actif",
+  },
+  {
+    id: "guides-juenvie",
+    nom: "Mes guides de voyage",
+    categorie: "voyage",
+    sousCategorie: "guides",
+    url: "guides.html",
+    interne: true,
+    libelleAction: "Lire mes guides",
+    codePromo: null,
+    resume: "Mes guides par destination : Bali, Laos, Vietnam, Australie.",
     accroche: "[BROUILLON : Mes propres guides, écrits avec ce que j'aurais aimé savoir avant de partir.]",
     badge: null,
-    icone: "🗒️",
-    statut: "a-venir",
+    icone: "🗺️",
+    statut: "actif",
   },
 
   /* ================= SPORT ================= */

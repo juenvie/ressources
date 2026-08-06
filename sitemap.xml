@@ -17,4 +17,40 @@
     <loc>https://juenvie.github.io/ressources/creation.html</loc>
     <priority>0.9</priority>
   </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/guides.html</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/australie.html</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/comparatif-assurance-voyage.html</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/comparatif-esim.html</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/code-promo-getyourguide.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <!-- Les pages australie-*.html sont écrites mais portent encore une balise
+       robots noindex, le temps que tu ajoutes tes chiffres personnels.
+       Ajoute leur URL ici le jour où tu retires cette balise :
+  <url>
+    <loc>https://juenvie.github.io/ressources/australie-visa.html</loc>
+    <priority>0.8</priority>
+  </url>
+  -->
+  <!-- Les pages guide-*.html sont volontairement absentes tant qu'elles sont
+       vides (elles portent aussi une balise robots noindex). Ajoute chaque
+       article ici le jour où tu le publies :
+  <url>
+    <loc>https://juenvie.github.io/ressources/guide-bali.html</loc>
+    <priority>0.8</priority>
+  </url>
+  -->
 </urlset>

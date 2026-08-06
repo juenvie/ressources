@@ -146,10 +146,16 @@
     if (!codeSeul) {
       html += '<div class="actions-carte">';
       if (pret) {
+        /* Lien interne (une page du site, ex. les guides) : navigation
+           normale dans le même onglet, et surtout pas de rel="sponsored"
+           qui signalerait à tort un lien affilié à Google. */
+        var libelle = echapper(lien.libelleAction || "Découvrir");
         html +=
           '<a class="btn-lien" href="' +
           echapper(lien.url) +
-          '" target="_blank" rel="sponsored noopener">Découvrir</a>';
+          (lien.interne ? '">' : '" target="_blank" rel="sponsored noopener">') +
+          libelle +
+          "</a>";
       } else {
         html += '<span class="btn-lien desactive">Bientôt disponible</span>';
       }
@@ -204,8 +210,12 @@
 
       var grilleI = document.createElement("div");
       grilleI.className = "grille-liens";
-      indispensables.forEach(function (lien) {
-        grilleI.appendChild(construireCarte(lien, position));
+      indispensables.forEach(function (lien, i) {
+        var carte = construireCarte(lien, position);
+        /* Le premier indispensable devient la carte vedette : bandeau
+           pleine largeur en tête, seul bouton plein de la page. */
+        if (i === 0) carte.classList.add("carte-vedette");
+        grilleI.appendChild(carte);
         position += 1;
       });
       sectionI.appendChild(grilleI);
@@ -638,8 +648,13 @@
     var carte = evenement.target.closest(".carte-lien");
     if (!carte) return;
     var lien = carte.querySelector("a.btn-lien[href]");
-    if (lien) {
+    if (!lien) return;
+    /* Lien externe : nouvel onglet. Lien interne (pages du site) :
+       navigation classique, pour ne pas multiplier les onglets. */
+    if (lien.target === "_blank") {
       window.open(lien.href, "_blank", "noopener");
+    } else {
+      window.location.href = lien.href;
     }
   });
 

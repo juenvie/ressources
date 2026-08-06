@@ -14,6 +14,9 @@
    10. Footer
    11. Composants flottants (toast, retour en haut)
    12. Animations et accessibilité
+   13. Guides de voyage (cartes de la page guides.html)
+   14. Article guide (pages guide-*.html)
+   15. Comparatifs et codes promo
    ============================================================ */
 
 /* ---------- 1. Variables et fondations ---------- */
@@ -50,6 +53,9 @@
   /* Typo */
   --font-titre: "Playfair Display", Georgia, serif;
   --font-corps: "Inter", -apple-system, "Helvetica Neue", Arial, sans-serif;
+  /* Signature de marque, reprise du portfolio juenvie.github.io :
+     Cormorant Garamond en italique light, tout en minuscules. */
+  --font-signature: "Cormorant Garamond", Georgia, serif;
 
   /* Rythme */
   --rayon: 18px;
@@ -183,10 +189,12 @@ a:hover {
   flex-wrap: wrap;
 }
 
+/* Wordmark identique à celui du portfolio : Cormorant Garamond italique
+   light, minuscules, très légèrement letter-spacé. */
 .logo {
-  font: italic 700 1.35rem var(--font-titre);
+  font: italic 300 1.75rem/1.1 var(--font-signature);
   color: var(--sable-chaud);
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
@@ -231,8 +239,8 @@ a:hover {
 }
 
 .nav-principale a[aria-current="page"] {
-  color: var(--nuit-profonde);
-  background: var(--degrade-accent);
+  color: var(--orange-glow);
+  background: rgba(255, 169, 107, 0.12);
   font-weight: 700;
 }
 
@@ -242,7 +250,7 @@ a:hover {
   position: relative;
   background: var(--degrade-hero);
   border-radius: 0 0 32px 32px;
-  padding: 3.5rem 0 4rem;
+  padding: clamp(2.25rem, 5vw, 3.25rem) 0 clamp(2.5rem, 5vw, 3.5rem);
   overflow: hidden;
   isolation: isolate;
 }
@@ -365,6 +373,58 @@ a:hover {
   color: rgba(255, 255, 255, 0.55);
 }
 
+/* Hero incarné des pages catégories : une photo de Julien (ou du terrain)
+   à côté du titre. Pastille ronde et compacte sur mobile pour ne pas
+   repousser le titre sous la ligne de flottaison, cadre vertical à côté
+   du texte dès qu'il y a de la place. */
+.hero-grille {
+  display: grid;
+  gap: 1.4rem;
+}
+
+.hero-grille .hero-contenu {
+  max-width: 620px;
+}
+
+.cadre-portrait {
+  /* Sur mobile la pastille passe au-dessus du titre : elle personnalise
+     la page dès la première seconde sans repousser le contenu. */
+  order: -1;
+  margin: 0;
+  width: 112px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(255, 169, 107, 0.55);
+  box-shadow: 0 14px 34px rgba(10, 6, 2, 0.5);
+}
+
+.cadre-portrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Chaque photo a son point d'ancrage : le visage doit rester dans le
+     cadre quel que soit le format de découpe. */
+  object-position: var(--cadrage-portrait, 50% 25%);
+}
+
+.js .cadre-portrait {
+  animation: entree-douce 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) 0.2s backwards;
+}
+
+.portrait-sport {
+  --cadrage-portrait: 50% 16%;
+}
+
+.portrait-creation {
+  --cadrage-portrait: 50% 0%;
+}
+
+.portrait-voyage {
+  --cadrage-portrait: 50% 48%;
+}
+
 /* Bouton principal */
 .btn-principal {
   position: relative;
@@ -421,7 +481,7 @@ a:hover {
 /* ---------- 5. Cartes catégories (accueil) ---------- */
 
 .section-categories {
-  padding: 3.5rem 0 1.5rem;
+  padding: clamp(2.25rem, 5vw, 3rem) 0 1.5rem;
 }
 
 .grille-categories {
@@ -437,7 +497,7 @@ a:hover {
   align-items: center;
   text-align: center;
   gap: 0.6rem;
-  min-height: 260px;
+  min-height: 230px;
   background: var(--fond-carte);
   border: 1px solid var(--bordure-douce);
   border-top: 4px solid var(--orange-feu);
@@ -467,15 +527,15 @@ a:hover {
 }
 
 .carte-voyage {
-  --fond-photo: url("../assets/categorie-voyage.jpg");
+  --fond-photo: url("../assets/photos/categorie-voyage.jpg");
 }
 
 .carte-sport {
-  --fond-photo: url("../assets/categorie-sport.jpg");
+  --fond-photo: url("../assets/photos/categorie-sport.jpg");
 }
 
 .carte-creation {
-  --fond-photo: url("../assets/categorie-creation.jpg");
+  --fond-photo: url("../assets/photos/categorie-creation-coworking.jpg");
 }
 
 .carte-categorie:hover {
@@ -675,9 +735,9 @@ a:hover {
 }
 
 .chip[aria-pressed="true"] {
-  background: var(--degrade-accent);
-  border-color: transparent;
-  color: var(--nuit-profonde);
+  background: rgba(232, 96, 28, 0.14);
+  border-color: var(--orange-feu);
+  color: var(--orange-glow);
   font-weight: 700;
 }
 
@@ -1047,10 +1107,13 @@ a:hover {
   padding-top: 0.35rem;
 }
 
+/* Boutons « Découvrir » en contour : l'accent orange plein est réservé
+   à un seul bouton par écran (le CTA du hero, la carte vedette). Ici,
+   une bordure orange sur fond transparent — l'aplat n'apparaît qu'au
+   survol. Plus de reflet balayant ni d'ombre glow : le orange redevient
+   rare, donc lisible. */
 .btn-lien {
   position: relative;
-  overflow: hidden;
-  isolation: isolate;
   flex: 1;
   display: inline-flex;
   align-items: center;
@@ -1058,55 +1121,35 @@ a:hover {
   gap: 0.45rem;
   min-height: 46px;
   padding: 0.6rem 1rem;
-  border: 0;
+  border: 1.5px solid var(--orange-feu);
   border-radius: var(--rayon-petit);
-  background: var(--orange-feu);
-  color: var(--nuit-profonde);
+  background: transparent;
+  color: var(--orange-glow);
   font: 800 0.92rem var(--font-corps);
   cursor: pointer;
-  transition: background var(--transition), transform var(--transition),
-    box-shadow var(--transition);
-}
-
-/* Reflet lumineux discret qui balaie le bouton de conversion au survol.
-   Absent des boutons désactivés (« Bientôt disponible »). */
-.btn-lien:not(.desactive)::after {
-  content: "";
-  position: absolute;
-  top: -60%;
-  left: 0;
-  width: 40%;
-  height: 220%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.4),
-    transparent
-  );
-  transform: translateX(-160%) rotate(8deg);
-  pointer-events: none;
-}
-
-.btn-lien:not(.desactive):hover::after {
-  animation: brillance 0.85s ease;
+  transition: background var(--transition), color var(--transition),
+    border-color var(--transition), transform var(--transition);
 }
 
 .btn-lien:hover {
-  background: var(--coucher-soleil);
+  background: var(--orange-feu);
+  border-color: var(--orange-feu);
   color: var(--nuit-profonde);
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(232, 96, 28, 0.35);
 }
 
 .btn-lien.desactive {
-  background: var(--terre-chaude);
+  background: transparent;
+  border-color: var(--bordure-douce);
   color: var(--texte-tertiaire);
   cursor: default;
-  box-shadow: none;
 }
 
 .btn-lien.desactive:hover {
   transform: none;
+  background: transparent;
+  border-color: var(--bordure-douce);
+  color: var(--texte-tertiaire);
 }
 
 .btn-icone {
@@ -1134,6 +1177,65 @@ a:hover {
 .btn-icone svg {
   width: 18px;
   height: 18px;
+}
+
+/* ---------- Carte vedette (indispensable mis en avant) ----------
+   Un bandeau pleine largeur en tête des « Mes indispensables » : il
+   casse volontairement la grille uniforme et porte le seul bouton
+   plein de la page. Le nom passe en serif, l'icône et l'accroche
+   grandissent — la sélection se voit d'un coup d'œil. */
+.carte-vedette {
+  grid-column: 1 / -1;
+  gap: 0.7rem;
+  padding: 1.6rem 1.5rem;
+  border-left-width: 5px;
+  background:
+    radial-gradient(120% 150% at 0% 0%, rgba(244, 135, 75, 0.12), transparent 60%),
+    var(--fond-carte);
+}
+
+.carte-vedette .icone-lien {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  font-size: 1.6rem;
+}
+
+.carte-vedette h3 {
+  font: 700 clamp(1.35rem, 3.5vw, 1.75rem) var(--font-titre);
+  color: var(--sable-chaud);
+}
+
+.carte-vedette .accroche {
+  font-size: 1.02rem;
+  max-width: 54ch;
+}
+
+.carte-vedette .actions-carte {
+  align-self: flex-start;
+}
+
+.carte-vedette .btn-lien {
+  flex: 0 0 auto;
+  min-width: 210px;
+}
+
+/* La vedette garde un bouton plein : c'est le CTA principal de la page. */
+.carte-vedette .btn-lien:not(.desactive) {
+  background: var(--orange-feu);
+  border-color: transparent;
+  color: var(--nuit-profonde);
+}
+
+.carte-vedette .btn-lien:not(.desactive):hover {
+  background: var(--coucher-soleil);
+  border-color: transparent;
+}
+
+@media (min-width: 720px) {
+  .carte-vedette {
+    padding: 1.9rem 2rem;
+  }
 }
 
 /* Message aucun résultat */
@@ -1450,7 +1552,7 @@ a:hover {
 
 /* Bande de logos défilante (carrousel de marques, accueil) */
 .bande-marques {
-  padding: 2rem 0 2.25rem;
+  padding: 1.6rem 0 1.85rem;
   border-block: 1px solid var(--bordure-douce);
   background: rgba(26, 18, 8, 0.35);
   overflow: hidden;
@@ -1582,6 +1684,7 @@ a:hover {
   .hero::after,
   .photo-hero,
   .marquee-piste,
+  .js .cadre-portrait,
   .js .hero-contenu > * {
     animation: none !important;
   }
@@ -1621,4 +1724,592 @@ a:hover {
   .hero {
     padding: 4.5rem 0 5rem;
   }
+}
+
+/* Dès qu'il y a de la largeur, le portrait passe à droite du titre en
+   cadre vertical, légèrement incliné pour casser la rigueur de la grille. */
+@media (min-width: 860px) {
+  .hero-grille {
+    grid-template-columns: minmax(0, 1fr) clamp(220px, 26vw, 288px);
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .hero-grille .hero-contenu {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .cadre-portrait {
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    border-radius: 26px;
+    border-width: 1px;
+    transform: rotate(-1.5deg);
+  }
+}
+
+/* ---------- 13. Guides de voyage ---------- */
+
+.section-guides {
+  padding: clamp(2.25rem, 5vw, 3rem) 0 clamp(2rem, 5vw, 3rem);
+}
+
+.grille-guides {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 720px) {
+  .grille-guides {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.carte-guide {
+  background: var(--fond-carte);
+  border: 1px solid var(--bordure-douce);
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre-carte);
+  overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.carte-guide:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--ombre-glow);
+}
+
+/* Toute la carte est cliquable : le lien enveloppe photo et texte, pas
+   besoin de JavaScript comme sur les cartes produit. */
+.lien-guide {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: inherit;
+}
+
+.lien-guide:hover {
+  color: inherit;
+}
+
+.photo-guide {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  /* Dégradé de repli : tant que la photo n'est pas déposée dans
+     assets/photos/guides/, la carte reste présentable. */
+  background: var(--degrade-hero);
+}
+
+.photo-guide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+.carte-guide:hover .photo-guide img {
+  transform: scale(1.05);
+}
+
+.corps-guide {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem 1.35rem 1.35rem;
+  flex: 1;
+}
+
+.pays-guide {
+  font: 700 11px var(--font-corps);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--orange-glow);
+}
+
+.carte-guide h3 {
+  font: 700 1.4rem/1.2 var(--font-titre);
+  color: var(--blanc);
+}
+
+.carte-guide p {
+  color: var(--texte-secondaire);
+  font-size: 0.95rem;
+}
+
+.pied-guide {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  font-weight: 700;
+  color: var(--orange-glow) !important;
+}
+
+.pied-guide .fleche {
+  transition: transform var(--transition);
+}
+
+.carte-guide:hover .fleche {
+  transform: translateX(4px);
+}
+
+.note-guides {
+  margin-top: 1.75rem;
+  color: var(--texte-tertiaire);
+  font-size: 0.92rem;
+}
+
+/* ---------- 14. Article guide ---------- */
+
+.hero-article {
+  border-radius: 0 0 32px 32px;
+}
+
+.fil-ariane {
+  margin-bottom: 1.5rem;
+}
+
+.fil-ariane ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+  padding: 0;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.fil-ariane li + li::before {
+  content: "›";
+  margin-right: 0.4rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.fil-ariane a {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.article-guide {
+  max-width: 720px;
+  margin: clamp(2rem, 5vw, 3rem) auto clamp(3rem, 7vw, 4.5rem);
+}
+
+.sommaire {
+  background: var(--fond-carte);
+  border: 1px solid var(--bordure-douce);
+  border-left: 3px solid var(--orange-feu);
+  border-radius: var(--rayon-petit);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: clamp(2rem, 5vw, 2.75rem);
+}
+
+.sommaire h2 {
+  font: 700 11px var(--font-corps);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--orange-glow);
+  margin-bottom: 0.85rem;
+}
+
+.sommaire ol {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--texte-tertiaire);
+}
+
+.sommaire li {
+  margin-bottom: 0.35rem;
+}
+
+.sommaire a {
+  color: var(--texte-secondaire);
+}
+
+.sommaire a:hover {
+  color: var(--or-dore);
+}
+
+.section-article {
+  /* scroll-margin : quand on arrive par une ancre du sommaire, le titre
+     ne se colle pas au bord haut de l'écran. */
+  scroll-margin-top: 1.5rem;
+  margin-bottom: clamp(2rem, 5vw, 2.75rem);
+}
+
+.section-article h2 {
+  font: 700 clamp(1.5rem, 4vw, 1.9rem)/1.25 var(--font-titre);
+  color: var(--blanc);
+  margin-bottom: 0.9rem;
+}
+
+.section-article h3 {
+  font: 700 1.15rem var(--font-corps);
+  color: var(--sable-chaud);
+  margin: 1.5rem 0 0.5rem;
+}
+
+.section-article p,
+.section-article li {
+  color: var(--texte-secondaire);
+  line-height: 1.75;
+}
+
+.section-article p + p {
+  margin-top: 1rem;
+}
+
+.section-article ul,
+.section-article ol {
+  margin: 1rem 0;
+  padding-left: 1.3rem;
+}
+
+.section-article li + li {
+  margin-top: 0.4rem;
+}
+
+/* Repère visuel des parties encore vides. Rien de tout ça ne doit rester
+   le jour où l'article est publié. */
+.a-ecrire {
+  font-style: italic;
+  color: var(--brun-mid) !important;
+  border-left: 2px dashed rgba(255, 169, 107, 0.3);
+  padding-left: 0.85rem;
+}
+
+.encadre-ressources {
+  background: var(--fond-carte);
+  border: 1px solid var(--bordure-douce);
+  border-radius: var(--rayon);
+  padding: 1.5rem;
+}
+
+.encadre-ressources .btn-lien {
+  display: inline-flex;
+  margin-top: 0.5rem;
+}
+
+.autres-guides h2 {
+  font: 700 11px var(--font-corps);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--orange-glow);
+  margin-bottom: 1rem;
+}
+
+.autres-guides ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.autres-guides a {
+  display: block;
+  background: var(--fond-carte);
+  border: 1px solid var(--bordure-douce);
+  border-radius: var(--rayon-petit);
+  padding: 0.9rem 1.1rem;
+  color: var(--sable-chaud);
+  font-weight: 600;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.autres-guides a:hover {
+  background: var(--fond-carte-hover);
+  transform: translateX(3px);
+  color: var(--or-dore);
+}
+
+.autres-guides .pays-guide {
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+/* Applications citées dans un article. Même chip clair que les logos de
+   marque des cartes produit, pour que les logos sombres ou blancs restent
+   lisibles. Si le fichier manque, l'attribut onerror du HTML remet un
+   emoji à la place. */
+.grille-apps {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+@media (min-width: 560px) {
+  .grille-apps {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.carte-app {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  background: var(--fond-carte);
+  border: 1px solid var(--bordure-douce);
+  border-radius: var(--rayon-petit);
+  padding: 0.9rem 1rem;
+}
+
+.icone-app {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  font-size: 1.25rem;
+  border-radius: 10px;
+  background: var(--sable-chaud);
+  padding: 6px;
+}
+
+.icone-app img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.carte-app h3 {
+  font: 700 1rem var(--font-corps);
+  margin-bottom: 0.15rem;
+}
+
+.carte-app h3 a {
+  color: var(--sable-chaud);
+}
+
+.carte-app h3 a:hover {
+  color: var(--or-dore);
+}
+
+.carte-app p {
+  font-size: 0.9rem;
+  color: var(--texte-secondaire);
+  line-height: 1.55;
+}
+
+/* Photos dans le corps d'un article. Les paysages prennent toute la
+   colonne de lecture, les portraits sont bridés pour ne pas transformer
+   l'article en couloir vertical. */
+.photo-article {
+  margin: 1.75rem 0;
+}
+
+.photo-article img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre-carte);
+}
+
+.photo-article.portrait img {
+  max-width: 440px;
+  margin-inline: auto;
+}
+
+.photo-article figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--texte-tertiaire);
+  text-align: center;
+}
+
+/* Deux photos côte à côte : utile pour deux portraits pris au même
+   endroit, qui se répondent mieux en duo qu'empilés. */
+.duo-photos {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1.75rem 0;
+}
+
+@media (min-width: 560px) {
+  .duo-photos {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.duo-photos .photo-article {
+  margin: 0;
+}
+
+.duo-photos .photo-article.portrait img {
+  max-width: 100%;
+}
+
+/* Repères d'un guide : quatre chiffres clés en tête d'article, pour donner
+   le format du voyage avant même de lire. */
+.reperes {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  margin: 0 0 clamp(2rem, 5vw, 2.75rem);
+}
+
+.repere {
+  background: var(--fond-carte);
+  border: 1px solid var(--bordure-douce);
+  border-radius: var(--rayon-petit);
+  padding: 0.9rem 1rem;
+}
+
+.repere b {
+  display: block;
+  font: 800 1.35rem/1.2 var(--font-corps);
+  color: var(--orange-glow);
+  margin-bottom: 0.2rem;
+}
+
+/* Certaines valeurs sont du texte et non un nombre : on réduit la taille
+   pour qu'elles tiennent sur deux lignes au maximum. */
+.repere.texte b {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.repere span {
+  font: 700 10px var(--font-corps);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--texte-tertiaire);
+}
+
+/* Frise de l'itinéraire : les étapes numérotées reliées par un trait, pour
+   voir le tracé d'un coup d'oeil avant d'entrer dans le détail. */
+.frise {
+  counter-reset: etape;
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 2.25rem;
+}
+
+.frise li {
+  counter-increment: etape;
+  position: relative;
+  padding: 0 0 1.15rem 3rem;
+  color: var(--sable-chaud);
+  font-weight: 700;
+}
+
+.frise li::before {
+  content: counter(etape);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font: 800 13px var(--font-corps);
+  color: var(--nuit-profonde);
+  background: var(--degrade-accent);
+}
+
+/* Le trait de liaison s'arrête à la dernière étape. */
+.frise li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 36px;
+  bottom: 2px;
+  width: 2px;
+  background: linear-gradient(180deg, rgba(255, 169, 107, 0.45), rgba(255, 169, 107, 0.06));
+}
+
+.frise li span {
+  display: block;
+  font-weight: 400;
+  font-size: 0.92rem;
+  color: var(--texte-tertiaire);
+}
+
+/* ---------- 15. Pages à forte intention (comparatifs, codes promo) ---------- */
+
+/* Tableau comparatif : il déborde forcément sur téléphone, on le fait
+   défiler dans son propre cadre plutôt que d'écraser les colonnes. */
+.tableau-comparatif {
+  overflow-x: auto;
+  margin: 1.5rem 0 1.75rem;
+  border: 1px solid var(--bordure-douce);
+  border-radius: var(--rayon-petit);
+  background: var(--fond-carte);
+}
+
+.tableau-comparatif table {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.tableau-comparatif th,
+.tableau-comparatif td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--bordure-douce);
+}
+
+.tableau-comparatif thead th {
+  font: 700 10px var(--font-corps);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--orange-glow);
+  white-space: nowrap;
+}
+
+.tableau-comparatif tbody th {
+  color: var(--sable-chaud);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.tableau-comparatif td {
+  color: var(--texte-secondaire);
+  line-height: 1.5;
+}
+
+.tableau-comparatif tbody tr:last-child th,
+.tableau-comparatif tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* Bloc code promo mis en avant en tête de page dédiée. */
+.bloc-code-promo {
+  background: var(--fond-carte);
+  border: 1px solid var(--bordure-douce);
+  border-top: 4px solid var(--orange-feu);
+  border-radius: var(--rayon);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.bloc-code-promo .ligne-code {
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.bloc-code-promo .btn-lien {
+  display: inline-flex;
+}
+
+/* Date de vérification, en pied d'article : signale au lecteur et à Google
+   que la page est tenue à jour. */
+.date-maj {
+  margin-top: clamp(2rem, 5vw, 3rem);
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--bordure-douce);
+  font-size: 0.85rem;
+  color: var(--texte-tertiaire);
 }

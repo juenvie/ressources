@@ -4,7 +4,7 @@
     {
       "name": "static-site",
       "runtimeExecutable": "/bin/bash",
-      "runtimeArgs": ["-c", "cd '/private/tmp/claude-501/-Users-julien-Desktop-JU-EN-VIE-Ressources--site-/0cd3d33c-2289-4333-a29a-7ecba44399ad/scratchpad/preview' && exec python3 -m http.server 8935"],
+      "runtimeArgs": ["-c", "cd '/private/tmp/claude-501/-Users-julien-Desktop-JU-EN-VIE-Ressources--site-/5f1a2f92-7ebd-4d7e-b355-1ff1c54b2bd1/scratchpad/preview' && exec python3 -m http.server 8935"],
       "port": 8935
     }
   ]
