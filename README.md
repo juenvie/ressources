@@ -14,10 +14,12 @@ Affiliate Hub/
   australie-budget.html    Étape 3 : le budget du PVT
   australie-argent.html    Étape 4 : banque, impôts et superannuation
   australie-arrivee.html   Étape 5 : les premiers jours sur place
-  australie-88-jours.html  Étape 6 : le travail spécifié
+  australie-trouver-un-job.html Étape 6 : trouver un job (sites et applications)
+  australie-88-jours.html  Étape 7 : le travail spécifié
   comparatif-assurance-voyage.html  Comparatif : choisir son assurance
   comparatif-esim.html              Comparatif : choisir son eSIM
   code-promo-getyourguide.html      Gabarit de page code promo
+  bons-plans.html   Tous les codes de parrainage actifs, remplie automatiquement
   guides.html       Les guides de voyage par destination
   guide-bali.html        Article : voyager à Bali
   guide-komodo.html      Article : la croisière de Komodo
@@ -70,6 +72,30 @@ Règles automatiques du moteur :
 | `accroche: "Je l'utilise depuis Bangkok"` | La phrase perso s'affiche en italique orange |
 | `badge: "prefere"` | Badge « Mon préféré » sur la carte (liste des clés dans `BADGES`) |
 
+## 1 bis. La fiche dépliable « Mon avis en détail »
+
+Sous chaque carte produit, un bloc repliable donne le détail. Il utilise la balise `<details>` native : aucun JavaScript, le contenu replié reste dans le HTML donc **Google l'indexe quand même**, et le clavier fonctionne sans rien ajouter.
+
+Six champs facultatifs l'alimentent, tous indépendants. Un champ vide ne s'affiche pas, et si aucun n'est rempli la fiche n'apparaît pas du tout.
+
+| Champ | Ce qu'il donne |
+|---|---|
+| `avis` | Le paragraphe à la première personne, en italique avec un liseré orange. C'est le cœur de la fiche. |
+| `jeUtilisePour` | Liste d'usages concrets, chevrons orange |
+| `avantages` | Liste « Ce que j'aime », puces vertes |
+| `inconvenients` | Liste « Les limites », puces grises |
+| `pourQui` | Encadré doré en bas de la fiche |
+| `depuisQuand` | Ligne courte sous les badges, avec une pastille dorée (ex. « Utilisé depuis 2023 ») |
+
+Les 77 produits ont déjà leurs `avantages`, `inconvenients` et `pourQui` remplis de façon factuelle : corrige librement si ton expérience diffère. Les trois champs personnels (`avis`, `jeUtilisePour`, `depuisQuand`) sont en `[BROUILLON : ...]`, donc invisibles tant que tu ne les as pas écrits.
+
+Deux règles à garder :
+
+- **Toujours au moins un inconvénient.** Une fiche sans défaut ne convainc personne, et c'est exactement ce qui distingue un avis d'une publicité.
+- **L'`avis` avant tout le reste.** Les avantages, n'importe quel site les liste. Ton avis, personne ne peut le copier.
+
+Le libellé du bouton s'adapte tout seul : « Voir le prix » sur le matériel (bagages, chaussures, montres, audio, accessoires, nutrition, récupération, matériel), « Découvrir » sur les services. Un champ `libelleAction` sur un lien l'emporte toujours.
+
 ## 2. Ajouter un produit
 
 Dans `data/liens.js`, copie un bloc existant de la même sous-catégorie, colle le à côté et change les valeurs :
@@ -85,6 +111,13 @@ Dans `data/liens.js`, copie un bloc existant de la même sous-catégorie, colle 
   avantage: null,                    // ex. "5% de réduction" (légende sous le bouton)
   resume: "Caméras 360 pour des plans impossibles.",  // non affiché, sert à la recherche
   accroche: "[Pourquoi j'utilise ce produit]",
+  // Fiche dépliable, tout est facultatif (voir section 1 bis)
+  avis: "[Ton avis développé, deux ou trois phrases]",
+  jeUtilisePour: ["Filmer en marchant", "Les plans à la volée"],
+  avantages: ["Stabilisation efficace", "Se range dans une poche"],
+  inconvenients: ["Autonomie faible"],
+  pourQui: "Qui filme seul et veut du 360 sans trépied.",
+  depuisQuand: "[Utilisé depuis 2023]",
   badge: null,
   icone: "🎥",                        // emoji de repli
   logo: "assets/logos/insta360.png",  // optionnel, voir section logos plus bas
@@ -199,9 +232,10 @@ Si tu changes de nom de repo, fais un chercher-remplacer de `https://juenvie.git
 Ce qui t'attend, par ordre d'impact :
 
 1. **Les accroches perso** : chaque produit a maintenant un brouillon du type `[BROUILLON : ...]`, une suggestion de départ à lire, ajuster avec un vrai détail si tu en as un, puis valider. Tant que le texte commence par `[`, rien ne s'affiche sur le site, donc aucun risque de publier un brouillon par erreur. Pour publier : retire `[BROUILLON : ` au début et `]` à la fin. C'est toujours ce qui différencie le site d'un Linktree, donc le passage le plus rentable de ta liste.
-2. **Les badges** : assigne `"prefere"`, `"qualite-prix"`, `"plus-utilise"`... aux produits que tu veux pousser (clés disponibles dans `BADGES`).
-3. **Les logos manquants** : les produits génériques (powerbank, gourde, adaptateur...) et l'app running affichent encore un emoji, faute de marque précise. Voir la section logos ci-dessous pour en ajouter un.
-4. **YouTube, mail, LinkedIn, Souvence** : URLs dans `RESEAUX`.
+2. **Les `avis` des fiches** : les 77 fiches ont leurs avantages, leurs limites et leur « pour qui », mais l'avis reste vide. Commence par les produits que tu utilises vraiment tous les jours, pas par le haut de la liste. Ajoute `depuisQuand` dans la foulée, c'est une ligne et ça vaut une preuve.
+3. **Les badges** : assigne `"prefere"`, `"qualite-prix"`, `"plus-utilise"`... aux produits que tu veux pousser (clés disponibles dans `BADGES`).
+4. **Les logos manquants** : les produits génériques (powerbank, gourde, adaptateur...) et l'app running affichent encore un emoji, faute de marque précise. Voir la section logos ci-dessous pour en ajouter un.
+5. **YouTube, mail, LinkedIn, Souvence** : URLs dans `RESEAUX`.
 
 ## Logos de marque
 

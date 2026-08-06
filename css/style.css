@@ -17,6 +17,9 @@
    13. Guides de voyage (cartes de la page guides.html)
    14. Article guide (pages guide-*.html)
    15. Comparatifs et codes promo
+   16. Menu mobile
+   17. Fiche produit dépliable
+   18. Méga menu
    ============================================================ */
 
 /* ---------- 1. Variables et fondations ---------- */
@@ -175,10 +178,30 @@ a:hover {
 
 /* ---------- 3. Header et navigation ---------- */
 
+/* L'entête reste collée en haut pendant le défilement. Le fond translucide
+   avec flou garde le contenu lisible en dessous sans masquer la page. */
 .entete {
-  position: relative;
-  z-index: 10;
-  padding: 1.1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  padding: 0.7rem 0;
+  background: rgba(26, 18, 8, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid transparent;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+/* Dès qu'on a défilé, l'entête s'opacifie et se sépare du contenu. */
+.entete.defile {
+  background: rgba(26, 18, 8, 0.95);
+  border-bottom-color: var(--bordure-douce);
+}
+
+@media (min-width: 860px) {
+  .entete {
+    padding: 1rem 0;
+  }
 }
 
 .entete .conteneur {
@@ -248,6 +271,7 @@ a:hover {
 
 .hero {
   position: relative;
+  z-index: 0;
   background: var(--degrade-hero);
   border-radius: 0 0 32px 32px;
   padding: clamp(2.25rem, 5vw, 3.25rem) 0 clamp(2.5rem, 5vw, 3.5rem);
@@ -870,9 +894,22 @@ a:hover {
   cursor: pointer;
 }
 
+/* Carte « Bientôt » : atténuée, mais pas sur toute sa hauteur. L'opacité
+   porte sur son identité (icône, titre, accroche, badges) et sur son
+   bouton, pas sur la fiche dépliable, dont le texte doit rester lisible
+   même sans lien de parrainage derrière. Une opacité posée sur .carte-lien
+   entière ne pourrait pas être annulée sur un enfant. */
 .carte-lien.a-venir {
-  opacity: 0.62;
   border-left-color: var(--brun-mid);
+}
+
+.carte-lien.a-venir .entete-carte,
+.carte-lien.a-venir .accroche,
+.carte-lien.a-venir .badges-carte,
+.carte-lien.a-venir .anciennete,
+.carte-lien.a-venir .avantage-promo,
+.carte-lien.a-venir .actions-carte {
+  opacity: 0.62;
 }
 
 .carte-lien.a-venir:hover {
@@ -1939,8 +1976,8 @@ a:hover {
 
 .section-article {
   /* scroll-margin : quand on arrive par une ancre du sommaire, le titre
-     ne se colle pas au bord haut de l'écran. */
-  scroll-margin-top: 1.5rem;
+     passe sous l'entête fixe au lieu de se cacher derrière. */
+  scroll-margin-top: 6rem;
   margin-bottom: clamp(2rem, 5vw, 2.75rem);
 }
 
@@ -2312,4 +2349,614 @@ a:hover {
   border-top: 1px solid var(--bordure-douce);
   font-size: 0.85rem;
   color: var(--texte-tertiaire);
+}
+
+/* ---------- 16. Menu mobile ---------- */
+
+/* Bouton hamburger, visible seulement quand la barre ne tient plus sur une
+   ligne. Au delà, la navigation complète reprend sa place. */
+.bouton-menu {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--bordure-douce);
+  border-radius: 12px;
+  background: rgba(255, 169, 107, 0.06);
+  color: var(--sable-chaud);
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.bouton-menu:hover {
+  background: rgba(255, 169, 107, 0.14);
+}
+
+/* Trois barres dessinées en CSS : une vraie et deux pseudo éléments. */
+.bouton-menu .barres,
+.bouton-menu .barres::before,
+.bouton-menu .barres::after {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 0.25s var(--transition), background 0.2s;
+}
+
+.bouton-menu .barres {
+  position: relative;
+}
+
+.bouton-menu .barres::before,
+.bouton-menu .barres::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+
+.bouton-menu .barres::before { top: -6px; }
+.bouton-menu .barres::after  { top: 6px; }
+
+/* Ouvert, le hamburger devient une croix. */
+.bouton-menu[aria-expanded="true"] .barres {
+  background: transparent;
+}
+
+.bouton-menu[aria-expanded="true"] .barres::before {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.bouton-menu[aria-expanded="true"] .barres::after {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+@media (max-width: 859px) {
+  /* Sur mobile la navigation devient un panneau qui se déplie sous la barre,
+     plutôt que six pastilles qui débordent sur trois lignes. */
+  .nav-principale {
+    flex-basis: 100%;
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.28s var(--transition);
+  }
+
+  .nav-principale > ul {
+    overflow: hidden;
+    flex-direction: column;
+    /* nowrap est indispensable : en colonne avec une hauteur plafonnée,
+       un flex-wrap hérité répartirait les rubriques sur plusieurs colonnes
+       au lieu de les faire défiler. */
+    flex-wrap: nowrap;
+    gap: 2px;
+    min-height: 0;
+  }
+
+  .nav-principale.ouvert {
+    grid-template-rows: 1fr;
+  }
+
+  /* Une rubrique dépliée peut rendre la liste plus haute que l'écran :
+     on la plafonne et on la rend défilante, plutôt que de laisser l'entête
+     collée devenir plus grande que la fenêtre. */
+  .nav-principale.ouvert > ul {
+    padding: 0.6rem 0 0.3rem;
+    max-height: calc(100vh - 5.5rem);
+    max-height: calc(100dvh - 5.5rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .nav-principale a {
+    width: 100%;
+    border-radius: var(--rayon-petit);
+    font-size: 1rem;
+    padding: 0.55rem 0.9rem;
+  }
+
+  /* Le lien de la page courante reste repérable dans la liste dépliée. */
+  .nav-principale a[aria-current="page"] {
+    background: rgba(255, 169, 107, 0.16);
+  }
+}
+
+@media (min-width: 860px) {
+  .bouton-menu {
+    display: none;
+  }
+}
+
+/* Le mouvement du panneau suit la préférence système. */
+@media (prefers-reduced-motion: reduce) {
+  .nav-principale,
+  .bouton-menu .barres,
+  .bouton-menu .barres::before,
+  .bouton-menu .barres::after {
+    transition: none;
+  }
+}
+
+/* ---------- 17. Fiche produit dépliable ---------- */
+
+/* Preuve d'usage, juste sous les badges. Volontairement sobre : c'est
+   une information de crédibilité, pas un argument commercial. */
+.anciennete {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  align-self: flex-start;
+  color: var(--texte-tertiaire);
+  font: 600 0.76rem var(--font-corps);
+}
+
+.anciennete::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--or-dore);
+  flex-shrink: 0;
+}
+
+/* La fiche s'appuie sur <details> natif : pas une ligne de JavaScript,
+   le contenu replié reste dans le HTML donc lisible par Google, et le
+   clavier fonctionne sans rien ajouter. */
+.fiche {
+  border-top: 1px solid var(--bordure-douce);
+  padding-top: 0.6rem;
+}
+
+/* padding vertical : la cible tactile fait ainsi une quarantaine de
+   pixels de haut au lieu de la seule hauteur du texte, ce qui la rend
+   atteignable au pouce sur téléphone. */
+.fiche-resume {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0;
+  cursor: pointer;
+  list-style: none;
+  color: var(--orange-glow);
+  font: 700 0.8rem var(--font-corps);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: color var(--transition);
+}
+
+/* Le marqueur natif diffère selon les navigateurs : on le retire des
+   deux côtés et on dessine notre propre chevron. */
+.fiche-resume::-webkit-details-marker {
+  display: none;
+}
+
+.fiche-resume::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform var(--transition);
+}
+
+.fiche[open] .fiche-resume::after {
+  transform: rotate(-135deg) translate(-2px, -2px);
+}
+
+.fiche-resume:hover {
+  color: var(--or-dore);
+}
+
+.fiche-resume:focus-visible {
+  outline: 2px solid var(--orange-glow);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.fiche-corps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding-top: 0.75rem;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--texte-secondaire);
+}
+
+/* L'avis perso est la seule voix à la première personne de la fiche :
+   il garde le serif italique utilisé partout pour la parole de Julien. */
+.fiche-avis {
+  font: italic 400 0.98rem/1.5 var(--font-titre);
+  color: var(--texte);
+  border-left: 2px solid var(--orange-feu);
+  padding-left: 0.75rem;
+}
+
+.fiche-titre {
+  color: var(--texte-tertiaire);
+  font: 700 0.7rem var(--font-corps);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.35rem;
+}
+
+.fiche-corps ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.fiche-corps li {
+  position: relative;
+  padding-left: 1.15rem;
+}
+
+.fiche-corps li::before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 700;
+}
+
+.fiche-usages li::before {
+  content: "›";
+  color: var(--orange-glow);
+}
+
+.fiche-plus li::before {
+  content: "+";
+  color: #7FC98A;
+}
+
+.fiche-moins li::before {
+  content: "−";
+  color: var(--texte-tertiaire);
+}
+
+/* Avantages et limites côte à côte dès qu'il y a la place. Sur une carte
+   de grille en trois colonnes, la place manque : ils restent empilés. */
+.fiche-balance {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.fiche-pour-qui {
+  background: rgba(255, 169, 107, 0.07);
+  border: 1px solid var(--bordure-douce);
+  border-radius: var(--rayon-petit);
+  padding: 0.6rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+.fiche-pour-qui span {
+  display: block;
+  color: var(--or-dore);
+  font: 700 0.68rem var(--font-corps);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.2rem;
+}
+
+/* La carte vedette occupe toute la largeur de la grille : à partir de la
+   tablette, ses avantages et ses limites tiennent côte à côte. En dessous,
+   deux colonnes donneraient des lignes de dix caractères : on empile. */
+@media (min-width: 720px) {
+  .carte-vedette .fiche-balance {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.4rem;
+  }
+}
+
+/* Sur téléphone la grille reste à deux colonnes : des cartes d'environ
+   160 px, parfaites pour parcourir, impossibles à lire dès qu'on déplie
+   une fiche. La carte dont la fiche est ouverte prend donc toute la
+   largeur, et se resserre dès qu'on la referme. Les navigateurs sans
+   :has() gardent simplement l'ancien comportement. */
+@media (max-width: 719px) {
+  .grille-liens .carte-lien:has(.fiche[open]) {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Rappel : les cartes « Bientôt » gardent leur fiche à pleine lisibilité.
+   C'est voulu, le conseil vaut même sans lien de parrainage derrière, et
+   c'est ce contenu que Google indexe. L'atténuation de ces cartes est
+   ciblée sur leur identité et leur bouton, voir .carte-lien.a-venir. */
+
+@media (prefers-reduced-motion: reduce) {
+  .fiche-resume,
+  .fiche-resume::after {
+    transition: none;
+  }
+}
+
+/* ---------- 18. Méga menu ---------- */
+
+/* Le HTML des panneaux est écrit en dur dans chaque page : les liens sont
+   suivis par Google et la navigation fonctionne sans JavaScript. Le style
+   ci dessous gère deux formes très différentes : un panneau flottant sur
+   grand écran, un accordéon dans la liste sur téléphone. */
+
+.nav-item {
+  position: relative;
+}
+
+.nav-item-deroulant {
+  display: flex;
+  align-items: center;
+}
+
+/* Chevron d'ouverture, séparé du lien : le lien mène toujours à la page
+   pilier, le bouton ne fait qu'ouvrir le panneau. Deux gestes distincts
+   pour deux intentions distinctes. */
+.bouton-deroulant {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  margin-left: -0.35rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--texte-tertiaire);
+  cursor: pointer;
+  transition: color var(--transition), transform var(--transition);
+}
+
+.bouton-deroulant svg {
+  width: 14px;
+  height: 14px;
+}
+
+.bouton-deroulant:hover {
+  color: var(--orange-glow);
+}
+
+.bouton-deroulant:focus-visible {
+  outline: 2px solid var(--orange-glow);
+  outline-offset: 2px;
+}
+
+/* Pilier de la page courante : la rubrique parente reste signalée même
+   quand on est sur une de ses pages filles (ex. le visa sous Australie). */
+.nav-item-deroulant.section-active > a {
+  color: var(--orange-glow);
+}
+
+.megamenu-titre {
+  color: var(--or-dore);
+  font: 700 0.7rem var(--font-corps);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin-bottom: 0.6rem;
+}
+
+.megamenu ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+/* Colonne promotionnelle, présente dans tous les panneaux : les codes
+   actifs deviennent atteignables depuis n'importe quelle page du site. */
+.megamenu-rail {
+  background: rgba(255, 169, 107, 0.06);
+  border: 1px solid var(--bordure-douce);
+  border-radius: var(--rayon-petit);
+  padding: 1rem;
+}
+
+.megamenu-promos a {
+  display: block;
+  padding: 0.5rem 0.6rem;
+  border-radius: 10px;
+  transition: background var(--transition);
+}
+
+.megamenu-promos a:hover {
+  background: rgba(255, 169, 107, 0.1);
+}
+
+.megamenu-promos b {
+  display: block;
+  color: var(--sable-chaud);
+  font: 700 0.88rem var(--font-corps);
+}
+
+.megamenu-promos span {
+  display: block;
+  color: var(--texte-tertiaire);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.megamenu-cta {
+  display: block;
+  margin-top: 0.7rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 999px;
+  text-align: center;
+  background: var(--degrade-accent);
+  color: var(--nuit-profonde);
+  font: 700 0.82rem var(--font-corps);
+  transition: filter var(--transition);
+}
+
+.megamenu-cta:hover {
+  filter: brightness(1.08);
+}
+
+/* Onglet mis en avant, seul élément coloré de la barre : c'est la page
+   qui rapporte, elle doit se distinguer des rubriques de contenu. */
+.nav-principale a.nav-bons-plans {
+  color: var(--or-dore);
+  border: 1px solid rgba(245, 200, 66, 0.4);
+  background: rgba(245, 200, 66, 0.08);
+  font-weight: 700;
+}
+
+.nav-principale a.nav-bons-plans:hover {
+  background: rgba(245, 200, 66, 0.16);
+  color: var(--or-dore);
+}
+
+/* ----- Grand écran : panneau flottant ----- */
+@media (min-width: 860px) {
+  /* Le panneau prend toute la largeur de la fenêtre et se cale sous
+     l'entête. Ancré à son onglet, il sortait de l'écran sur les rubriques
+     de droite : ici la question ne se pose plus, quelle que soit la
+     rubrique et quelle que soit la largeur de l'écran.
+     position: static sur l'onglet est indispensable, sinon le panneau se
+     positionnerait par rapport à lui et non par rapport à l'entête. */
+  .nav-item {
+    position: static;
+  }
+
+  /* L'onglet est prolongé jusqu'au bas de l'entête pour qu'il touche le
+     panneau. Sans ça, la souris traverserait le rembourrage de l'entête,
+     perdrait le survol, et le panneau se refermerait avant d'être atteint.
+     La marge négative annule le décalage visuel du rembourrage ajouté. */
+  .nav-item-deroulant {
+    padding-bottom: 1rem;
+    margin-bottom: -1rem;
+  }
+
+  .megamenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background: var(--fond-carte);
+    border-top: 1px solid var(--bordure-douce);
+    border-bottom: 1px solid var(--bordure-douce);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity var(--transition), transform var(--transition),
+      visibility var(--transition);
+  }
+
+  .nav-item-deroulant:hover > .megamenu,
+  .nav-item-deroulant:focus-within > .megamenu,
+  .nav-item-deroulant.deroule > .megamenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Colonnes fixées plutôt qu'auto-fit : chaque panneau a la même forme,
+     deux colonnes de liens puis le rail promotionnel. Largeur alignée sur
+     celle du contenu des pages, pour que le menu retombe sur la même grille. */
+  .megamenu-grille {
+    display: grid;
+    grid-template-columns: 1fr 1fr 17rem;
+    gap: 2.5rem;
+    width: min(1120px, 100% - 2.5rem);
+    margin-inline: auto;
+    padding: 2rem 0 2.2rem;
+  }
+
+  .megamenu a {
+    display: block;
+    padding: 0.35rem 0.6rem;
+    margin-left: -0.6rem;
+    border-radius: 8px;
+    color: var(--texte-secondaire);
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition: color var(--transition), background var(--transition);
+  }
+
+  .megamenu ul a:hover {
+    color: var(--sable-chaud);
+    background: rgba(255, 169, 107, 0.1);
+  }
+
+  .nav-item-deroulant.deroule .bouton-deroulant,
+  .nav-item-deroulant:hover .bouton-deroulant {
+    color: var(--orange-glow);
+    transform: rotate(180deg);
+  }
+}
+
+/* ----- Téléphone : accordéon dans la liste ----- */
+@media (max-width: 859px) {
+  .nav-item-deroulant {
+    flex-wrap: wrap;
+  }
+
+  .nav-item-deroulant > a {
+    flex: 1;
+    width: auto;
+  }
+
+  .bouton-deroulant {
+    width: 44px;
+    height: 44px;
+    margin-left: 0;
+    color: var(--texte-secondaire);
+  }
+
+  /* Même mécanique que le panneau principal : une grille qui passe de
+     0fr à 1fr, seule façon d'animer une hauteur inconnue sans JavaScript. */
+  .megamenu {
+    flex-basis: 100%;
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.28s var(--transition);
+  }
+
+  .megamenu-grille {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .nav-item-deroulant.deroule > .megamenu {
+    grid-template-rows: 1fr;
+  }
+
+  .nav-item-deroulant.deroule .bouton-deroulant {
+    transform: rotate(180deg);
+    color: var(--orange-glow);
+  }
+
+  .megamenu-colonne,
+  .megamenu-rail {
+    padding: 0.5rem 0 0.5rem 0.9rem;
+    border-left: 2px solid var(--bordure-douce);
+    margin: 0.3rem 0 0.3rem 0.6rem;
+  }
+
+  .megamenu-rail {
+    border-left: 0;
+    margin-left: 0.6rem;
+  }
+
+  .megamenu ul a {
+    font-size: 0.94rem;
+    padding: 0.45rem 0.7rem;
+  }
+}
+
+/* Les sections des pages catégorie sont visées par les ancres du menu :
+   sans cette marge, leur titre se glisserait sous l'entête collée. */
+.section-souscategorie h2,
+.section-indispensables {
+  scroll-margin-top: 6rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .megamenu,
+  .bouton-deroulant {
+    transition: none;
+  }
 }

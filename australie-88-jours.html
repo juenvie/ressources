@@ -50,14 +50,192 @@
   <header class="entete">
     <div class="conteneur">
       <a class="logo" href="index.html"><img class="logo-img" src="assets/logo.png" alt="" width="34" height="34"> ju.en.vie</a>
-      <nav class="nav-principale" aria-label="Navigation principale">
-        <ul>
-          <li><a href="index.html">Accueil</a></li>
-          <li><a href="voyage.html">Voyage</a></li>
-          <li><a href="sport.html">Sport</a></li>
-          <li><a href="creation.html">Création</a></li>
-          <li><a href="australie.html" aria-current="page">Australie</a></li>
-          <li><a href="guides.html">Guides</a></li>
+      <button type="button" class="bouton-menu" aria-expanded="false" aria-controls="nav-principale">
+        <span class="barres" aria-hidden="true"></span>
+        <span class="visuellement-cache">Menu</span>
+      </button>
+      <nav class="nav-principale" id="nav-principale" aria-label="Navigation principale">
+        <ul class="nav-niveau1">
+          <li class="nav-item"><a href="index.html">Accueil</a></li>
+          <li class="nav-item nav-item-deroulant">
+            <a href="voyage.html">Voyage</a>
+            <button type="button" class="bouton-deroulant" aria-expanded="false" aria-controls="menu-voyage">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg><span class="visuellement-cache">Dérouler le menu Voyage</span>
+            </button>
+            <div class="megamenu" id="menu-voyage">
+              <div class="megamenu-grille">
+                <div class="megamenu-colonne">
+                  <p class="megamenu-titre">Les ressources</p>
+                  <ul>
+                    <li><a href="voyage.html#section-reservation">Réservation et activités</a></li>
+                    <li><a href="voyage.html#section-esim">eSIM et connectivité</a></li>
+                    <li><a href="voyage.html#section-banque">Banques et argent</a></li>
+                    <li><a href="voyage.html#section-assurance">Assurances voyage</a></li>
+                    <li><a href="voyage.html#section-bagages">Bagages et accessoires</a></li>
+                    <li><a href="voyage.html#section-souvenirs">Albums souvenirs</a></li>
+                  </ul>
+                </div>
+                <div class="megamenu-colonne">
+                  <p class="megamenu-titre">Comparer avant de choisir</p>
+                  <ul>
+                    <li><a href="comparatif-assurance-voyage.html">Quelle assurance voyage choisir</a></li>
+                    <li><a href="comparatif-esim.html">Quelle eSIM choisir</a></li>
+                    <li><a href="code-promo-getyourguide.html">Le code GetYourGuide</a></li>
+                  </ul>
+                </div>
+                <div class="megamenu-rail">
+                  <p class="megamenu-titre">Bons plans du moment</p>
+                  <ul class="megamenu-promos">
+                    <li><a href="code-promo-getyourguide.html"><b>GetYourGuide</b><span>5% sur toutes les activités</span></a></li>
+                    <li><a href="voyage.html#section-esim"><b>Saily</b><span>5% sur les eSIM</span></a></li>
+                    <li><a href="voyage.html#section-banque"><b>Wise et Revolut</b><span>Payer sans frais à l'étranger</span></a></li>
+                  </ul>
+                  <a class="megamenu-cta" href="bons-plans.html">Voir tous mes bons plans</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item nav-item-deroulant">
+            <a href="sport.html">Sport</a>
+            <button type="button" class="bouton-deroulant" aria-expanded="false" aria-controls="menu-sport">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg><span class="visuellement-cache">Dérouler le menu Sport</span>
+            </button>
+            <div class="megamenu" id="menu-sport">
+              <div class="megamenu-grille">
+                <div class="megamenu-colonne">
+                  <p class="megamenu-titre">L'équipement</p>
+                  <ul>
+                    <li><a href="sport.html#section-chaussures">Chaussures</a></li>
+                    <li><a href="sport.html#section-montres">Montres et data</a></li>
+                    <li><a href="sport.html#section-audio">Audio</a></li>
+                    <li><a href="sport.html#section-accessoires">Accessoires</a></li>
+                  </ul>
+                </div>
+                <div class="megamenu-colonne">
+                  <p class="megamenu-titre">Autour de la course</p>
+                  <ul>
+                    <li><a href="sport.html#section-nutrition">Nutrition et hydratation</a></li>
+                    <li><a href="sport.html#section-recuperation">Récupération</a></li>
+                    <li><a href="sport.html#section-applications">Applications running</a></li>
+                  </ul>
+                </div>
+                <div class="megamenu-rail">
+                  <p class="megamenu-titre">Bons plans du moment</p>
+                  <ul class="megamenu-promos">
+                    <li><a href="code-promo-getyourguide.html"><b>GetYourGuide</b><span>5% sur toutes les activités</span></a></li>
+                    <li><a href="voyage.html#section-esim"><b>Saily</b><span>5% sur les eSIM</span></a></li>
+                    <li><a href="voyage.html#section-banque"><b>Wise et Revolut</b><span>Payer sans frais à l'étranger</span></a></li>
+                  </ul>
+                  <a class="megamenu-cta" href="bons-plans.html">Voir tous mes bons plans</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item nav-item-deroulant">
+            <a href="creation.html">Création</a>
+            <button type="button" class="bouton-deroulant" aria-expanded="false" aria-controls="menu-creation">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg><span class="visuellement-cache">Dérouler le menu Création</span>
+            </button>
+            <div class="megamenu" id="menu-creation">
+              <div class="megamenu-grille">
+                <div class="megamenu-colonne">
+                  <p class="megamenu-titre">Le tournage</p>
+                  <ul>
+                    <li><a href="creation.html#section-materiel">Matériel vidéo</a></li>
+                    <li><a href="creation.html#section-accessoires">Accessoires</a></li>
+                  </ul>
+                </div>
+                <div class="megamenu-colonne">
+                  <p class="megamenu-titre">Le montage</p>
+                  <ul>
+                    <li><a href="creation.html#section-logiciels">Logiciels et apps</a></li>
+                  </ul>
+                </div>
+                <div class="megamenu-rail">
+                  <p class="megamenu-titre">Bons plans du moment</p>
+                  <ul class="megamenu-promos">
+                    <li><a href="code-promo-getyourguide.html"><b>GetYourGuide</b><span>5% sur toutes les activités</span></a></li>
+                    <li><a href="voyage.html#section-esim"><b>Saily</b><span>5% sur les eSIM</span></a></li>
+                    <li><a href="voyage.html#section-banque"><b>Wise et Revolut</b><span>Payer sans frais à l'étranger</span></a></li>
+                  </ul>
+                  <a class="megamenu-cta" href="bons-plans.html">Voir tous mes bons plans</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item nav-item-deroulant" class="section-active">
+            <a href="australie.html">Australie</a>
+            <button type="button" class="bouton-deroulant" aria-expanded="false" aria-controls="menu-australie">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg><span class="visuellement-cache">Dérouler le menu Australie</span>
+            </button>
+            <div class="megamenu" id="menu-australie">
+              <div class="megamenu-grille">
+                <div class="megamenu-colonne">
+                  <p class="megamenu-titre">Avant de partir</p>
+                  <ul>
+                    <li><a href="australie-visa.html">Le visa Working Holiday 417</a></li>
+                    <li><a href="australie-assurance.html">Choisir son assurance</a></li>
+                    <li><a href="australie-budget.html">Préparer son budget</a></li>
+                  </ul>
+                </div>
+                <div class="megamenu-colonne">
+                  <p class="megamenu-titre">Une fois sur place</p>
+                  <ul>
+                    <li><a href="australie-arrivee.html">Les premiers jours</a></li>
+                    <li><a href="australie-argent.html">Banque, impôts et retraite</a></li>
+                    <li><a href="australie-trouver-un-job.html">Trouver un job</a></li>
+                    <li><a href="australie-88-jours.html">Le travail spécifié, les 88 jours</a></li>
+                  </ul>
+                </div>
+                <div class="megamenu-rail">
+                  <p class="megamenu-titre">Bons plans du moment</p>
+                  <ul class="megamenu-promos">
+                    <li><a href="code-promo-getyourguide.html"><b>GetYourGuide</b><span>5% sur toutes les activités</span></a></li>
+                    <li><a href="voyage.html#section-esim"><b>Saily</b><span>5% sur les eSIM</span></a></li>
+                    <li><a href="voyage.html#section-banque"><b>Wise et Revolut</b><span>Payer sans frais à l'étranger</span></a></li>
+                  </ul>
+                  <a class="megamenu-cta" href="bons-plans.html">Voir tous mes bons plans</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item nav-item-deroulant">
+            <a href="guides.html">Guides</a>
+            <button type="button" class="bouton-deroulant" aria-expanded="false" aria-controls="menu-guides">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg><span class="visuellement-cache">Dérouler le menu Guides</span>
+            </button>
+            <div class="megamenu" id="menu-guides">
+              <div class="megamenu-grille">
+                <div class="megamenu-colonne">
+                  <p class="megamenu-titre">Asie du Sud Est</p>
+                  <ul>
+                    <li><a href="guide-bali.html">Voyager à Bali</a></li>
+                    <li><a href="guide-komodo.html">La croisière de Komodo</a></li>
+                    <li><a href="guide-laos.html">Voyager au Laos</a></li>
+                    <li><a href="guide-vietnam.html">Voyager au Vietnam</a></li>
+                    <li><a href="guide-philippines.html">Voyager aux Philippines</a></li>
+                  </ul>
+                </div>
+                <div class="megamenu-colonne">
+                  <p class="megamenu-titre">Ailleurs</p>
+                  <ul>
+                    <li><a href="guide-new-york.html">Une semaine à New York</a></li>
+                    <li><a href="australie.html">Le PVT en Australie</a></li>
+                  </ul>
+                </div>
+                <div class="megamenu-rail">
+                  <p class="megamenu-titre">Bons plans du moment</p>
+                  <ul class="megamenu-promos">
+                    <li><a href="code-promo-getyourguide.html"><b>GetYourGuide</b><span>5% sur toutes les activités</span></a></li>
+                    <li><a href="voyage.html#section-esim"><b>Saily</b><span>5% sur les eSIM</span></a></li>
+                    <li><a href="voyage.html#section-banque"><b>Wise et Revolut</b><span>Payer sans frais à l'étranger</span></a></li>
+                  </ul>
+                  <a class="megamenu-cta" href="bons-plans.html">Voir tous mes bons plans</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item"><a class="nav-bons-plans" href="bons-plans.html">Bons plans</a></li>
         </ul>
       </nav>
     </div>
@@ -73,11 +251,21 @@
             <li aria-current="page">Les 88 jours</li>
           </ol>
         </nav>
-        <div class="hero-contenu">
-          <span class="label-section">PVT Australie</span>
-          <h1>Les 88 jours <em>ce qui compte vraiment</em>.</h1>
-          <p class="sous-titre">Secteurs • Zones • Comptage • Fiches de paie • Pièges</p>
-          <p class="micro-texte">Trois mois de travail spécifié ouvrent une deuxième année de visa. Mais tous les jobs ne comptent pas, toutes les régions non plus, et une erreur annule tout.</p>
+        <div class="hero-grille">
+          <div class="hero-contenu">
+            <span class="label-section">PVT Australie</span>
+            <h1>Les 88 jours <em>ce qui compte vraiment</em>.</h1>
+            <p class="sous-titre">Secteurs • Zones • Comptage • Fiches de paie • Pièges</p>
+            <p class="micro-texte">Trois mois de travail spécifié ouvrent une deuxième année de visa. Mais tous les jobs ne comptent pas, toutes les régions non plus, et une erreur annule tout.</p>
+          </div>
+          <figure class="cadre-portrait" style="--cadrage-portrait: 50% 40%">
+            <img src="assets/photos/heros/australie-88-jours-1200.jpg"
+                 srcset="assets/photos/heros/australie-88-jours-800.jpg 800w, assets/photos/heros/australie-88-jours-1200.jpg 1200w"
+                 sizes="(min-width: 860px) 288px, 112px"
+                 width="900" height="1200"
+                 fetchpriority="high" onerror="this.closest('figure').remove()"
+                 alt="Photo d'ouverture de la page sur les 88 jours">
+          </figure>
         </div>
       </div>
     </section>

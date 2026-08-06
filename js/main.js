@@ -50,9 +50,22 @@
     return typeof url === "string" && url.length > 0 && !url.startsWith("LIEN_A_REMPLIR");
   }
 
-  /** L'accroche perso n'est affichée que si Julien l'a remplie. */
+  /** Un texte perso n'est affiché que s'il est vraiment rempli. La
+      convention du fichier de données : tant qu'une valeur commence par
+      "[", c'est un brouillon et rien ne s'affiche. */
+  function texteRempli(valeur) {
+    return typeof valeur === "string" && valeur.length > 0 && !valeur.startsWith("[");
+  }
+
   function accrocheRemplie(accroche) {
-    return typeof accroche === "string" && accroche.length > 0 && !accroche.startsWith("[");
+    return texteRempli(accroche);
+  }
+
+  /** Même règle pour les listes : on ne garde que les entrées remplies,
+      ce qui permet de laisser des brouillons au milieu d'une liste. */
+  function listeRemplie(valeur) {
+    if (!Array.isArray(valeur)) return [];
+    return valeur.filter(texteRempli);
   }
 
   /** Échappe une chaîne pour insertion dans du HTML. */
@@ -92,6 +105,98 @@
     );
   }
 
+  /* Libellé du bouton par défaut, choisi selon la sous-catégorie. Les
+     sous-catégories de matériel mènent vers une fiche produit marchande :
+     « Voir le prix » annonce honnêtement où l'on atterrit, alors que
+     « Découvrir » convient aux services (réservation, banque, eSIM).
+     Un champ libelleAction sur un lien l'emporte toujours. */
+  var LIBELLE_PAR_SOUS_CATEGORIE = {
+    bagages: "Voir le prix",
+    chaussures: "Voir le prix",
+    montres: "Voir le prix",
+    audio: "Voir le prix",
+    accessoires: "Voir le prix",
+    nutrition: "Voir le prix",
+    recuperation: "Voir le prix",
+    materiel: "Voir le prix",
+  };
+
+  function libelleAction(lien) {
+    if (lien.libelleAction) return lien.libelleAction;
+    return LIBELLE_PAR_SOUS_CATEGORIE[lien.sousCategorie] || "Découvrir";
+  }
+
+  /* Fiche détaillée, dépliable, à l'intérieur de la carte.
+     Elle utilise <details> natif : aucun JavaScript, aucun état à gérer,
+     et le contenu replié reste dans le HTML donc indexable par Google.
+     Chaque bloc est indépendant : une carte qui n'a qu'un avis affiche
+     seulement l'avis, une carte sans aucun champ rempli n'affiche pas
+     la fiche du tout. */
+  function construireFiche(lien) {
+    var morceaux = "";
+
+    if (texteRempli(lien.avis)) {
+      morceaux += '<p class="fiche-avis">' + echapper(lien.avis) + "</p>";
+    }
+
+    var usages = listeRemplie(lien.jeUtilisePour);
+    if (usages.length > 0) {
+      morceaux +=
+        '<div class="fiche-bloc"><p class="fiche-titre">Je m\'en sers pour</p><ul class="fiche-usages">' +
+        usages
+          .map(function (u) {
+            return "<li>" + echapper(u) + "</li>";
+          })
+          .join("") +
+        "</ul></div>";
+    }
+
+    var plus = listeRemplie(lien.avantages);
+    var moins = listeRemplie(lien.inconvenients);
+    if (plus.length > 0 || moins.length > 0) {
+      morceaux += '<div class="fiche-balance">';
+      if (plus.length > 0) {
+        morceaux +=
+          '<div class="fiche-bloc"><p class="fiche-titre">Ce que j\'aime</p><ul class="fiche-plus">' +
+          plus
+            .map(function (p) {
+              return "<li>" + echapper(p) + "</li>";
+            })
+            .join("") +
+          "</ul></div>";
+      }
+      if (moins.length > 0) {
+        morceaux +=
+          '<div class="fiche-bloc"><p class="fiche-titre">Les limites</p><ul class="fiche-moins">' +
+          moins
+            .map(function (m) {
+              return "<li>" + echapper(m) + "</li>";
+            })
+            .join("") +
+          "</ul></div>";
+      }
+      morceaux += "</div>";
+    }
+
+    if (texteRempli(lien.pourQui)) {
+      morceaux +=
+        '<p class="fiche-pour-qui"><span>Pour qui</span> ' + echapper(lien.pourQui) + "</p>";
+    }
+
+    if (morceaux === "") return "";
+
+    /* Le libellé annonce ce qu'on va lire : un avis perso, ou simplement
+       les caractéristiques quand l'avis n'est pas encore écrit. */
+    var libelle = texteRempli(lien.avis) ? "Mon avis en détail" : "Voir le détail";
+    return (
+      '<details class="fiche"><summary class="fiche-resume">' +
+      libelle +
+      '</summary><div class="fiche-corps">' +
+      morceaux +
+      "</div></details>"
+    );
+  }
+
   function construireCarte(lien, position) {
     var pret = estLienPret(lien);
     var codeSeul = estCodeSeul(lien);
@@ -124,6 +229,15 @@
 
     html += construireBadges(lien);
 
+    /* Preuve d'usage : « Utilisé depuis 2022 », « Testé sur 3 pays »...
+       Une ligne courte, factuelle, qui distingue un produit réellement
+       éprouvé d'une simple recommandation. */
+    if (texteRempli(lien.depuisQuand)) {
+      html += '<p class="anciennete">' + echapper(lien.depuisQuand) + "</p>";
+    }
+
+    html += construireFiche(lien);
+
     if (lien.codePromo) {
       var code = echapper(lien.codePromo);
       var libelleCopie = 'aria-label="Copier le code ' + code + " de " + nom + '"';
@@ -149,7 +263,7 @@
         /* Lien interne (une page du site, ex. les guides) : navigation
            normale dans le même onglet, et surtout pas de rel="sponsored"
            qui signalerait à tort un lien affilié à Google. */
-        var libelle = echapper(lien.libelleAction || "Découvrir");
+        var libelle = echapper(libelleAction(lien));
         html +=
           '<a class="btn-lien" href="' +
           echapper(lien.url) +
@@ -171,7 +285,22 @@
     var carte = document.createElement("article");
     carte.className =
       "carte-lien revele" + (utilisable ? "" : " a-venir") + (pret ? " carte-cliquable" : "");
-    carte.dataset.recherche = normaliser(lien.nom + " " + (lien.resume || ""));
+    /* Index de recherche : le nom, le résumé, et tout le contenu de la
+       fiche dépliable. Un mot lu dans « Ce que j'aime » doit ramener la
+       carte, même si la fiche est repliée au moment de la recherche. */
+    carte.dataset.recherche = normaliser(
+      [
+        lien.nom,
+        lien.resume,
+        lien.pourQui,
+        lien.avis,
+        listeRemplie(lien.jeUtilisePour).join(" "),
+        listeRemplie(lien.avantages).join(" "),
+        listeRemplie(lien.inconvenients).join(" "),
+      ]
+        .filter(Boolean)
+        .join(" ")
+    );
     carte.dataset.nom = normaliser(lien.nom);
     carte.dataset.pret = utilisable ? "1" : "0";
     carte.dataset.position = String(position);
@@ -525,6 +654,35 @@
     });
   }
 
+  /* Page Bons plans : toutes les cartes qui ont un code de parrainage
+     utilisable. Rien à maintenir à la main, la page grandit d'elle même
+     à chaque code ajouté dans liens.js. */
+  function rendreBonsPlans() {
+    var grille = document.querySelector("[data-bons-plans]");
+    if (!grille) return;
+
+    var avecCode = LIENS.filter(function (l) {
+      return l.codePromo && estUtilisable(l);
+    });
+
+    avecCode.forEach(function (lien, i) {
+      grille.appendChild(construireCarte(lien, i));
+    });
+
+    /* Aucun code actif : on le dit plutôt que de laisser une page vide. */
+    var message = document.querySelector(".aucun-bon-plan");
+    if (message) message.hidden = avecCode.length > 0;
+  }
+
+  /* Les sections des pages catégorie sont créées en JavaScript, donc après
+     le saut d'ancre du navigateur. Un lien du menu vers #section-banque
+     n'irait nulle part : on refait le saut une fois les cartes en place. */
+  function rejoindreAncre() {
+    if (!window.location.hash) return;
+    var cible = document.getElementById(window.location.hash.slice(1));
+    if (cible) cible.scrollIntoView();
+  }
+
   /* Décalage de cascade : chaque carte reçoit un --stagger (0 à 2)
      selon sa position dans sa grille, pour révéler ligne par ligne. */
   function initialiserStagger() {
@@ -644,6 +802,9 @@
           bouton s'ouvre nativement (laissé passer), et on ne navigue pas
           pendant une sélection de texte. */
     if (evenement.target.closest("a")) return;
+    /* La fiche dépliable vit à l'intérieur d'une carte cliquable : sans
+       cette garde, ouvrir la fiche partirait aussitôt sur le lien. */
+    if (evenement.target.closest("details")) return;
     if (window.getSelection && String(window.getSelection())) return;
     var carte = evenement.target.closest(".carte-lien");
     if (!carte) return;
@@ -658,9 +819,94 @@
     }
   });
 
-  /* Retour en haut */
+  /* Menu mobile : le bouton hamburger déplie la navigation sous la barre.
+     Aucun état n'est stocké, la classe sur le <nav> suffit, et l'attribut
+     aria-expanded du bouton pilote à la fois l'accessibilité et l'icône. */
+  function initialiserMenu() {
+    var bouton = document.querySelector(".bouton-menu");
+    var nav = document.getElementById("nav-principale");
+    if (!bouton || !nav) return;
+
+    function fermer() {
+      nav.classList.remove("ouvert");
+      bouton.setAttribute("aria-expanded", "false");
+    }
+
+    bouton.addEventListener("click", function () {
+      var ouvert = nav.classList.toggle("ouvert");
+      bouton.setAttribute("aria-expanded", ouvert ? "true" : "false");
+    });
+
+    /* On referme après un clic sur un lien : sur une ancre de la même page,
+       le menu resterait sinon ouvert par dessus le contenu visé. */
+    nav.addEventListener("click", function (evenement) {
+      if (evenement.target.closest("a")) fermer();
+    });
+
+    document.addEventListener("keydown", function (evenement) {
+      if (evenement.key === "Escape") fermer();
+    });
+
+    /* Passage en grand écran : la navigation reprend sa forme de barre,
+       la classe n'a plus de sens et fausserait l'état du bouton. */
+    window.matchMedia("(min-width: 860px)").addEventListener("change", function (e) {
+      if (e.matches) fermer();
+    });
+  }
+
+  /* Méga menu. Le HTML des panneaux est écrit en dur dans chaque page :
+     Google suit donc tous ces liens internes, et la navigation reste
+     entièrement utilisable sans JavaScript (survol en CSS sur grand écran,
+     panneaux visibles à la suite sur téléphone).
+     Le JavaScript n'ajoute que le confort : ouverture au clic pour le
+     tactile et le clavier, fermeture par Échap ou par un clic à côté. */
+  function initialiserMegaMenu() {
+    var items = document.querySelectorAll(".nav-item-deroulant");
+    if (items.length === 0) return;
+
+    function fermerTout(sauf) {
+      items.forEach(function (item) {
+        if (item === sauf) return;
+        item.classList.remove("deroule");
+        var b = item.querySelector(".bouton-deroulant");
+        if (b) b.setAttribute("aria-expanded", "false");
+      });
+    }
+
+    items.forEach(function (item) {
+      var bouton = item.querySelector(".bouton-deroulant");
+      if (!bouton) return;
+      bouton.addEventListener("click", function (evenement) {
+        evenement.stopPropagation();
+        var ouvert = item.classList.toggle("deroule");
+        bouton.setAttribute("aria-expanded", ouvert ? "true" : "false");
+        fermerTout(item);
+      });
+    });
+
+    /* Un clic sur un lien du panneau doit laisser la navigation se faire :
+       on ferme seulement, sans bloquer l'événement. */
+    document.addEventListener("click", function (evenement) {
+      if (evenement.target.closest(".nav-item-deroulant")) return;
+      fermerTout(null);
+    });
+
+    document.addEventListener("keydown", function (evenement) {
+      if (evenement.key === "Escape") fermerTout(null);
+    });
+
+    /* Changement de format : les panneaux repassent en survol sur grand
+       écran, l'état déplié n'a plus de sens et resterait coincé. */
+    window.matchMedia("(min-width: 860px)").addEventListener("change", function () {
+      fermerTout(null);
+    });
+  }
+
+  /* Retour en haut, et ombre de l'entête dès qu'on quitte le haut de page.
+     Les deux partagent le même écouteur de défilement. */
   function initialiserRetourHaut() {
     var bouton = document.querySelector(".retour-haut");
+    var entete = document.querySelector(".entete");
     if (!bouton) return;
 
     var enAttente = false;
@@ -671,6 +917,7 @@
         enAttente = true;
         requestAnimationFrame(function () {
           bouton.classList.toggle("visible", window.scrollY > 600);
+          if (entete) entete.classList.toggle("defile", window.scrollY > 8);
           enAttente = false;
         });
       },
@@ -734,8 +981,13 @@
   rendreReseaux();
   construireMarque();
   rendreCollections();
+  rendreBonsPlans();
   initialiserStagger();
   initialiserCompteurs();
+  initialiserMenu();
+  initialiserMegaMenu();
   initialiserRetourHaut();
   initialiserApparition();
+  /* En dernier : les sections visées par une ancre existent maintenant. */
+  rejoindreAncre();
 })();
