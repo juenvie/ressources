@@ -20,6 +20,7 @@
    16. Menu mobile
    17. Fiche produit dépliable
    18. Méga menu
+   19. Signature animée de l'entête
    ============================================================ */
 
 /* ---------- 1. Variables et fondations ---------- */
@@ -224,12 +225,25 @@ a:hover {
   min-height: 44px;
 }
 
+/* Le fichier logo-entete.png est le logo recadré au plus près du dessin :
+   à taille d'affichage égale, le soleil est 44% plus grand que dans
+   assets/logo.png, qui garde sa large marge crème pour les usages où elle
+   est nécessaire (favicon, icône d'application, pied de page).
+   L'anneau plus marqué et le léger gain de contraste détachent la pastille
+   claire du fond sombre de l'entête. */
 .logo-img {
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   flex-shrink: 0;
-  box-shadow: 0 0 0 2px rgba(255, 169, 107, 0.3);
+  filter: contrast(1.12) saturate(1.1);
+  box-shadow: 0 0 0 2px rgba(255, 169, 107, 0.55),
+    0 2px 10px rgba(0, 0, 0, 0.35);
+  transition: box-shadow var(--transition);
+}
+
+.logo:hover .logo-img {
+  box-shadow: 0 0 0 2px var(--orange-glow), 0 0 16px rgba(232, 96, 28, 0.45);
 }
 
 .logo:hover {
@@ -562,6 +576,14 @@ a:hover {
   --fond-photo: url("../assets/photos/categorie-creation-coworking.jpg");
 }
 
+.carte-australie {
+  --fond-photo: url("../assets/photos/categorie-australie.jpg");
+}
+
+.carte-guides {
+  --fond-photo: url("../assets/photos/categorie-guides.jpg");
+}
+
 .carte-categorie:hover {
   transform: translateY(-4px) scale(1.01);
   box-shadow: var(--ombre-glow);
@@ -628,9 +650,21 @@ a:hover {
   transform: translateX(5px);
 }
 
+/* Cinq univers sur une grille de six colonnes : trois cartes de deux
+   colonnes sur la première ligne, deux cartes de trois colonnes sur la
+   seconde. Une grille en trois colonnes laisserait un trou à droite. */
 @media (min-width: 720px) {
   .grille-categories {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .grille-categories > .carte-categorie {
+    grid-column: span 2;
+  }
+
+  .grille-categories > .carte-categorie:nth-child(4),
+  .grille-categories > .carte-categorie:nth-child(5) {
+    grid-column: span 3;
   }
 }
 
@@ -2958,5 +2992,204 @@ a:hover {
   .megamenu,
   .bouton-deroulant {
     transition: none;
+  }
+}
+
+/* ---------- 19. Signature animée de l'entête ---------- */
+
+/* Le wordmark s'écrit lettre après lettre au chargement, puis un petit
+   pictogramme s'échappe sur la droite. Tout est en CSS : le JavaScript ne
+   fait que découper le mot en lettres et poser le pictogramme.
+   Deux garde fous : les lettres restent en opacité 0 et non en display
+   none, donc la largeur est réservée dès le premier rendu et rien ne
+   bouge ; et si le JavaScript ne s'exécute pas, le mot s'affiche
+   normalement, sans animation. */
+
+.logo {
+  position: relative;
+}
+
+.lettre-logo {
+  display: inline-block;
+  opacity: 0;
+  animation: frappe-lettre 0.09s ease-out forwards;
+  animation-delay: calc(var(--i) * 55ms);
+}
+
+@keyframes frappe-lettre {
+  from {
+    opacity: 0;
+    transform: translateY(0.06em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Le pictogramme est en position absolue, calé juste après le mot : il ne
+   prend aucune place dans le flux et ne décale donc jamais la navigation. */
+.envol {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  margin-left: 0.3rem;
+  width: 22px;
+  height: 22px;
+  margin-top: -11px;
+  color: var(--orange-glow);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.envol svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  fill: currentColor;
+}
+
+/* L'avion file vers la droite. Le pictogramme d'origine pointe vers le
+   haut : la rotation de 90 degrés, reprise dans chaque étape, le remet
+   dans le sens de la marche. */
+.envol-avion {
+  animation: vol-droite 1.8s cubic-bezier(0.3, 0, 0.6, 1) forwards;
+  animation-delay: var(--depart, 0.7s);
+}
+
+@keyframes vol-droite {
+  0% {
+    opacity: 0;
+    transform: translateX(-6px) scale(0.7) rotate(90deg);
+  }
+  18% {
+    opacity: 0.9;
+    transform: translateX(0) scale(1) rotate(90deg);
+  }
+  84% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(54px) scale(0.9) rotate(90deg);
+  }
+}
+
+/* La caméra se pose, déclenche un flash, puis disparaît. Elle ne se
+   déplace pas : c'est le flash qui fait l'événement. */
+.envol-camera {
+  animation: prise-de-vue 1.8s ease-out forwards;
+  animation-delay: var(--depart, 0.7s);
+}
+
+@keyframes prise-de-vue {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  16% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  52% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  /* le petit sursaut du déclenchement */
+  58% {
+    opacity: 1;
+    transform: scale(1.14);
+  }
+  66% {
+    transform: scale(1);
+  }
+  88% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+}
+
+/* Le flash lui même : un halo qui gonfle et s'éteint aussitôt. Il est
+   porté par un pseudo élément, donc aucune balise en plus dans la page. */
+.envol-camera::after {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(245, 200, 66, 0.55) 42%,
+    transparent 70%
+  );
+  opacity: 0;
+  animation: eclair 1.8s ease-out forwards;
+  animation-delay: var(--depart, 0.7s);
+}
+
+@keyframes eclair {
+  0%,
+  52% {
+    opacity: 0;
+    transform: scale(0.35);
+  }
+  58% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  74% {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+
+/* Le coureur part sur la droite, avec un très léger rebond de foulée. */
+.envol-course {
+  animation: foulee 1.8s cubic-bezier(0.3, 0, 0.6, 1) forwards;
+  animation-delay: var(--depart, 0.7s);
+}
+
+@keyframes foulee {
+  0% {
+    opacity: 0;
+    transform: translate(-4px, 0) scale(0.75);
+  }
+  16% {
+    opacity: 0.9;
+    transform: translate(0, 0) scale(1);
+  }
+  40% {
+    transform: translate(14px, -2px) scale(1);
+  }
+  62% {
+    transform: translate(26px, 0) scale(1);
+  }
+  84% {
+    opacity: 0.55;
+    transform: translate(38px, -2px) scale(0.95);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(52px, 0) scale(0.9);
+  }
+}
+
+/* Préférence système respectée : aucune animation, le mot est là d'emblée
+   et aucun pictogramme n'est inséré (voir initialiserSignature). */
+@media (prefers-reduced-motion: reduce) {
+  .lettre-logo {
+    opacity: 1;
+    animation: none;
+  }
+
+  .envol {
+    display: none;
   }
 }

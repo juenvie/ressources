@@ -854,6 +854,67 @@
     });
   }
 
+  /* Signature animée de l'entête : le wordmark s'écrit lettre après lettre
+     au chargement de chaque page, puis un petit pictogramme s'échappe sur
+     la droite. L'animation elle même est entièrement en CSS (section 19),
+     ici on ne fait que découper le mot et poser le pictogramme.
+
+     Pour changer le pictogramme d'une page, ajoute une ligne ci dessous.
+     Toute page absente de cette table reçoit l'avion. */
+  var ENVOL_PAR_PAGE = {
+    "sport.html": "course",
+    "creation.html": "camera",
+  };
+
+  /* Un pictogramme par clé de ENVOL_PAR_PAGE. Pour en ajouter un, écris le
+     SVG ici, référence sa clé au dessus, et donne lui sa classe
+     .envol-{clé} avec ses @keyframes en section 19 du style. */
+  var PICTOGRAMMES = {
+    avion:
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>',
+    course:
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 5.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM9.9 19.4l1-4.4 2.1 2V23h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6a1.98 1.98 0 0 0-1.7-1c-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7-1.6 8.1-4.9-1-.4 2z"/></svg>',
+    camera:
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>',
+  };
+
+  function initialiserSignature() {
+    var mot = document.querySelector(".mot-logo");
+    if (!mot) return;
+
+    /* Préférence système : on ne touche à rien, le mot reste tel quel. */
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    /* Le découpage est synchrone : le navigateur ne peut pas peindre entre
+       le vidage et le remplissage, donc le mot ne disparaît jamais. */
+    var texte = mot.textContent;
+    mot.textContent = "";
+    for (var i = 0; i < texte.length; i += 1) {
+      var lettre = document.createElement("span");
+      lettre.className = "lettre-logo";
+      lettre.style.setProperty("--i", i);
+      lettre.textContent = texte.charAt(i);
+      mot.appendChild(lettre);
+    }
+
+    var page = window.location.pathname.split("/").pop() || "index.html";
+    var type = ENVOL_PAR_PAGE[page] || "avion";
+    var envol = document.createElement("span");
+    envol.className = "envol envol-" + type;
+    envol.setAttribute("aria-hidden", "true");
+    envol.innerHTML = PICTOGRAMMES[type] || PICTOGRAMMES.avion;
+    /* Le pictogramme part quand la dernière lettre vient d'être posée. */
+    envol.style.setProperty("--depart", texte.length * 55 + 150 + "ms");
+    mot.parentNode.appendChild(envol);
+
+    /* Une fois passé, il n'a plus de raison d'être dans la page. La caméra
+       anime aussi son flash en pseudo élément : les deux se terminent
+       ensemble, le premier événement qui arrive fait le ménage. */
+    envol.addEventListener("animationend", function () {
+      envol.remove();
+    });
+  }
+
   /* Méga menu. Le HTML des panneaux est écrit en dur dans chaque page :
      Google suit donc tous ces liens internes, et la navigation reste
      entièrement utilisable sans JavaScript (survol en CSS sur grand écran,
@@ -984,6 +1045,7 @@
   rendreBonsPlans();
   initialiserStagger();
   initialiserCompteurs();
+  initialiserSignature();
   initialiserMenu();
   initialiserMegaMenu();
   initialiserRetourHaut();

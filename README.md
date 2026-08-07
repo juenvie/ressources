@@ -4,7 +4,7 @@ Le hub de ressources qui remplace le Linktree. Un site statique pur (HTML, CSS, 
 
 ```
 Affiliate Hub/
-  index.html        Accueil : hero, 3 cartes univers, réseaux
+  index.html        Accueil : hero, 5 cartes univers, réseaux
   voyage.html       Ressources voyage
   sport.html        Ressources running
   creation.html     Ressources création vidéo
@@ -236,6 +236,49 @@ Ce qui t'attend, par ordre d'impact :
 3. **Les badges** : assigne `"prefere"`, `"qualite-prix"`, `"plus-utilise"`... aux produits que tu veux pousser (clés disponibles dans `BADGES`).
 4. **Les logos manquants** : les produits génériques (powerbank, gourde, adaptateur...) et l'app running affichent encore un emoji, faute de marque précise. Voir la section logos ci-dessous pour en ajouter un.
 5. **YouTube, mail, LinkedIn, Souvence** : URLs dans `RESEAUX`.
+
+## La signature animée de l'entête
+
+À chaque ouverture de page, le mot `ju.en.vie` s'écrit lettre après lettre, puis un petit pictogramme s'échappe sur la droite et disparaît. L'ensemble dure environ deux secondes et demie.
+
+Le découpage en lettres et la pose du pictogramme sont dans `initialiserSignature()` (`js/main.js`), l'animation elle même est entièrement en CSS (section 19 de `style.css`). Trois garde fous :
+
+- Les lettres restent en opacité 0, jamais en `display: none`. La largeur du mot est donc réservée dès le premier rendu et rien ne bouge à l'écran.
+- Le pictogramme est en position absolue, il ne pousse ni le menu ni le bouton hamburger.
+- Si la personne a demandé à son système de réduire les animations, rien ne se déclenche et le mot s'affiche normalement.
+
+Pour changer le pictogramme d'une page, ajoute une ligne dans `ENVOL_PAR_PAGE`, en haut de la fonction :
+
+```js
+var ENVOL_PAR_PAGE = {
+  "sport.html": "course",      // un coureur part sur la droite
+  "creation.html": "camera",   // un appareil photo, un flash, puis plus rien
+};
+```
+
+Toute page absente de cette table reçoit l'avion, qui file vers la droite.
+
+Les pictogrammes sont des SVG regroupés dans l'objet `PICTOGRAMMES` de `main.js`. Pour en ajouter un, écris le SVG sous une nouvelle clé, référence cette clé dans `ENVOL_PAR_PAGE`, et donne lui une classe `.envol-{clé}` avec ses `@keyframes` en section 19 du style. Le flash de la caméra est un pseudo élément `::after`, donc aucune balise en plus dans la page.
+
+## Les deux logos
+
+`assets/logo.png` est le logo d'origine, avec sa large marge crème. Il sert au favicon, à l'icône d'application et au pied de page.
+
+`assets/logo-entete.png` est le même logo recadré au plus près du dessin, et exporté en 96 pixels pour rester net sur les écrans à haute densité. À taille d'affichage égale, le soleil y est 44% plus grand. C'est celui de l'entête, où le logo ne fait que 40 pixels.
+
+Le recadrage est calculé sur la distance maximale entre le centre du dessin et un pixel dessiné, pas sur la boîte englobante. C'est ce qui garantit que le masque circulaire de l'entête ne coupe aucun rayon du soleil.
+
+## Les cartes de la page d'accueil
+
+Cinq univers, sur une grille de six colonnes : trois cartes de deux colonnes sur la première ligne, deux cartes de trois colonnes sur la seconde. Chaque carte porte sa photo de fond via une variable CSS, déclarée en section 5 :
+
+```css
+.carte-australie {
+  --fond-photo: url("../assets/photos/categorie-australie.jpg");
+}
+```
+
+Les trois premières affichent un compteur calculé depuis `liens.js`. Les deux dernières affichent un texte figé, « 7 étapes » et « 7 destinations », parce qu'Australie et Guides ne sont pas des catégories de `liens.js`. Pense à les corriger à la main si tu ajoutes une étape ou une destination.
 
 ## Logos de marque
 
