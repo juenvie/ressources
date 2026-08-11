@@ -260,6 +260,51 @@ Toute page absente de cette table reçoit l'avion, qui file vers la droite.
 
 Les pictogrammes sont des SVG regroupés dans l'objet `PICTOGRAMMES` de `main.js`. Pour en ajouter un, écris le SVG sous une nouvelle clé, référence cette clé dans `ENVOL_PAR_PAGE`, et donne lui une classe `.envol-{clé}` avec ses `@keyframes` en section 19 du style. Le flash de la caméra est un pseudo élément `::after`, donc aucune balise en plus dans la page.
 
+## Le mode brouillon
+
+Les blocs `.a-ecrire` sont tes pense bêtes. **Ils ne s'affichent plus en ligne** : une page publiée ne doit jamais montrer « À compléter » à un lecteur ni à Google.
+
+Tu les revois dans deux cas :
+
+- en local, automatiquement, quand tu ouvres le site depuis ton ordinateur ;
+- en ligne, en ajoutant `?brouillon` à la fin de n'importe quelle URL. Le mode reste actif tant que tu ne fermes pas l'onglet, donc tu peux naviguer de page en page.
+
+En mode brouillon, chaque bloc porte une étiquette orange « À écrire » pour qu'on ne confonde jamais un pense bête avec du contenu.
+
+## Le référencement, ce qui est en place
+
+**Indexation.** Plus aucune page en `noindex`. Les 24 pages sont dans `sitemap.xml`, régénéré automatiquement par le script d'indexation. Chaque page a son `canonical`.
+
+**Données structurées.** 44 blocs au total : `WebSite` et `Person` sur l'accueil, `BreadcrumbList` sur 17 pages, `Article` sur 17 pages avec auteur et date, `FAQPage` sur 7 pages, `ProfilePage` sur la page à propos. Toutes ont été validées syntaxiquement.
+
+**Moteurs conversationnels.** `robots.txt` autorise explicitement GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Applebot et les autres. Pour en bloquer un, remplace `Allow` par `Disallow` sur sa ligne.
+
+`llms.txt`, à la racine, est le sommaire du site écrit pour les assistants IA : ce qu'on y trouve, page par page, avec les points de vigilance. C'est ce fichier qu'ils lisent en priorité. **Pense à le mettre à jour quand tu ajoutes une page importante.**
+
+**Les FAQ comptent double.** Google les utilise pour les extraits enrichis, les IA les extraient en priorité parce que le format question réponse est directement citable. Les sept pages qui en ont une sont les plus susceptibles d'être citées.
+
+## Dates et fraîcheur
+
+Chaque article affiche « Page vérifiée et mise à jour le... » en bas, avec une balise `<time>` lisible par les machines. La même date figure dans le schéma `Article`.
+
+Sur les sujets administratifs australiens, cette date est un argument de confiance : les montants et les règles changent chaque année. Quand tu revérifies une page, change les trois occurrences de la date, dans `datePublished` si c'est la première publication, dans `dateModified`, et dans le `<time>` visible.
+
+## Les animations de lecture des articles
+
+Quand on descend dans un guide, les blocs visuels apparaissent en fondu montant à mesure qu'ils entrent à l'écran. Les photos ont leur propre variante, plus lente, avec un très léger agrandissement au départ : l'image donne l'impression de se poser plutôt que d'apparaître d'un coup.
+
+Rien n'est à ajouter dans le HTML. La fonction `preparerAnimationsArticle()` de `js/main.js` marque toute seule, dans chaque page, les photos, les paires de photos, les repères, les étapes de frise, les cartes d'application et les encadrés. Un nouvel article en hérite sans rien faire.
+
+Trois choix à connaître :
+
+- **Le texte courant n'est jamais animé.** Un paragraphe qui arrive en retard gêne la lecture au lieu de l'embellir. Seuls les blocs visuels bougent.
+- **Une photo attend d'être chargée avant de se révéler.** Sinon le fondu se jouerait sur un rectangle vide. Un délai de sécurité d'une seconde et demie couvre le cas où l'image ne répond jamais.
+- **Tout passe par le même observateur** que les cartes du reste du site, donc aucun écouteur de défilement en plus. S'il ne démarre pas, un repli au défilement prend le relais. Et si la personne a demandé à son système de réduire les animations, tout est affiché d'emblée.
+
+Les séries s'égrènent : dans une paire de photos, la seconde suit la première d'un souffle, et les étapes d'une frise arrivent dans l'ordre de lecture. Le décalage est plafonné à cinq crans pour que la fin d'une longue liste n'attende pas.
+
+Pour ne plus animer un type de bloc, retire son sélecteur de `preparerAnimationsArticle()`. Pour en animer un nouveau, ajoute le à la même liste.
+
 ## Les deux logos
 
 `assets/logo.png` est le logo d'origine, avec sa large marge crème. Il sert au favicon, à l'icône d'application et au pied de page.

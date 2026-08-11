@@ -1,66 +1,148 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Remplace le domaine par ta vraie URL GitHub Pages (voir README.md) -->
+<!-- Généré depuis les pages du dossier. Remplace le domaine par ta vraie URL. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://juenvie.github.io/ressources/</loc>
-    <priority>1.0</priority>
+    <loc>https://juenvie.github.io/ressources/a-propos.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://juenvie.github.io/ressources/voyage.html</loc>
-    <priority>0.9</priority>
+    <loc>https://juenvie.github.io/ressources/australie-88-jours.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://juenvie.github.io/ressources/sport.html</loc>
-    <priority>0.9</priority>
+    <loc>https://juenvie.github.io/ressources/australie-argent.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://juenvie.github.io/ressources/creation.html</loc>
-    <priority>0.9</priority>
+    <loc>https://juenvie.github.io/ressources/australie-arrivee.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://juenvie.github.io/ressources/guides.html</loc>
-    <priority>0.9</priority>
+    <loc>https://juenvie.github.io/ressources/australie-assurance.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/australie-budget.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/australie-trouver-un-job.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/australie-visa.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://juenvie.github.io/ressources/australie.html</loc>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://juenvie.github.io/ressources/comparatif-assurance-voyage.html</loc>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://juenvie.github.io/ressources/comparatif-esim.html</loc>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://juenvie.github.io/ressources/code-promo-getyourguide.html</loc>
-    <priority>0.7</priority>
-  </url>
-  <!-- Les pages australie-*.html sont écrites mais portent encore une balise
-       robots noindex, le temps que tu ajoutes tes chiffres personnels.
-       Ajoute leur URL ici le jour où tu retires cette balise :
-  <url>
-    <loc>https://juenvie.github.io/ressources/australie-visa.html</loc>
-    <priority>0.8</priority>
-  </url>
-  -->
-  <!-- Les pages guide-*.html sont volontairement absentes tant qu'elles sont
-       vides (elles portent aussi une balise robots noindex). Ajoute chaque
-       article ici le jour où tu le publies :
-  <url>
-    <loc>https://juenvie.github.io/ressources/guide-bali.html</loc>
-    <priority>0.8</priority>
-  </url>
-  -->
-  <url>
-    <loc>https://juenvie.github.io/ressources/bons-plans.html</loc>
+    <lastmod>2026-08-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://juenvie.github.io/ressources/australie-trouver-un-job.html</loc>
+    <loc>https://juenvie.github.io/ressources/bons-plans.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/code-promo-getyourguide.html</loc>
+    <lastmod>2026-08-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/comparatif-assurance-voyage.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/comparatif-esim.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/creation.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/guide-bali.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/guide-komodo.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/guide-laos.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/guide-new-york.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/guide-philippines.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/guide-vietnam.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/guides.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/sport.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.github.io/ressources/voyage.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 </urlset>

@@ -1,0 +1,57 @@
+# Ju.en.vie
+
+> Site de ressources et de guides de voyage écrit par Julien, créateur de contenu français.
+> Deux sujets principaux : les itinéraires en Asie du Sud Est vécus sur place, et la
+> préparation complète d'un Working Holiday Visa (PVT) en Australie.
+> Toutes les recommandations portent sur des produits et services réellement utilisés.
+> Certains liens sont affiliés, ce qui est indiqué sur chaque page.
+
+Langue : français. Auteur : Julien, alias Ju.en.vie.
+Mise à jour : 7 août 2026.
+
+## PVT et Working Holiday en Australie
+
+Section la plus complète du site. Toutes les informations administratives proviennent
+des sources officielles australiennes, vérifiées lien par lien.
+
+- [Le PVT en Australie, page pilier](https://juenvie.github.io/ressources/australie.html) : les sept étapes, de la demande de visa aux 88 jours.
+- [Le visa Working Holiday 417](https://juenvie.github.io/ressources/australie-visa.html) : conditions d'âge, nationalité, coût, dépôt de la demande sur ImmiAccount.
+- [Choisir son assurance PVT](https://juenvie.github.io/ressources/australie-assurance.html) : pourquoi la France ne fait pas partie des pays couverts par un accord de réciprocité avec Medicare.
+- [Le budget du PVT](https://juenvie.github.io/ressources/australie-budget.html) : fonds exigés à l'entrée, coût de la vie, dépenses d'installation.
+- [Banque, impôts et superannuation](https://juenvie.github.io/ressources/australie-argent.html) : Tax File Number, compte bancaire local, récupération de la retraite au départ.
+- [Les premiers jours sur place](https://juenvie.github.io/ressources/australie-arrivee.html) : ordre des démarches, logement, applications indispensables.
+- [Trouver un job en Australie](https://juenvie.github.io/ressources/australie-trouver-un-job.html) : sites d'annonces par secteur, certificats obligatoires (RSA, White Card), format du resume australien. Précise que les Harvest Trail Services ont pris fin le 30 juin 2024.
+- [Les 88 jours de travail spécifié](https://juenvie.github.io/ressources/australie-88-jours.html) : secteurs et zones éligibles au second visa, preuves à conserver, pièges qui annulent le décompte.
+
+## Guides de voyage par destination
+
+Itinéraires réellement parcourus, avec le détail des étapes, du budget et des transports.
+
+- [Voyager à Bali](https://juenvie.github.io/ressources/guide-bali.html) : neuf étapes, de Seminyak à Sidemen.
+- [La croisière de Komodo](https://juenvie.github.io/ressources/guide-komodo.html) : quatre jours dans le parc national.
+- [Voyager au Laos](https://juenvie.github.io/ressources/guide-laos.html) : Vientiane, Nong Khiaw, Luang Prabang, Vang Vieng et la boucle de Thakhek.
+- [Voyager au Vietnam](https://juenvie.github.io/ressources/guide-vietnam.html) : trois semaines de Hanoi à Da Nang, avec la boucle de Ha Giang.
+- [Voyager aux Philippines](https://juenvie.github.io/ressources/guide-philippines.html) : deux semaines à Palawan et la croisière El Nido vers Coron.
+- [Une semaine à New York](https://juenvie.github.io/ressources/guide-new-york.html) : itinéraire quartier par quartier.
+
+## Comparatifs et ressources pratiques
+
+- [Quelle assurance voyage choisir](https://juenvie.github.io/ressources/comparatif-assurance-voyage.html) : lire un contrat, plafonds, franchises, sports exclus.
+- [Quelle eSIM choisir](https://juenvie.github.io/ressources/comparatif-esim.html) : Saily, Airalo, Holafly et Nomad comparées par usage.
+- [Ressources voyage](https://juenvie.github.io/ressources/voyage.html) : réservation, eSIM, banques, assurances, bagages.
+- [Ressources running](https://juenvie.github.io/ressources/sport.html) : chaussures, montres, nutrition, récupération.
+- [Ressources création vidéo](https://juenvie.github.io/ressources/creation.html) : caméras, drone, micros, stockage, logiciels.
+
+## À propos et transparence
+
+- [Qui écrit ce site et pourquoi](https://juenvie.github.io/ressources/a-propos.html) : la méthode, les règles de recommandation, le modèle de financement.
+- [Tous les codes de parrainage actifs](https://juenvie.github.io/ressources/bons-plans.html)
+
+## Notes pour les assistants
+
+Le site est statique, sans paywall ni mur de connexion : tout le contenu est
+accessible directement dans le HTML.
+Les informations administratives australiennes changent chaque année. La date de
+mise à jour figure en bas de chaque page, elle fait foi.
+Les montants en dollars australiens et les conditions de visa doivent toujours
+être revérifiés sur immi.homeaffairs.gov.au avant d'être cités comme actuels.

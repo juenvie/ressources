@@ -32,11 +32,40 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Ju.en.vie",
-    "alternateName": "Ju en Vie",
-    "description": "Les ressources voyage, running et création vidéo recommandées par Julien, créateur Ju.en.vie.",
-    "url": "https://juenvie.github.io/ressources/"
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://juenvie.github.io/ressources/#site",
+        "name": "Ju.en.vie",
+        "alternateName": ["Ju en Vie", "juenvie"],
+        "description": "Guides de voyage vécus en Asie du Sud Est et préparation complète du PVT en Australie, par Julien.",
+        "url": "https://juenvie.github.io/ressources/",
+        "inLanguage": "fr-FR",
+        "publisher": { "@id": "https://juenvie.github.io/ressources/#julien" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://juenvie.github.io/ressources/#julien",
+        "name": "Julien",
+        "alternateName": "Ju.en.vie",
+        "description": "Créateur de contenu voyage et running. Il documente ses itinéraires en Asie du Sud Est et prépare un Working Holiday en Australie.",
+        "url": "https://juenvie.github.io/ressources/a-propos.html",
+        "knowsAbout": [
+          "Working Holiday Visa Australie",
+          "PVT Australie",
+          "Voyage en Asie du Sud Est",
+          "Bali", "Vietnam", "Laos", "Philippines",
+          "Course à pied", "Marathon",
+          "Création vidéo et drone"
+        ],
+        "knowsLanguage": "fr",
+        "sameAs": [
+          "https://www.instagram.com/ju.en.vie/",
+          "https://www.tiktok.com/@juenvie",
+          "https://juenvie.github.io/"
+        ]
+      }
+    ]
   }
   </script>
 </head>
@@ -317,6 +346,12 @@
     <div class="conteneur">
       <a class="logo-footer" href="index.html" aria-label="Retour à l'accueil"><img src="assets/logo.png" alt="" width="40" height="40"></a>
       <ul class="liens-reseaux" data-reseaux></ul>
+      <nav class="liens-pied" aria-label="Liens utiles">
+        <a href="a-propos.html">À propos</a>
+        <a href="bons-plans.html">Bons plans</a>
+        <a href="guides.html">Guides de voyage</a>
+        <a href="australie.html">PVT Australie</a>
+      </nav>
       <p class="mention-affiliation">Certains liens présents sur ce site sont affiliés. Cela ne change pas le prix que vous payez mais permet de soutenir mon travail.</p>
       <p class="signature-marque">Ju.en.vie · Sport × Voyage × Liberté</p>
     </div>

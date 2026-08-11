@@ -21,6 +21,7 @@
    17. Fiche produit dépliable
    18. Méga menu
    19. Signature animée de l'entête
+   20. Animations de lecture des articles
    ============================================================ */
 
 /* ---------- 1. Variables et fondations ---------- */
@@ -2049,11 +2050,37 @@ a:hover {
 
 /* Repère visuel des parties encore vides. Rien de tout ça ne doit rester
    le jour où l'article est publié. */
+/* Les blocs « à écrire » sont les pense bêtes de Julien, pas du contenu.
+   Ils sont masqués par défaut : une page en ligne ne doit jamais afficher
+   « À compléter » à un lecteur ni à Google. Ils réapparaissent en local,
+   ou sur n'importe quelle page en ajoutant ?brouillon à l'URL.
+   Voir initialiserModeBrouillon() dans js/main.js. */
 .a-ecrire {
+  display: none;
   font-style: italic;
   color: var(--brun-mid) !important;
   border-left: 2px dashed rgba(255, 169, 107, 0.3);
   padding-left: 0.85rem;
+}
+
+.mode-brouillon .a-ecrire {
+  display: block;
+}
+
+/* Repère visuel pour ne pas oublier qu'on est en mode brouillon. */
+.mode-brouillon .a-ecrire::before {
+  content: "À écrire";
+  display: inline-block;
+  margin-right: 0.5rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+  background: rgba(255, 169, 107, 0.16);
+  color: var(--orange-glow);
+  font: 700 0.68rem var(--font-corps);
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  vertical-align: 2px;
 }
 
 .encadre-ressources {
@@ -3192,4 +3219,85 @@ a:hover {
   .envol {
     display: none;
   }
+}
+
+/* ---------- 20. Animations de lecture des articles ---------- */
+
+/* Les blocs visuels d'un guide se posent en fondu quand ils entrent à
+   l'écran. Le texte courant, lui, n'est jamais animé : un paragraphe qui
+   arrive en retard gêne la lecture au lieu de l'embellir.
+   Tout passe par le même observateur que le reste du site (la classe
+   .revele), on ne rajoute donc aucun écouteur de défilement. */
+
+/* Variante photo : plus lente que les cartes, et avec un très léger
+   agrandissement au départ, pour que l'image donne l'impression de se
+   poser plutôt que d'apparaître d'un coup. */
+.js .revele-photo {
+  opacity: 0;
+  transform: translateY(26px) scale(1.02);
+  transition: opacity 0.75s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.75s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition-delay: calc(var(--stagger, 0) * 110ms);
+}
+
+.js .revele-photo.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Survol d'une photo d'article : une respiration, rien de plus. Aucun
+   overflow à gérer, l'image emporte son propre arrondi en grandissant. */
+.photo-article img {
+  transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 0.5s ease;
+}
+
+@media (hover: hover) {
+  .photo-article:hover img {
+    transform: scale(1.02);
+    box-shadow: var(--ombre-glow);
+  }
+}
+
+/* Les étapes d'une frise arrivent l'une après l'autre, dans l'ordre de
+   lecture. Le trait qui les relie, lui, reste en place : c'est le repère
+   visuel qui permet de comprendre qu'il en manque encore. */
+.js .frise li.revele {
+  transform: translateY(14px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .revele-photo {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0s;
+  }
+
+  .photo-article img,
+  .photo-article:hover img {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* Liens utiles du pied de page. La page à propos y figure en premier :
+   elle doit rester atteignable en un clic depuis n'importe quelle page,
+   c'est elle qui établit qui écrit le site. */
+.liens-pied {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem 1.4rem;
+  margin: 0.25rem 0 0.5rem;
+}
+
+.liens-pied a {
+  color: var(--texte-secondaire);
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: color var(--transition);
+}
+
+.liens-pied a:hover {
+  color: var(--orange-glow);
 }

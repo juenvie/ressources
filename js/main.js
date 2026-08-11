@@ -991,23 +991,161 @@
   }
 
   /* Apparition au scroll avec IntersectionObserver natif */
+  /* Mode brouillon : réaffiche les blocs « à écrire », masqués en ligne.
+     Actif automatiquement quand on travaille en local, et à la demande
+     partout ailleurs en ajoutant ?brouillon à l'URL. Le choix est retenu
+     pour la session, pour pouvoir naviguer de page en page sans le
+     retaper. */
+  function initialiserModeBrouillon() {
+    var hote = window.location.hostname;
+    var local =
+      hote === "localhost" || hote === "127.0.0.1" || hote === "" || hote.indexOf(".local") > -1;
+    var demande = window.location.search.indexOf("brouillon") > -1;
+
+    if (demande) {
+      try {
+        window.sessionStorage.setItem("brouillon", "1");
+      } catch (e) {
+        /* navigation privée : tant pis, le paramètre d'URL suffit */
+      }
+    }
+
+    var retenu = false;
+    try {
+      retenu = window.sessionStorage.getItem("brouillon") === "1";
+    } catch (e) {
+      retenu = false;
+    }
+
+    if (local || demande || retenu) {
+      document.documentElement.classList.add("mode-brouillon");
+    }
+  }
+
+  /* Marque les blocs visuels d'un article pour qu'ils apparaissent au
+     défilement. C'est fait ici plutôt que dans les 17 pages concernées :
+     une seule liste à maintenir, et les futurs articles en héritent.
+     Le texte courant n'est volontairement jamais marqué. */
+  function preparerAnimationsArticle() {
+    var zone = document.querySelector("main");
+    if (!zone) return;
+
+    /* Photos : variante plus lente, voir .revele-photo dans le style. */
+    zone.querySelectorAll(".photo-article").forEach(function (figure) {
+      figure.classList.add("revele", "revele-photo");
+    });
+
+    /* Dans une paire, la seconde photo suit la première d'un souffle. */
+    zone.querySelectorAll(".duo-photos").forEach(function (duo) {
+      duo.querySelectorAll(".photo-article").forEach(function (figure, i) {
+        figure.style.setProperty("--stagger", i);
+      });
+    });
+
+    zone
+      .querySelectorAll(
+        ".tableau-comparatif, .encadre-ressources, .autres-guides, .bloc-code-promo"
+      )
+      .forEach(function (bloc) {
+        bloc.classList.add("revele");
+      });
+
+    /* Séries : chaque élément suit le précédent, dans l'ordre de lecture.
+       Le décalage est plafonné, sinon la dernière étape d'une longue
+       frise attendrait une seconde de trop. */
+    [".reperes .repere", ".frise li", ".grille-apps .carte-app"].forEach(function (
+      selecteur
+    ) {
+      zone.querySelectorAll(selecteur).forEach(function (element, i) {
+        element.classList.add("revele");
+        element.style.setProperty("--stagger", Math.min(i, 5));
+      });
+    });
+  }
+
   function initialiserApparition() {
     var elements = document.querySelectorAll(".revele");
     if (elements.length === 0) return;
 
-    var prefereReduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefereReduit || !("IntersectionObserver" in window)) {
+    /* Préférence système : tout est là d'emblée, sans transition. */
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       elements.forEach(function (element) {
         element.classList.add("visible");
       });
       return;
     }
 
+    /* Une photo pas encore chargée ferait un fondu sur du vide : on attend
+       son arrivée. Le délai de sécurité couvre le cas où l'image ne
+       répond jamais, du contenu invisible étant pire qu'un fondu raté. */
+    function reveler(element) {
+      var image = element.classList.contains("revele-photo")
+        ? element.querySelector("img")
+        : null;
+      if (!image || image.complete) {
+        element.classList.add("visible");
+        return;
+      }
+      var fait = false;
+      function montrer() {
+        if (fait) return;
+        fait = true;
+        element.classList.add("visible");
+      }
+      image.addEventListener("load", montrer, { once: true });
+      image.addEventListener("error", montrer, { once: true });
+      setTimeout(montrer, 1200);
+    }
+
+    /* Repli sans observateur : on révèle au défilement, au même seuil.
+       Sert quand IntersectionObserver manque, et quand ses callbacks sont
+       gelés (onglet en arrière plan, navigateur bridé). Révéler toute la
+       page d'un coup, comme avant, faisait disparaître l'animation dès
+       qu'un article n'avait aucun bloc au dessus de la ligne de flottaison. */
+    function replierSurLeDefilement(restants) {
+      var enAttente = false;
+
+      function passer() {
+        enAttente = false;
+        var seuil = window.innerHeight * 0.92;
+        restants = restants.filter(function (element) {
+          if (element.getBoundingClientRect().top >= seuil) return true;
+          reveler(element);
+          return false;
+        });
+        if (restants.length === 0) {
+          window.removeEventListener("scroll", planifier);
+          window.removeEventListener("resize", planifier);
+        }
+      }
+
+      function planifier() {
+        if (enAttente) return;
+        enAttente = true;
+        window.requestAnimationFrame(passer);
+      }
+
+      window.addEventListener("scroll", planifier, { passive: true });
+      window.addEventListener("resize", planifier);
+      passer();
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      replierSurLeDefilement([].slice.call(elements));
+      return;
+    }
+
+    /* Preuve que l'observateur tourne. Sur un article, tous les blocs
+       animés sont sous la ligne de flottaison : se contenter de vérifier
+       qu'un élément est visible ferait croire à une panne. */
+    var observateurVivant = false;
+
     var observateur = new IntersectionObserver(
       function (entrees) {
+        observateurVivant = true;
         entrees.forEach(function (entree) {
           if (entree.isIntersecting) {
-            entree.target.classList.add("visible");
+            reveler(entree.target);
             observateur.unobserve(entree.target);
           }
         });
@@ -1019,17 +1157,16 @@
       observateur.observe(element);
     });
 
-    /* Filet de sécurité : si l'observer ne s'est déclenché pour aucun
-       élément (onglet en arrière-plan, navigateur qui gèle les
-       callbacks), on révèle tout. Du contenu invisible est pire
-       qu'une animation manquée. */
+    /* Filet de sécurité : si l'observateur ne s'est jamais exécuté, on
+       bascule sur le repli au défilement plutôt que de tout révéler. */
     setTimeout(function () {
-      if (!document.querySelector(".revele.visible")) {
-        elements.forEach(function (element) {
-          element.classList.add("visible");
-        });
-        observateur.disconnect();
-      }
+      if (observateurVivant) return;
+      observateur.disconnect();
+      replierSurLeDefilement(
+        [].filter.call(elements, function (element) {
+          return !element.classList.contains("visible");
+        })
+      );
     }, 900);
   }
 
@@ -1041,8 +1178,12 @@
   rendreAccueil();
   rendreReseaux();
   construireMarque();
+  initialiserModeBrouillon();
   rendreCollections();
   rendreBonsPlans();
+  /* Avant initialiserApparition : c'est elle qui pose les classes que
+     l'observateur ira ensuite chercher. */
+  preparerAnimationsArticle();
   initialiserStagger();
   initialiserCompteurs();
   initialiserSignature();

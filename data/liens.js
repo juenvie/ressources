@@ -192,7 +192,7 @@ const LIENS = [
     avantage: "5% de réduction",
     resume: "Visites guidées, activités et billets dans le monde entier.",
     accroche: "[BROUILLON : C'est mon réflexe pour réserver une activité sur place, sans passer par vingt sites différents.]",
-    avis: "[BROUILLON : ton avis développé, deux ou trois phrases. Ce que ça a changé pour toi, dans quelles conditions tu l'as testé.]",
+    avis: "[BROUILLON A VALIDER : Je réserve mes activités dessus parce que je peux annuler jusqu'à la veille. En voyage, les plans changent tout le temps : une météo qui tourne, un bus qui prend trois heures de plus, et l'excursion réservée devient une perte sèche. Là, j'annule et je reprogramme.]",
     jeUtilisePour: [
       "[BROUILLON : un usage concret, en quelques mots]",
     ],
@@ -308,7 +308,7 @@ const LIENS = [
     codePromo: null,
     resume: "Hôtels et logements, l'app de réservation la plus complète.",
     accroche: "[BROUILLON : Mon appli numéro un pour un hôtel, l'annulation gratuite me sauve à chaque changement de plan.]",
-    avis: "[BROUILLON : ton avis développé, deux ou trois phrases. Ce que ça a changé pour toi, dans quelles conditions tu l'as testé.]",
+    avis: "[BROUILLON A VALIDER : C'est mon réflexe pour un hôtel, et surtout pour l'annulation gratuite. Je réserve la première nuit d'une étape et je décide sur place si je reste. Le seul défaut, c'est la pression permanente de l'interface : les compteurs de derniers logements sont là pour faire décider vite.]",
     jeUtilisePour: [
       "[BROUILLON : un usage concret, en quelques mots]",
     ],
@@ -457,7 +457,7 @@ const LIENS = [
     avantage: "5% de réduction",
     resume: "eSIM simple et abordable, créée par l'équipe de NordVPN.",
     accroche: "[BROUILLON : Simple à installer avant même d'atterrir, ça évite la galère du duty free.]",
-    avis: "[BROUILLON : ton avis développé, deux ou trois phrases. Ce que ça a changé pour toi, dans quelles conditions tu l'as testé.]",
+    avis: "[BROUILLON A VALIDER : L'eSIM s'installe avant le départ et fonctionne à la seconde où l'avion se pose. Plus de recherche de boutique dans un aéroport à minuit, plus de carte SIM achetée trois fois le prix au duty free. C'est de la data seule, mais en voyage je n'ai jamais eu besoin d'autre chose.]",
     jeUtilisePour: [
       "[BROUILLON : un usage concret, en quelques mots]",
     ],
@@ -575,7 +575,7 @@ const LIENS = [
     codePromo: "julienpierred7",
     resume: "Compte multidevises et paiements à l'étranger sans frais cachés.",
     accroche: "[BROUILLON : Le compte que j'active avant chaque grand départ, payer en devise locale sans frais change vraiment la donne.]",
-    avis: "[BROUILLON : ton avis développé, deux ou trois phrases. Ce que ça a changé pour toi, dans quelles conditions tu l'as testé.]",
+    avis: "[BROUILLON A VALIDER : Je m'en sers dès que deux devises entrent en jeu. Le taux affiché est le vrai taux du marché, et la commission est annoncée avant de valider, pas cachée dans la conversion. Sur un long voyage, l'écart avec une banque classique se compte en centaines d'euros.]",
     jeUtilisePour: [
       "[BROUILLON : un usage concret, en quelques mots]",
     ],
@@ -605,7 +605,7 @@ const LIENS = [
     codePromo: "julien4uj7!NOV2-24-VR-FR",
     resume: "Carte de voyage, change instantané et budgets séparés.",
     accroche: "[BROUILLON : Le change en temps réel évite les mauvaises surprises à la sortie d'un distributeur.]",
-    avis: "[BROUILLON : ton avis développé, deux ou trois phrases. Ce que ça a changé pour toi, dans quelles conditions tu l'as testé.]",
+    avis: "[BROUILLON A VALIDER : C'est ma carte du quotidien à l'étranger. Paiement sans frais dans la devise locale, virement instantané à quelqu'un qui a l'appli, et une carte virtuelle jetable quand je dois payer sur un site que je ne connais pas. Le seul point à retenir : éviter les grosses conversions le week end.]",
     jeUtilisePour: [
       "[BROUILLON : un usage concret, en quelques mots]",
     ],
@@ -663,7 +663,7 @@ const LIENS = [
     codePromo: "p1txpjf1",
     resume: "Compte rémunéré et investissement, avec carte incluse.",
     accroche: "[BROUILLON : Je m'en sers pour faire fructifier ce que je ne dépense pas en voyage.]",
-    avis: "[BROUILLON : ton avis développé, deux ou trois phrases. Ce que ça a changé pour toi, dans quelles conditions tu l'as testé.]",
+    avis: "[BROUILLON A VALIDER : Je place ce que je ne dépense pas en voyage plutôt que de le laisser dormir. Un euro par ordre, des versements programmés sur ETF sans frais, et l'application reste assez simple pour ne pas y passer ses soirées. À garder en tête : investir peut faire perdre de l'argent.]",
     jeUtilisePour: [
       "[BROUILLON : un usage concret, en quelques mots]",
     ],
@@ -693,7 +693,7 @@ const LIENS = [
     avantage: "Jusqu'à 150€ offerts",
     resume: "Banque en ligne française complète, carte gratuite.",
     accroche: "[BROUILLON : Une banque française solide à garder en parallèle des comptes voyage.]",
-    avis: "[BROUILLON : ton avis développé, deux ou trois phrases. Ce que ça a changé pour toi, dans quelles conditions tu l'as testé.]",
+    avis: "[BROUILLON A VALIDER : Le compte français que je garde pour tout ce qui a besoin d'un IBAN FR : le salaire, les impôts, les prélèvements. Les néobanques sont plus pratiques au quotidien mais elles ne remplacent pas ça, et la prime de bienvenue paie largement l'ouverture.]",
     jeUtilisePour: [
       "[BROUILLON : un usage concret, en quelques mots]",
     ],
@@ -723,7 +723,7 @@ const LIENS = [
     avantage: "140€ offerts",
     resume: "Banque en ligne, carte gratuite et paiements sans frais à l'étranger.",
     accroche: "[BROUILLON : Carte gratuite et zéro frais à l'étranger, un bon compte de secours.]",
-    avis: "[BROUILLON : ton avis développé, deux ou trois phrases. Ce que ça a changé pour toi, dans quelles conditions tu l'as testé.]",
+    avis: "[BROUILLON A VALIDER : L'alternative française à regarder si tu cherches une carte assurée sans cotisation. Les conditions d'utilisation sont à lire avant de signer, elles conditionnent la gratuité.]",
     jeUtilisePour: [
       "[BROUILLON : un usage concret, en quelques mots]",
     ],
@@ -752,7 +752,7 @@ const LIENS = [
     codePromo: null,
     resume: "Carte de paiement internationale, programme de fidélité et avantages voyage.",
     accroche: "[BROUILLON : Utile pour les programmes de fidélité et les assurances voyage incluses avec la carte.]",
-    avis: "[BROUILLON : ton avis développé, deux ou trois phrases. Ce que ça a changé pour toi, dans quelles conditions tu l'as testé.]",
+    avis: "[BROUILLON A VALIDER : Je la sors surtout pour les assurances qu'elle embarque, qui sont d'un autre niveau que celles d'une carte classique. Mais je ne pars jamais avec elle seule : en Asie du Sud Est, une bonne partie des commerçants ne la prennent pas.]",
     jeUtilisePour: [
       "[BROUILLON : un usage concret, en quelques mots]",
     ],
@@ -784,7 +784,7 @@ const LIENS = [
     codePromo: null,
     resume: "Assurance voyage française, référence des PVT et tours du monde.",
     accroche: "[BROUILLON : Une assurance qui couvre vraiment le PVT, pas juste un aller retour de deux semaines.]",
-    avis: "[BROUILLON : ton avis développé, deux ou trois phrases. Ce que ça a changé pour toi, dans quelles conditions tu l'as testé.]",
+    avis: "[BROUILLON A VALIDER : Le contrat que je regarde en premier pour un départ long ou un PVT, parce qu'il est pensé pour cette durée et qu'il est en français. Les plafonds sont sérieux, mais il faut vérifier ligne par ligne si les sports que tu pratiques sont couverts ou s'ils demandent une option.]",
     jeUtilisePour: [
       "[BROUILLON : un usage concret, en quelques mots]",
     ],
@@ -1261,7 +1261,7 @@ const LIENS = [
     codePromo: null,
     resume: "La gamme running d'Adidas taillée pour la vitesse et le marathon.",
     accroche: "[BROUILLON : Ma paire de compétition, légère et réactive sur les allures rapides.]",
-    avis: "[BROUILLON : ton avis développé, deux ou trois phrases. Ce que ça a changé pour toi, dans quelles conditions tu l'as testé.]",
+    avis: "[BROUILLON A VALIDER : Ma chaussure de séance rapide et de course. Le retour d'énergie est vraiment perceptible sur les allures soutenues. En revanche, ce n'est pas une chaussure de sortie longue à allure lente, et elle s'use plus vite qu'une chaussure d'entraînement classique.]",
     jeUtilisePour: [
       "[BROUILLON : un usage concret, en quelques mots]",
     ],
@@ -1410,7 +1410,7 @@ const LIENS = [
     codePromo: null,
     resume: "Montres GPS de référence pour le suivi d'entraînement.",
     accroche: "[BROUILLON : Elle mesure tout ce qui compte pour progresser, la montre ne me quitte jamais à l'entraînement.]",
-    avis: "[BROUILLON : ton avis développé, deux ou trois phrases. Ce que ça a changé pour toi, dans quelles conditions tu l'as testé.]",
+    avis: "[BROUILLON A VALIDER : Je l'utilise pour préparer mes courses, pas pour compter mes pas. Les données d'entraînement sont détaillées et exportables, et l'autonomie tient largement une semaine chargée. L'interface demande du temps avant de devenir naturelle.]",
     jeUtilisePour: [
       "[BROUILLON : un usage concret, en quelques mots]",
     ],
@@ -1803,7 +1803,7 @@ const LIENS = [
     codePromo: null,
     resume: "Caméra d'action stabilisée pour filmer en mouvement.",
     accroche: "[BROUILLON : Stabilisée même en courant, c'est elle qui capture le plus de mes images de mouvement.]",
-    avis: "[BROUILLON : ton avis développé, deux ou trois phrases. Ce que ça a changé pour toi, dans quelles conditions tu l'as testé.]",
+    avis: "[BROUILLON A VALIDER : Le double écran change tout quand on filme seul : on se voit, donc on se cadre. Avant ça je passais mon temps à refaire des plans mal centrés. Elle chauffe sur les longues prises en haute définition, c'est le compromis à accepter.]",
     jeUtilisePour: [
       "[BROUILLON : un usage concret, en quelques mots]",
     ],
@@ -1834,7 +1834,7 @@ const LIENS = [
     codePromo: null,
     resume: "Drone de moins de 250 g, parfait en voyage.",
     accroche: "[BROUILLON : Un drone assez léger pour ne jamais peser dans le sac, malgré les plans qu'il permet.]",
-    avis: "[BROUILLON : ton avis développé, deux ou trois phrases. Ce que ça a changé pour toi, dans quelles conditions tu l'as testé.]",
+    avis: "[BROUILLON A VALIDER : Moins de deux cent cinquante grammes, donc une réglementation allégée dans beaucoup de pays et un drone qui tient dans une poche de sac. C'est ce poids qui fait que je l'emporte vraiment, au lieu de le laisser à l'hôtel. En contrepartie, le vent le secoue vite.]",
     jeUtilisePour: [
       "[BROUILLON : un usage concret, en quelques mots]",
     ],
