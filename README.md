@@ -289,6 +289,18 @@ Chaque article affiche « Page vérifiée et mise à jour le... » en bas, avec 
 
 Sur les sujets administratifs australiens, cette date est un argument de confiance : les montants et les règles changent chaque année. Quand tu revérifies une page, change les trois occurrences de la date, dans `datePublished` si c'est la première publication, dans `dateModified`, et dans le `<time>` visible.
 
+## Trois détails repris de reflare.io
+
+**Le mot du titre en dégradé.** Le `<em>` de chaque `<h1>` est rempli par `--degrade-accent` au lieu d'un orange plein. La règle est sous `@supports` : un navigateur qui ne sait pas découper un fond sur du texte garde la couleur pleine, plutôt que d'afficher un mot transparent donc invisible.
+
+**La frise qui se dessine.** Dans les six pages qui ont une frise d'itinéraire, le numéro d'étape se pose puis le trait descend jusqu'à l'étape suivante. C'est du `scaleY` sur le pseudo élément, composé par le GPU, pas une animation de hauteur qui recalculerait la mise en page à chaque image.
+
+Attention à un piège de cascade rencontré ici : `.js .frise li.revele` est plus spécifique que le `.js .revele.visible` générique. Sans la règle `.js .frise li.revele.visible`, les étapes restaient décalées de 14 pixels pour toujours. Si tu ajoutes une variante d'animation pour un composant précis, pense à écrire aussi sa règle de relâchement.
+
+**La pastille de statut.** Un petit badge en haut de page, avec une diode qui bat. Sur un article, elle affiche la date de mise à jour, **lue depuis le `<time>` déjà présent en bas de page** : l'information ne peut pas se désynchroniser et il n'y a rien à écrire dans les 24 pages. Sur la page Bons plans, elle affiche le nombre de codes actifs, calculé depuis `liens.js`.
+
+Les cinq pages sans date (accueil, Voyage, Sport, Création, Guides) n'ont pas de pastille, c'est voulu : ce ne sont pas des articles.
+
 ## Les animations de lecture des articles
 
 Quand on descend dans un guide, les blocs visuels apparaissent en fondu montant à mesure qu'ils entrent à l'écran. Les photos ont leur propre variante, plus lente, avec un très léger agrandissement au départ : l'image donne l'impression de se poser plutôt que d'apparaître d'un coup.

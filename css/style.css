@@ -22,6 +22,7 @@
    18. Méga menu
    19. Signature animée de l'entête
    20. Animations de lecture des articles
+   21. Frise animée et pastille de statut
    ============================================================ */
 
 /* ---------- 1. Variables et fondations ---------- */
@@ -375,6 +376,20 @@ a:hover {
 .hero h1 em {
   font-style: italic;
   color: var(--orange-glow);
+}
+
+/* Le mot mis en valeur est rempli par le dégradé de la marque plutôt que
+   par un orange plein. La règle est sous @supports : un navigateur qui ne
+   sait pas découper un fond sur du texte garde la couleur pleine, au lieu
+   d'afficher un mot transparent, donc invisible. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .hero h1 em {
+    background-image: var(--degrade-accent);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
 }
 
 .hero .sous-titre {
@@ -3260,10 +3275,16 @@ a:hover {
 }
 
 /* Les étapes d'une frise arrivent l'une après l'autre, dans l'ordre de
-   lecture. Le trait qui les relie, lui, reste en place : c'est le repère
-   visuel qui permet de comprendre qu'il en manque encore. */
+   lecture, avec un déplacement plus court que les autres blocs.
+   La seconde règle est indispensable : sans elle, ce sélecteur est plus
+   spécifique que le .revele.visible générique et les étapes resteraient
+   décalées de 14 pixels pour toujours. */
 .js .frise li.revele {
   transform: translateY(14px);
+}
+
+.js .frise li.revele.visible {
+  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3300,4 +3321,102 @@ a:hover {
 
 .liens-pied a:hover {
   color: var(--orange-glow);
+}
+
+/* ---------- 21. Frise qui se dessine et pastille de statut ---------- */
+
+/* La frise d'itinéraire se construit à mesure qu'on la découvre : le
+   numéro se pose, puis le trait descend jusqu'à l'étape suivante.
+   Sur un guide de voyage, une ligne qui trace la route porte du sens,
+   contrairement à une animation purement décorative.
+   Tout est en CSS et repose sur la classe .visible déjà posée par
+   l'observateur : aucune écoute de défilement en plus. */
+
+.js .frise li::before {
+  opacity: 0;
+  transform: scale(0.55);
+  transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.34, 1.4, 0.64, 1);
+  transition-delay: calc(var(--stagger, 0) * 60ms);
+}
+
+.js .frise li.visible::before {
+  opacity: 1;
+  transform: none;
+}
+
+/* Le trait se déroule du haut vers le bas, juste après son numéro.
+   scaleY est composé par le GPU, contrairement à une animation de
+   hauteur qui déclencherait un recalcul de mise en page à chaque image. */
+.js .frise li:not(:last-child)::after {
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform 0.65s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition-delay: calc(var(--stagger, 0) * 60ms + 180ms);
+}
+
+.js .frise li.visible:not(:last-child)::after {
+  transform: scaleY(1);
+}
+
+/* Pastille de statut : une diode qui bat, et une information courte.
+   Elle dit qu'une page est vivante, ce qui est précisément le reproche
+   fait aux guides de voyage laissés à l'abandon. */
+.pastille-statut {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.9rem;
+  padding: 0.35rem 0.85rem 0.35rem 0.7rem;
+  border: 1px solid var(--bordure-douce);
+  border-radius: 999px;
+  background: rgba(255, 169, 107, 0.07);
+  color: var(--texte-secondaire);
+  font: 600 0.8rem var(--font-corps);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.pastille-statut .point {
+  position: relative;
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--orange-glow);
+}
+
+/* Le halo est un pseudo élément : il se dilate et s'efface sans jamais
+   déplacer le point ni le texte à côté. */
+.pastille-statut .point::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--orange-glow);
+  animation: battement 2.4s ease-out infinite;
+}
+
+@keyframes battement {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  70%,
+  100% {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .frise li::before,
+  .js .frise li:not(:last-child)::after {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .pastille-statut .point::after {
+    animation: none;
+  }
 }

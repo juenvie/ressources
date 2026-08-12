@@ -672,6 +672,19 @@
     /* Aucun code actif : on le dit plutôt que de laisser une page vide. */
     var message = document.querySelector(".aucun-bon-plan");
     if (message) message.hidden = avecCode.length > 0;
+
+    /* Pastille de statut : le compte est calculé, donc toujours juste.
+       Elle remplace celle de la date, qui n'a pas de sens ici. */
+    var contenu = document.querySelector(".hero-contenu");
+    if (contenu && avecCode.length > 0) {
+      var pastille = document.createElement("p");
+      pastille.className = "pastille-statut";
+      pastille.innerHTML =
+        '<span class="point" aria-hidden="true"></span>' +
+        avecCode.length +
+        (avecCode.length > 1 ? " codes actifs" : " code actif");
+      contenu.insertBefore(pastille, contenu.firstChild);
+    }
   }
 
   /* Les sections des pages catégorie sont créées en JavaScript, donc après
@@ -1022,6 +1035,24 @@
     }
   }
 
+  /* Pastille de statut en tête de page. Sur un article, elle reprend la
+     date de mise à jour déjà affichée en bas : l'information est lue depuis
+     le HTML existant, donc elle ne peut pas se désynchroniser, et il n'y a
+     rien à ajouter dans les 24 pages. */
+  function initialiserPastilleStatut() {
+    var contenu = document.querySelector(".hero-contenu");
+    if (!contenu || contenu.querySelector(".pastille-statut")) return;
+
+    var date = document.querySelector(".date-maj time");
+    if (!date) return;
+
+    var pastille = document.createElement("p");
+    pastille.className = "pastille-statut";
+    pastille.innerHTML =
+      '<span class="point" aria-hidden="true"></span>Mis à jour le ' + echapper(date.textContent);
+    contenu.insertBefore(pastille, contenu.firstChild);
+  }
+
   /* Marque les blocs visuels d'un article pour qu'ils apparaissent au
      défilement. C'est fait ici plutôt que dans les 17 pages concernées :
      une seule liste à maintenir, et les futurs articles en héritent.
@@ -1181,6 +1212,9 @@
   initialiserModeBrouillon();
   rendreCollections();
   rendreBonsPlans();
+  /* Après rendreBonsPlans : sur la page des codes, c'est elle qui pose sa
+     propre pastille, et la fonction ci dessous ne la double pas. */
+  initialiserPastilleStatut();
   /* Avant initialiserApparition : c'est elle qui pose les classes que
      l'observateur ira ensuite chercher. */
   preparerAnimationsArticle();
