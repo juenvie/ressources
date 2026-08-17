@@ -215,7 +215,7 @@ git branch -M main
 git push -u origin main
 ```
 
-Puis sur GitHub : **Settings → Pages → Source : Deploy from a branch → main / (root) → Save**. Le site sera en ligne quelques minutes plus tard sur `https://juenvie.github.io/ressources/`.
+Puis sur GitHub : **Settings → Pages → Source : Deploy from a branch → main / (root) → Save**. Le site sera en ligne quelques minutes plus tard sur `https://juenvie.com/ressources/`.
 
 Chaque mise à jour ensuite :
 
@@ -225,7 +225,7 @@ git add . && git commit -m "maj liens" && git push
 
 ### Après le premier déploiement
 
-Si tu changes de nom de repo, fais un chercher-remplacer de `https://juenvie.github.io/ressources` par ta vraie URL dans : les 4 fichiers HTML (balises `og:url`, `og:image`, JSON LD), `robots.txt` et `sitemap.xml`.
+Si tu changes de nom de repo, fais un chercher-remplacer de `https://juenvie.com/ressources` par ta vraie URL dans : les 4 fichiers HTML (balises `og:url`, `og:image`, JSON LD), `robots.txt` et `sitemap.xml`.
 
 ## 9. Personnalisation restante
 

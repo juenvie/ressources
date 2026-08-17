@@ -58,4 +58,4 @@ Allow: /
 User-agent: YouBot
 Allow: /
 
-Sitemap: https://juenvie.github.io/ressources/sitemap.xml
+Sitemap: https://juenvie.com/ressources/sitemap.xml

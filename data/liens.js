@@ -69,7 +69,7 @@ const RESEAUX = [
   { id: "youtube",   nom: "YouTube",   icone: "▶️", url: "LIEN_A_REMPLIR_YOUTUBE" },
   { id: "mail",      nom: "Contact",   icone: "✉️", url: "LIEN_A_REMPLIR_MAILTO" },
   { id: "linkedin",  nom: "LinkedIn",  icone: "💼", url: "LIEN_A_REMPLIR_LINKEDIN" },
-  { id: "portfolio", nom: "Portfolio", icone: "🤝", url: "https://juenvie.github.io/" },
+  { id: "portfolio", nom: "Portfolio", icone: "🤝", url: "https://juenvie.com/" },
   { id: "souvence",  nom: "Souvence",  icone: "📖", url: "LIEN_A_REMPLIR_SOUVENCE" },
 ];
 
