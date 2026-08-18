@@ -2236,6 +2236,40 @@ a:hover {
   font-size: 0.94rem;
 }
 
+.formule-intro {
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  color: var(--texte-secondaire);
+}
+
+/* Liste des prestations. Le tiret de puce est un caractère décoratif, pas de
+   la ponctuation : il est masqué aux lecteurs d'écran par aria-hidden. */
+.formule-detail {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  font-size: 0.94rem;
+}
+
+.formule-detail li {
+  position: relative;
+  padding-left: 1.15rem;
+  margin-bottom: 0.4rem;
+  color: var(--texte-secondaire);
+  line-height: 1.5;
+}
+
+.formule-detail li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--orange-feu);
+}
+
 /* Le cadre de la prestation, collé en bas pour aligner les trois cartes. */
 .formule-cadre {
   margin-top: auto;
