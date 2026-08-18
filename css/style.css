@@ -2110,6 +2110,146 @@ a:hover {
   margin-top: 0.5rem;
 }
 
+/* Offre d'accompagnement, en fin de guide. Volontairement plus appuyée que
+   l'encadré des ressources : c'est la seule chose à vendre sur la page. */
+.encadre-offre {
+  background: linear-gradient(150deg, var(--terre-chaude) 0%, var(--fond-carte) 62%);
+  border: 1px solid rgba(232, 96, 28, 0.35);
+  border-radius: var(--rayon);
+  padding: 1.75rem;
+}
+
+.encadre-offre .label-offre {
+  display: block;
+  font: 700 11px var(--font-corps);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--orange-glow);
+  margin-bottom: 0.65rem;
+}
+
+.encadre-offre h2 {
+  margin-top: 0;
+}
+
+.encadre-offre .prix-offre {
+  color: var(--texte-tertiaire);
+  font-size: 0.92rem;
+}
+
+.encadre-offre .actions-offre {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.2rem;
+}
+
+
+/* Sans ça, .btn-lien hériterait de son flex: 1 et s'étirerait bizarrement. */
+.encadre-offre .actions-offre .btn-lien,
+.encadre-offre .actions-offre .btn-principal {
+  flex: 0 1 auto;
+}
+/* Le bouton vers la page des formules occupe sa propre ligne : c'est la
+   destination principale, le mail et l'Instagram passent en dessous. */
+.encadre-offre .actions-offre .cta-offre {
+  flex: 1 1 100%;
+}
+
+@media (max-width: 460px) {
+  .encadre-offre .actions-offre .btn-lien,
+  .encadre-offre .actions-offre .btn-principal {
+    flex: 1 1 100%;
+  }
+}
+
+/* Les trois formules d'accompagnement. Colonnes égales dès qu'il y a de la
+   largeur, empilées en dessous, avec celle du milieu mise en avant. */
+.formules {
+  display: grid;
+  gap: 1rem;
+  margin: 1.5rem 0 1rem;
+}
+
+@media (min-width: 760px) {
+  .formules {
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
+  }
+}
+
+/* Au delà, le bloc s'élargit au delà de la colonne de lecture, en restant
+   aligné sur le conteneur du site. Sans ça, chaque carte ferait 229 px. */
+@media (min-width: 1000px) {
+  .formules {
+    --largeur-formules: min(1120px, 100vw - 2.5rem);
+    width: var(--largeur-formules);
+    margin-inline: calc((100% - var(--largeur-formules)) / 2);
+  }
+}
+
+.formule {
+  display: flex;
+  flex-direction: column;
+  background: var(--fond-carte);
+  border: 1px solid var(--bordure-douce);
+  border-radius: var(--rayon);
+  padding: 1.4rem;
+}
+
+.formule-mise-en-avant {
+  border-color: rgba(232, 96, 28, 0.45);
+  background: linear-gradient(160deg, var(--terre-chaude) 0%, var(--fond-carte) 65%);
+  box-shadow: var(--ombre-carte);
+}
+
+.formule-nom {
+  font: 700 11px var(--font-corps);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--orange-glow);
+  margin: 0 0 0.5rem;
+}
+
+.formule-prix {
+  margin: 0 0 0.75rem;
+  line-height: 1.25;
+}
+
+.formule-prix b {
+  display: block;
+  font: 800 1.5rem var(--font-corps);
+  color: var(--texte);
+}
+
+.formule-prix span {
+  font-size: 0.8rem;
+  color: var(--texte-tertiaire);
+}
+
+.formule-pitch {
+  font-weight: 600;
+  color: var(--texte-secondaire);
+}
+
+.formule p {
+  font-size: 0.94rem;
+}
+
+/* Le cadre de la prestation, collé en bas pour aligner les trois cartes. */
+.formule-cadre {
+  margin-top: auto;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--bordure-douce);
+  font-size: 0.85rem;
+  color: var(--texte-tertiaire);
+}
+
+.note-tarif {
+  font-size: 0.9rem;
+  color: var(--texte-tertiaire);
+}
+
 .autres-guides h2 {
   font: 700 11px var(--font-corps);
   text-transform: uppercase;

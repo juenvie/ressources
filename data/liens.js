@@ -69,7 +69,9 @@ const RESEAUX = [
   { id: "youtube",   nom: "YouTube",   icone: "▶️", url: "LIEN_A_REMPLIR_YOUTUBE" },
   { id: "mail",      nom: "Contact",   icone: "✉️", url: "LIEN_A_REMPLIR_MAILTO" },
   { id: "linkedin",  nom: "LinkedIn",  icone: "💼", url: "LIEN_A_REMPLIR_LINKEDIN" },
-  { id: "portfolio", nom: "Portfolio", icone: "🤝", url: "https://juenvie.com/" },
+  /* Le portfolio n'est plus dans cette rangée : il est en anglais et destiné
+     aux marques, pas aux abonnés. Le lien vit maintenant dans un encadré dédié
+     en bas de la page À propos, là où une marque qui se renseigne va lire. */
   { id: "souvence",  nom: "Souvence",  icone: "📖", url: "LIEN_A_REMPLIR_SOUVENCE" },
 ];
 
