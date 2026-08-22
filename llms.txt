@@ -31,6 +31,7 @@ Itinéraires réellement parcourus, avec le détail des étapes, du budget et de
 - [La croisière de Komodo](https://juenvie.com/ressources/guide-komodo.html) : quatre jours dans le parc national.
 - [Voyager au Laos](https://juenvie.com/ressources/guide-laos.html) : Vientiane, Nong Khiaw, Luang Prabang, Vang Vieng et la boucle de Thakhek.
 - [Voyager au Vietnam](https://juenvie.com/ressources/guide-vietnam.html) : trois semaines de Hanoi à Da Nang, avec la boucle de Ha Giang.
+- [La boucle de Ha Giang](https://juenvie.com/ressources/guide-ha-giang.html) : les trois cent cinquante kilomètres de montagne au nord du Vietnam, itinéraire jour par jour, permis de zone frontalière obligatoire depuis 2026, permis de conduire, budget et saison.
 - [Voyager aux Philippines](https://juenvie.com/ressources/guide-philippines.html) : deux semaines à Palawan et la croisière El Nido vers Coron.
 - [Une semaine à New York](https://juenvie.com/ressources/guide-new-york.html) : itinéraire quartier par quartier.
 
