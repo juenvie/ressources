@@ -2284,6 +2284,89 @@ a:hover {
   color: var(--texte-tertiaire);
 }
 
+/* Vidéo YouTube dans un article. Tant qu'on n'a pas cliqué, ce n'est qu'une
+   image et un lien : aucun script YouTube chargé, aucun cookie posé. */
+.video-youtube {
+  margin: 1.75rem auto;
+  /* Volontairement plus étroite que la colonne de lecture : la vidéo complète
+     le texte, elle ne le remplace pas. */
+  max-width: 480px;
+}
+
+.video-youtube a,
+.video-youtube iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: var(--rayon);
+  overflow: hidden;
+  box-shadow: var(--ombre-carte);
+}
+
+.video-youtube a {
+  position: relative;
+  background: var(--fond-carte);
+}
+
+.video-youtube img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Le bouton de lecture, dessiné en CSS pour éviter une image de plus. */
+.video-youtube .lecture {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 68px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(26, 18, 8, 0.72);
+  border: 1.5px solid rgba(255, 169, 107, 0.55);
+  backdrop-filter: blur(4px);
+  transition: background var(--transition), transform var(--transition);
+}
+
+.video-youtube .lecture::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 52%;
+  transform: translate(-50%, -50%);
+  border-style: solid;
+  border-width: 9px 0 9px 15px;
+  border-color: transparent transparent transparent var(--sable-chaud);
+}
+
+.video-youtube a:hover .lecture,
+.video-youtube a:focus-visible .lecture {
+  background: var(--orange-feu);
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.video-youtube a:hover .lecture::after,
+.video-youtube a:focus-visible .lecture::after {
+  border-left-color: var(--blanc);
+}
+
+.video-youtube figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--texte-tertiaire);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video-youtube .lecture {
+    transition: none;
+  }
+}
+
 .autres-guides h2 {
   font: 700 11px var(--font-corps);
   text-transform: uppercase;

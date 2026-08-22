@@ -976,6 +976,39 @@
     });
   }
 
+
+  /* ---------- Vidéos YouTube ----------
+     On n'insère pas l'iframe YouTube au chargement : elle pèse plus d'un mégaoctet
+     de scripts et pose des cookies avant même qu'on ait cliqué. À la place on
+     affiche la miniature, et l'iframe ne remplace le lien qu'au clic. Sans
+     JavaScript, le lien reste un lien vers YouTube, donc rien n'est cassé. */
+  function initialiserVideosYoutube() {
+    var liens = document.querySelectorAll("[data-youtube]");
+    if (!liens.length) return;
+
+    Array.prototype.forEach.call(liens, function (lien) {
+      lien.addEventListener("click", function (evenement) {
+        var identifiant = lien.getAttribute("data-youtube");
+        if (!identifiant) return;
+        evenement.preventDefault();
+
+        var cadre = document.createElement("iframe");
+        /* nocookie : pas de cookie publicitaire posé par la lecture. */
+        cadre.src =
+          "https://www.youtube-nocookie.com/embed/" +
+          encodeURIComponent(identifiant) +
+          "?autoplay=1&rel=0";
+        cadre.title = lien.getAttribute("data-titre") || "Vidéo YouTube";
+        cadre.allow =
+          "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        cadre.allowFullscreen = true;
+        cadre.loading = "lazy";
+        cadre.setAttribute("frameborder", "0");
+
+        lien.parentNode.replaceChild(cadre, lien);
+      });
+    });
+  }
   /* Retour en haut, et ombre de l'entête dès qu'on quitte le haut de page.
      Les deux partagent le même écouteur de défilement. */
   function initialiserRetourHaut() {
@@ -1224,6 +1257,7 @@
   initialiserMenu();
   initialiserMegaMenu();
   initialiserRetourHaut();
+  initialiserVideosYoutube();
   initialiserApparition();
   /* En dernier : les sections visées par une ancre existent maintenant. */
   rejoindreAncre();
