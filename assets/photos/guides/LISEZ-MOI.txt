@@ -46,3 +46,32 @@ site à la place de la photo : rien ne casse, mais c'est moins joli.
 
 Pense à remplir l'attribut alt de chaque image dans le HTML : une description
 courte de ce qu'on voit, utile pour l'accessibilité et pour le référencement.
+
+L'image de partage de chaque page
+---------------------------------
+
+Chaque page du site doit avoir sa propre image de partage, celle qui s'affiche
+quand on colle le lien dans WhatsApp, Instagram ou LinkedIn. Elles vivent dans
+assets/photos/partage/, nommées d'après la page : guide-bali.jpg pour
+guide-bali.html, bons-plans.jpg pour bons-plans.html.
+
+Format imposé : 1200 x 630 pixels, soit un rapport de 1.91 pour 1. Les réseaux
+recadrent à cette forme, donc une photo verticale y perd environ soixante pour
+cent de sa hauteur. Il faut vérifier le résultat avant de publier, sinon on
+coupe les têtes.
+
+Générer une image de partage à partir d'une originale :
+
+  sips -Z 1200 -s format jpeg -s formatOptions 80 originale.jpg --out partage.jpg
+
+Le recadrage vertical se choisit à la main selon l'endroit où se trouve le
+sujet. Un visage se place en général autour de 45% de la hauteur.
+
+Chaque page déclare ensuite quatre balises dans son en tête : og:image,
+og:image:width, og:image:height et og:image:alt, plus twitter:image et
+twitter:image:alt. Sans les dimensions, WhatsApp affiche souvent le lien sans
+image au premier partage.
+
+Règle : une nouvelle page, une nouvelle image de partage. Idéalement une photo
+qui figure déjà sur la page. Si la page n'a pas de photo, une photo de Julien
+en rapport avec le sujet, différente de celles des autres pages.
