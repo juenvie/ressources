@@ -1108,7 +1108,7 @@
 
     zone
       .querySelectorAll(
-        ".tableau-comparatif, .encadre-ressources, .autres-guides, .bloc-code-promo"
+        ".tableau-comparatif, .encadre-ressources, .autres-guides, .bloc-code-promo, .avant-apres > div, .bande-cta"
       )
       .forEach(function (bloc) {
         bloc.classList.add("revele");
@@ -1117,9 +1117,12 @@
     /* Séries : chaque élément suit le précédent, dans l'ordre de lecture.
        Le décalage est plafonné, sinon la dernière étape d'une longue
        frise attendrait une seconde de trop. */
-    [".reperes .repere", ".frise li", ".grille-apps .carte-app"].forEach(function (
-      selecteur
-    ) {
+    [
+      ".reperes .repere",
+      ".frise li",
+      ".grille-apps .carte-app",
+      ".grille-points .point"
+    ].forEach(function (selecteur) {
       zone.querySelectorAll(selecteur).forEach(function (element, i) {
         element.classList.add("revele");
         element.style.setProperty("--stagger", Math.min(i, 5));

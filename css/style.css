@@ -2284,6 +2284,408 @@ a:hover {
   color: var(--texte-tertiaire);
 }
 
+
+/* ---------- Pages d'accompagnement ---------- */
+/* Ces blocs servent les deux pages de vente, accompagnement.html et
+   accompagnement-pvt-australie.html. Rien ici n'est propre à une page :
+   si un troisième accompagnement arrive un jour, il réutilise tout. */
+
+/* Les deux boutons du hero. Empilés sur mobile pour rester attrapables
+   au pouce, côte à côte dès qu'il y a la place. */
+.hero .actions-hero {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.4rem;
+}
+
+.hero .actions-hero .btn-principal,
+.hero .actions-hero .btn-lien {
+  flex: 1 1 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+@media (min-width: 560px) {
+  .hero .actions-hero .btn-principal,
+  .hero .actions-hero .btn-lien {
+    flex: 0 1 auto;
+  }
+}
+
+.hero .reassurance {
+  margin-top: 0.9rem;
+  font: 700 0.82rem var(--font-corps);
+  letter-spacing: 0.02em;
+  color: var(--orange-glow);
+}
+
+.hero .actions-hero + .reassurance + .micro-texte {
+  margin-top: 0.35rem;
+  font-style: italic;
+}
+
+/* La phrase pivot de la page. Elle doit se lire seule, sans contexte. */
+.message-cle {
+  font: 700 clamp(1.45rem, 4.6vw, 2.05rem)/1.3 var(--font-titre);
+  color: var(--blanc);
+  margin: 0 0 1.2rem;
+  padding-left: 1.1rem;
+  border-left: 3px solid var(--orange-feu);
+}
+
+.message-cle em {
+  font-style: italic;
+  color: var(--orange-glow);
+}
+
+/* Grille de points courts : un titre, une phrase. Sert aux bénéfices,
+   aux pièges évités et au contenu d'une préparation. */
+.grille-points {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: 1fr;
+  margin: 1.4rem 0 0;
+}
+
+@media (min-width: 560px) {
+  .grille-points {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.grille-points .point {
+  background: var(--fond-carte);
+  border: 1px solid var(--bordure-douce);
+  border-radius: var(--rayon-petit);
+  padding: 1rem 1.1rem;
+}
+
+.grille-points .point b {
+  display: block;
+  font: 700 1rem/1.35 var(--font-corps);
+  color: var(--orange-glow);
+  margin-bottom: 0.3rem;
+}
+
+.grille-points .point span {
+  display: block;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--texte-secondaire);
+}
+
+/* Variante pour six bénéfices courts : trois colonnes quand l'écran suit. */
+@media (min-width: 860px) {
+  .grille-points-serree {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Avant et après. Le contraste des deux colonnes porte la démonstration,
+   donc la première est volontairement plus terne que la seconde. */
+.mention-exemple {
+  font: 700 0.78rem var(--font-corps);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--texte-tertiaire);
+  margin-bottom: 1.1rem;
+}
+
+.avant-apres {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: 1fr;
+  margin: 0 0 1.2rem;
+}
+
+@media (min-width: 720px) {
+  .avant-apres {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+
+.bloc-avant,
+.bloc-apres {
+  border-radius: var(--rayon);
+  padding: 1.25rem;
+}
+
+.bloc-avant {
+  background: rgba(253, 246, 237, 0.04);
+  border: 1px solid var(--bordure-douce);
+}
+
+.bloc-apres {
+  background: linear-gradient(160deg, var(--terre-chaude) 0%, var(--fond-carte) 65%);
+  border: 1px solid rgba(232, 96, 28, 0.45);
+  box-shadow: var(--ombre-carte);
+}
+
+.etiquette-etape {
+  font: 700 10px var(--font-corps);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin: 0 0 0.7rem;
+  color: var(--texte-tertiaire);
+}
+
+.bloc-apres .etiquette-etape {
+  color: var(--orange-glow);
+}
+
+.citation-exemple {
+  font: 400 1rem/1.6 var(--font-corps);
+  font-style: italic;
+  color: var(--texte);
+  margin: 0 0 0.9rem;
+}
+
+.liste-avant,
+.liste-apres {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.92rem;
+}
+
+.liste-avant li,
+.liste-apres li {
+  position: relative;
+  padding-left: 1.35rem;
+  margin-bottom: 0.4rem;
+  line-height: 1.55;
+  color: var(--texte-secondaire);
+}
+
+/* Les deux signes sont décoratifs : ils doublent une information déjà
+   portée par les intitulés « ce qui arrive » et « ce que je renvoie ». */
+.liste-avant li::before {
+  content: "×";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--texte-tertiaire);
+  font-weight: 700;
+}
+
+.liste-apres li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #7FC98A;
+  font-weight: 700;
+}
+
+/* Les questions d'arbitrage. Chacune se lit comme une objection résolue. */
+.liste-arbitrages {
+  list-style: none;
+  margin: 1.2rem 0;
+  padding: 0;
+}
+
+.liste-arbitrages li {
+  position: relative;
+  padding: 0.75rem 0 0.75rem 2.1rem;
+  border-bottom: 1px solid var(--bordure-douce);
+  color: var(--texte);
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.liste-arbitrages li:last-child {
+  border-bottom: 0;
+}
+
+.liste-arbitrages li::before {
+  content: "?";
+  position: absolute;
+  left: 0;
+  top: 0.8rem;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font: 800 12px var(--font-corps);
+  color: var(--nuit-profonde);
+  background: var(--degrade-accent);
+}
+
+/* Le badge de la formule recommandée. Posé au dessus du nom, il ne
+   déborde pas de la carte pour ne pas casser l'alignement des trois. */
+.formule-badge {
+  align-self: flex-start;
+  margin: 0 0 0.6rem;
+}
+
+/* Le bouton de chaque formule, collé en bas de carte. */
+.formule-action {
+  margin-top: 0.9rem;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Relance de conversion en fin de section. */
+.bande-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.9rem;
+  background: var(--fond-carte);
+  border: 1px solid rgba(232, 96, 28, 0.35);
+  border-radius: var(--rayon);
+  padding: 1.1rem 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.bande-cta p {
+  margin: 0;
+  font-weight: 700;
+  color: var(--texte);
+}
+
+.bande-cta .btn-principal {
+  flex: 1 1 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+@media (min-width: 620px) {
+  .bande-cta p {
+    flex: 1 1 auto;
+  }
+
+  .bande-cta .btn-principal {
+    flex: 0 0 auto;
+  }
+}
+
+/* FAQ en accordéon natif : aucun script, et le contenu reste dans le HTML
+   pour les moteurs de recherche même quand le bloc est replié. */
+.faq-item {
+  border-bottom: 1px solid var(--bordure-douce);
+}
+
+.faq-item summary {
+  position: relative;
+  list-style: none;
+  cursor: pointer;
+  padding: 1rem 2.2rem 1rem 0;
+  font: 700 1rem/1.5 var(--font-corps);
+  color: var(--texte);
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+  content: "";
+  position: absolute;
+  right: 0.4rem;
+  top: 1.35rem;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid var(--orange-glow);
+  border-bottom: 2px solid var(--orange-glow);
+  transform: rotate(45deg);
+  transform-origin: center;
+  transition: transform var(--transition);
+}
+
+.faq-item[open] summary::after {
+  transform: rotate(-135deg);
+}
+
+.faq-item summary:hover {
+  color: var(--or-dore);
+}
+
+.faq-item summary:focus-visible {
+  outline: 2px solid var(--orange-glow);
+  outline-offset: 3px;
+  border-radius: var(--rayon-petit);
+}
+
+.faq-item > p {
+  margin: 0 0 1.1rem;
+  padding-right: 2.2rem;
+}
+
+/* Retours clients. Le bloc est en commentaire dans le HTML tant qu'il n'y
+   a pas de vrais retours à publier : ce style attend son heure. */
+.retour-client {
+  margin: 0;
+  background: var(--fond-carte);
+  border: 1px solid var(--bordure-douce);
+  border-radius: var(--rayon-petit);
+  padding: 1.1rem 1.2rem;
+}
+
+.retour-client p {
+  font-style: italic;
+  color: var(--texte);
+  margin: 0 0 0.6rem;
+}
+
+.retour-client cite {
+  font: 700 0.8rem var(--font-corps);
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--texte-tertiaire);
+}
+
+/* Le comparatif des formules a quatre colonnes : il respire mieux en
+   débordant de la colonne de lecture, comme les cartes de formules. */
+@media (min-width: 1000px) {
+  #comparatif .tableau-comparatif {
+    --largeur-comparatif: min(1120px, 100vw - 2.5rem);
+    width: var(--largeur-comparatif);
+    margin-inline: calc((100% - var(--largeur-comparatif)) / 2);
+  }
+}
+
+/* En dessous, le tableau défile dans son propre cadre. On le dit, sinon
+   la quatrième colonne passe inaperçue. */
+.indice-defilement {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--texte-tertiaire);
+  margin-top: -1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 720px) {
+  .indice-defilement {
+    display: none;
+  }
+}
+
+/* Sur petit écran, le comparatif défile forcément : quatre colonnes de texte
+   ne rentrent pas dans 390 px. On fige alors la colonne des intitulés, sinon
+   on ne sait plus quelle ligne on est en train de lire. */
+@media (max-width: 719px) {
+  #comparatif .tableau-comparatif thead th:first-child,
+  #comparatif .tableau-comparatif tbody th {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--fond-carte);
+    box-shadow: 1px 0 0 var(--bordure-douce);
+  }
+
+  #comparatif .tableau-comparatif th,
+  #comparatif .tableau-comparatif td {
+    padding: 0.7rem 0.8rem;
+  }
+}
+
 /* Vidéo YouTube dans un article. Tant qu'on n'a pas cliqué, ce n'est qu'une
    image et un lien : aucun script YouTube chargé, aucun cookie posé. */
 .video-youtube {
