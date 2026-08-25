@@ -168,7 +168,9 @@ a:hover {
   top: -100px;
   z-index: 100;
   background: var(--orange-feu);
-  color: var(--blanc);
+  /* Texte sombre plutôt que blanc : le blanc sur cet orange ne donnait que
+     3,43 de contraste, en dessous du seuil de 4,5. Le sombre monte à 5,4. */
+  color: var(--nuit-profonde);
   padding: 0.75rem 1.25rem;
   border-radius: var(--rayon-petit);
   font-weight: 700;
@@ -176,7 +178,7 @@ a:hover {
 
 .lien-evitement:focus {
   top: 1rem;
-  color: var(--blanc);
+  color: var(--nuit-profonde);
 }
 
 /* ---------- 3. Header et navigation ---------- */
@@ -1141,9 +1143,9 @@ a:hover {
     justify-content: center;
     text-align: center;
     overflow-wrap: anywhere;
-    min-height: 36px;
+    min-height: 44px;
     padding: 0.28rem 0.5rem;
-    font-size: 0.74rem;
+    font-size: 0.78rem;
   }
 
   /* Label « CODE » masqué sur mobile : la pastille dorée pointillée se
@@ -1160,7 +1162,7 @@ a:hover {
 
   /* Boutons Découvrir / Bientôt : texte réduit, la carte garde sa taille. */
   .carte-lien .btn-lien {
-    min-height: 38px;
+    min-height: 44px;
     padding: 0.45rem 0.7rem;
     font-size: 0.78rem;
   }
@@ -1170,18 +1172,20 @@ a:hover {
     padding: 0.18rem 0.55rem;
   }
 
+  /* 0,62 rem valait 9,9 px, le plus petit texte du site, sur un argument
+     commercial. Remonté au plancher de 12 px. */
   .avantage-promo {
     margin-top: 0.4rem;
-    font-size: 0.62rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
   }
 
   /* Puces de filtre : plus compactes pour tenir sur 2-3 lignes sans
      défilement horizontal. */
   .chip {
-    min-height: 36px;
-    padding: 0.3rem 0.7rem;
-    font-size: 0.76rem;
+    min-height: 44px;
+    padding: 0.3rem 0.85rem;
+    font-size: 0.78rem;
   }
 }
 
@@ -1913,7 +1917,7 @@ a:hover {
 }
 
 .pays-guide {
-  font: 700 11px var(--font-corps);
+  font: 700 12px var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 3px;
   color: var(--orange-glow);
@@ -2424,7 +2428,7 @@ a:hover {
 }
 
 .etiquette-etape {
-  font: 700 10px var(--font-corps);
+  font: 700 11px var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 3px;
   margin: 0 0 0.7rem;
@@ -2468,6 +2472,83 @@ a:hover {
   top: 0;
   color: var(--texte-tertiaire);
   font-weight: 700;
+}
+
+/* La liste des étapes de l'exemple. C'est elle qui porte la démonstration :
+   on doit voir six lignes devenir quatre, sans avoir à lire un chiffre. */
+.titre-etapes {
+  margin: 1rem 0 0.6rem;
+  font: 700 11px var(--font-corps);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--texte-tertiaire);
+}
+
+.bloc-apres .titre-etapes {
+  color: var(--orange-glow);
+}
+
+.etapes {
+  list-style: none;
+  margin: 0 0 0.9rem;
+  padding: 0;
+}
+
+.etapes li {
+  position: relative;
+  padding: 0 0 0.55rem 1.5rem;
+  font: 700 0.98rem/1.3 var(--font-corps);
+  color: var(--texte);
+}
+
+.etapes li:last-child {
+  padding-bottom: 0;
+}
+
+/* Le point et le trait dessinent le trajet. Purement décoratifs :
+   l'ordre est déjà porté par l'ordre des éléments de la liste. */
+.etapes li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.42em;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--texte-tertiaire);
+}
+
+.etapes li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 3.5px;
+  top: calc(0.42em + 10px);
+  bottom: 2px;
+  width: 1px;
+  background: var(--bordure-douce);
+}
+
+.etapes-gardees li::before {
+  background: var(--degrade-accent);
+}
+
+.etapes-gardees li:not(:last-child)::after {
+  background: linear-gradient(180deg, rgba(255, 169, 107, 0.5), rgba(255, 169, 107, 0.12));
+}
+
+.etapes-retirees {
+  margin: 0 0 0.9rem;
+  font-size: 0.88rem;
+  color: var(--texte-tertiaire);
+}
+
+.etapes-retirees s {
+  color: var(--texte-tertiaire);
+  text-decoration-thickness: 1.5px;
+}
+
+.etapes-retirees s + s {
+  margin-left: 0.5rem;
 }
 
 .liste-apres li::before {
@@ -2823,6 +2904,7 @@ a:hover {
 }
 
 .carte-app {
+  position: relative;
   display: flex;
   align-items: flex-start;
   gap: 0.85rem;
@@ -2830,6 +2912,16 @@ a:hover {
   border: 1px solid var(--bordure-douce);
   border-radius: var(--rayon-petit);
   padding: 0.9rem 1rem;
+}
+
+/* Le titre seul ne faisait que 20 px de haut. Le lien est étiré sur toute la
+   carte : on tape n'importe où, rien ne change à l'œil. Chaque carte ne
+   contient qu'un seul lien, donc rien n'est recouvert. */
+.carte-app h3 a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
 }
 
 .icone-app {
@@ -3034,7 +3126,7 @@ a:hover {
 }
 
 .tableau-comparatif thead th {
-  font: 700 10px var(--font-corps);
+  font: 700 12px var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--orange-glow);
@@ -3250,6 +3342,9 @@ a:hover {
   display: flex;
   align-items: center;
   gap: 0.45rem;
+  /* C'est le geste le plus fréquent des pages comparatives : il lui faut
+     une vraie zone tactile. */
+  min-height: 44px;
   padding: 0.5rem 0;
   cursor: pointer;
   list-style: none;
@@ -3967,11 +4062,17 @@ a:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.35rem 1.4rem;
-  margin: 0.25rem 0 0.5rem;
+  gap: 0 1.4rem;
+  margin: 0;
 }
 
 .liens-pied a {
+  /* Zone tactile portée à 44 px : ces liens ne faisaient que 23 px de haut,
+     soit la moitié de ce qu'un pouce vise sans se tromper. */
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 0.2rem;
   color: var(--texte-secondaire);
   font-size: 0.88rem;
   font-weight: 600;
