@@ -2610,6 +2610,29 @@ a:hover {
   text-align: center;
 }
 
+/* Sur le PVT il n'y a qu'une formule. La carte prend toute la colonne de
+   lecture au lieu d'un tiers, et son bouton ne s'étire pas sur 720 px. */
+.offre-unique {
+  margin: 1.5rem 0 1.25rem;
+}
+
+.offre-unique .formule {
+  padding: 1.6rem;
+}
+
+.offre-unique .formule-action {
+  width: auto;
+  align-self: flex-start;
+  padding-inline: 1.9rem;
+}
+
+@media (max-width: 559px) {
+  .offre-unique .formule-action {
+    width: 100%;
+    align-self: stretch;
+  }
+}
+
 /* Relance de conversion en fin de section. */
 .bande-cta {
   display: flex;
