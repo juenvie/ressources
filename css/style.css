@@ -2055,6 +2055,29 @@ a:hover {
   line-height: 1.75;
 }
 
+/* Un badge garde sa couleur propre même dans un article. La règle ci dessus
+   est plus spécifique que « .badge-plus-utilise » et l'écrasait : le texte
+   passait en beige clair sur un fond orange, donc illisible. */
+.section-article .badge-plus-utilise {
+  color: var(--nuit-profonde);
+}
+
+.section-article .badge-prefere {
+  color: var(--or-dore);
+}
+
+.section-article .badge-debutant {
+  color: var(--lumiere-chaude);
+}
+
+.section-article .badge-qualite-prix,
+.section-article .badge-professionnel,
+.section-article .badge-voyage,
+.section-article .badge-running,
+.section-article .badge-creation {
+  color: var(--orange-glow);
+}
+
 .section-article p + p {
   margin-top: 1rem;
 }
@@ -2912,6 +2935,31 @@ a:hover {
   margin-bottom: 0.15rem;
 }
 
+/* Titre et description du lien étaient tous deux en ligne : le texte se lisait
+   « Quelle assurance voyage choisirPlafonds, franchise… », sans espace ni
+   respiration. Chacun prend sa ligne, avec la hiérarchie qui va avec. */
+.autres-guides a b {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 1rem;
+  line-height: 1.35;
+  color: var(--sable-chaud);
+}
+
+.autres-guides a span:not(.pays-guide) {
+  display: block;
+  font-weight: 400;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--texte-secondaire);
+}
+
+/* Variante sans liste : les liens sont enfants directs du bloc et se
+   touchaient, faute de gouttière. */
+.autres-guides > a + a {
+  margin-top: 0.75rem;
+}
+
 /* Applications citées dans un article. Même chip clair que les logos de
    marque des cartes produit, pour que les logos sombres ou blancs restent
    lisibles. Si le fichier manque, l'attribut onerror du HTML remet un
@@ -3632,7 +3680,10 @@ a:hover {
   line-height: 1.35;
 }
 
-.megamenu-cta {
+/* Sélecteur volontairement plus spécifique que « .megamenu a », défini plus
+   bas, qui écrasait la couleur sombre et rendait le bouton illisible sur son
+   fond orange. */
+.megamenu a.megamenu-cta {
   display: block;
   margin-top: 0.7rem;
   padding: 0.6rem 0.9rem;
