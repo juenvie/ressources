@@ -67,7 +67,7 @@ const RESEAUX = [
   { id: "instagram", nom: "Instagram", icone: "📸", url: "https://www.instagram.com/ju.en.vie/" },
   { id: "tiktok",    nom: "TikTok",    icone: "🎵", url: "https://www.tiktok.com/@juenvie" },
   { id: "facebook",  nom: "Facebook",  icone: "📘", url: "https://www.facebook.com/profile.php?id=61575631193636" },
-  { id: "youtube",   nom: "YouTube",   icone: "▶️", url: "LIEN_A_REMPLIR_YOUTUBE" },
+  { id: "youtube",   nom: "YouTube",   icone: "▶️", url: "https://www.youtube.com/@Ju.en.vie.75" },
   { id: "mail",      nom: "Contact",   icone: "✉️", url: "LIEN_A_REMPLIR_MAILTO" },
   { id: "linkedin",  nom: "LinkedIn",  icone: "💼", url: "LIEN_A_REMPLIR_LINKEDIN" },
   /* Le portfolio n'est plus dans cette rangée : il est en anglais et destiné
