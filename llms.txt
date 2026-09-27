@@ -39,7 +39,7 @@ Itinéraires réellement parcourus, avec le détail des étapes, du budget et de
 ## Comparatifs et ressources pratiques
 
 - [Quelle assurance voyage choisir](https://juenvie.com/ressources/comparatif-assurance-voyage.html) : lire un contrat, plafonds, franchises, sports exclus.
-- [Quelle eSIM choisir](https://juenvie.com/ressources/comparatif-esim.html) : Saily, Airalo, Holafly et Nomad comparées par usage.
+- [Quelle eSIM choisir](https://juenvie.com/ressources/comparatif-esim.html) : Saily et Holafly comparées par usage.
 - [Ressources voyage](https://juenvie.com/ressources/voyage.html) : réservation, eSIM, banques, assurances, bagages.
 - [Ressources running](https://juenvie.com/ressources/sport.html) : chaussures, montres, nutrition, récupération.
 - [Ressources création vidéo](https://juenvie.com/ressources/creation.html) : caméras, drone, micros, stockage, logiciels.

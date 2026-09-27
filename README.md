@@ -87,7 +87,7 @@ Six champs facultatifs l'alimentent, tous indépendants. Un champ vide ne s'affi
 | `pourQui` | Encadré doré en bas de la fiche |
 | `depuisQuand` | Ligne courte sous les badges, avec une pastille dorée (ex. « Utilisé depuis 2023 ») |
 
-Les 77 produits ont déjà leurs `avantages`, `inconvenients` et `pourQui` remplis de façon factuelle : corrige librement si ton expérience diffère. Les trois champs personnels (`avis`, `jeUtilisePour`, `depuisQuand`) sont en `[BROUILLON : ...]`, donc invisibles tant que tu ne les as pas écrits.
+Les 64 produits ont déjà leurs `avantages`, `inconvenients` et `pourQui` remplis de façon factuelle : corrige librement si ton expérience diffère. Les trois champs personnels (`avis`, `jeUtilisePour`, `depuisQuand`) sont en `[BROUILLON : ...]`, donc invisibles tant que tu ne les as pas écrits.
 
 Deux règles à garder :
 
@@ -168,7 +168,7 @@ const COLLECTIONS = [
     id: "pvt-australie",
     titre: "Spécial PVT Australie",
     sousTitre: "Le kit que je prépare en premier pour mon départ en Working Holiday.",
-    produits: ["wise", "chapka", "airalo", "osprey", "adaptateur-universel"],   // des id de produits, dans l'ordre voulu
+    produits: ["wise", "chapka", "adaptateur-universel"],   // des id de produits, dans l'ordre voulu
   },
 ];
 ```
