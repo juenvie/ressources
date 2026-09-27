@@ -778,18 +778,33 @@ const LIENS = [
   },
 
   /* --- Assurances voyage --- */
+  /* Chapka : liens de parrainage par formule (paramètre app=Juenvie).
+     La fiche pointe vers l'accueil pour laisser choisir la formule ;
+     la collection PVT pointe directement vers Cap Working Holiday.
+     Pour une autre langue, remplacer .fr par .com, .es, .it ou .de.
+       Accueil ............... https://www.chapkadirect.fr/index.php?app=Juenvie
+       Cap Working Holiday ... https://www.chapkadirect.fr/index.php?action=produit&id=927&app=Juenvie  (PVT, jusqu'à 24 mois)
+       Cap Aventure .......... https://www.chapkadirect.fr/index.php?action=produit&id=795&app=Juenvie  (tour du monde, 3 à 24 mois)
+       Cap Assistance 24h/24 . https://www.chapkadirect.fr/index.php?action=produit&id=924&app=Juenvie  (voyage de moins de 3 mois)
+       Cap Assistance Annuel . https://www.chapkadirect.fr/index.php?action=produit&id=920&app=Juenvie  (plusieurs voyages dans l'année)
+       Cap Annulation ........ https://www.chapkadirect.fr/index.php?action=produit&id=839&app=Juenvie
+       Cap Student ........... https://www.chapkadirect.fr/index.php?action=produit&id=926&app=Juenvie
+       Cap Tempo Expat ....... https://www.chapkadirect.fr/index.php?action=produit&id=928&app=Juenvie
+       Cap Au Pair ........... https://www.chapkadirect.fr/index.php?action=produit&id=962&app=Juenvie
+       Cap Volontariat ....... https://www.chapkadirect.fr/index.php?action=produit&id=929&app=Juenvie
+       Cap Groupe ............ https://www.chapkadirect.fr/index.php?action=produit&id=871&app=Juenvie */
   {
     id: "chapka",
     nom: "Chapka",
     categorie: "voyage",
     sousCategorie: "assurance",
-    url: "LIEN_A_REMPLIR_CHAPKA",
+    url: "https://www.chapkadirect.fr/index.php?app=Juenvie",
     codePromo: null,
     resume: "Assurance voyage française, référence des PVT et tours du monde.",
-    accroche: "[BROUILLON : Une assurance qui couvre vraiment le PVT, pas juste un aller retour de deux semaines.]",
-    avis: "[BROUILLON A VALIDER : Le contrat que je regarde en premier pour un départ long ou un PVT, parce qu'il est pensé pour cette durée et qu'il est en français. Les plafonds sont sérieux, mais il faut vérifier ligne par ligne si les sports que tu pratiques sont couverts ou s'ils demandent une option.]",
+    accroche: "L'assurance que j'ai prise pour mon année de PVT en Australie.",
+    avis: "Je l'ai prise pour mon PVT en Australie, environ 400 € pour l'année. C'est le contrat le plus clairement pensé pour les PVTistes : il est écrit pour ce cas précis, pas pour un voyage de deux semaines auquel on ajouterait une option. Avant de souscrire, vérifie ligne par ligne si les sports que tu pratiques sont couverts ou s'ils demandent une option.",
     jeUtilisePour: [
-      "[BROUILLON : un usage concret, en quelques mots]",
+      "Mon année de PVT en Australie",
     ],
     avantages: [
       "Contrats dédiés au PVT et aux longs séjours",
@@ -801,7 +816,7 @@ const LIENS = [
       "Il faut souvent avancer les frais avant d'être remboursé",
     ],
     pourQui: "Qui part plusieurs mois ou en PVT et veut un contrat pensé pour cette durée.",
-    depuisQuand: "[BROUILLON : Utilisé depuis 2023]",
+    depuisQuand: "Depuis mon départ en PVT, en 2026",
     badge: null,
     icone: "🛡️",
     logo: "assets/logos/chapka.png",
@@ -2503,7 +2518,9 @@ const LIENS = [
    COLLECTIONS THÉMATIQUES
    Regroupements transverses affichés sur l'accueil, par-dessus
    les catégories. Chaque collection liste des id de produits
-   déclarés dans LIENS ci-dessus.
+   déclarés dans LIENS ci-dessus. Un produit peut aussi s'écrire
+   { id: "...", url: "..." } pour pointer, dans cette collection
+   seulement, vers une autre page que celle de sa fiche.
    Pour changer le contenu : modifie le tableau `produits`.
    Pour ajouter une collection : copie un bloc, puis pose un
    conteneur data-collection-bloc="son-id" dans index.html.
@@ -2513,6 +2530,12 @@ const COLLECTIONS = [
     id: "pvt-australie",
     titre: "Spécial PVT Australie",
     sousTitre: "Le kit que je prépare en premier pour mon départ en Working Holiday.",
-    produits: ["wise", "chapka", "airalo", "osprey", "adaptateur-universel"],
+    produits: [
+      "wise",
+      { id: "chapka", url: "https://www.chapkadirect.fr/index.php?action=produit&id=927&app=Juenvie" },
+      "airalo",
+      "osprey",
+      "adaptateur-universel",
+    ],
   },
 ];

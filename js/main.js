@@ -636,10 +636,16 @@
       if (sousTitre) sousTitre.textContent = col.sousTitre;
 
       var position = 0;
-      col.produits.forEach(function (pid) {
+      col.produits.forEach(function (entree) {
+        /* Une entrée est un id, ou { id, url } pour remplacer le lien
+           de la fiche dans cette collection seulement. */
+        var pid = typeof entree === "string" ? entree : entree.id;
         var lien = LIENS.filter(function (l) {
           return l.id === pid;
         })[0];
+        if (lien && typeof entree === "object" && entree.url) {
+          lien = Object.assign({}, lien, { url: entree.url });
+        }
         if (lien) {
           grille.appendChild(construireCarte(lien, position));
           position += 1;
