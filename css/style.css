@@ -3241,6 +3241,43 @@ a:hover {
   display: inline-flex;
 }
 
+/* Encart partenaire dans les guides (ex. « Où dormir » Mad Monkey) :
+   version sobre du bloc code, liseré à gauche, code copiable. */
+.encart-partenaire {
+  margin: 1.5rem 0 0.5rem;
+  padding: 1.1rem 1.25rem;
+  background: var(--fond-carte);
+  border: 1px solid var(--bordure-douce);
+  border-left: 4px solid var(--orange-feu);
+  border-radius: var(--rayon-petit);
+}
+
+.encart-partenaire .encart-titre {
+  margin: 0 0 0.4rem;
+  font: 700 12px var(--font-corps);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--orange-glow);
+}
+
+.encart-partenaire p {
+  margin-bottom: 0.75rem;
+}
+
+.encart-partenaire .ligne-code {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin: 0;
+}
+
+.encart-partenaire .ligne-code a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+}
+
 /* Date de vérification, en pied d'article : signale au lecteur et à Google
    que la page est tenue à jour. */
 .date-maj {

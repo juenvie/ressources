@@ -68,6 +68,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://juenvie.com/ressources/code-promo-mad-monkey.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://juenvie.com/ressources/comparatif-assurance-voyage.html</loc>
     <lastmod>2026-08-07</lastmod>
     <changefreq>monthly</changefreq>
@@ -175,6 +181,18 @@
   <url>
     <loc>https://juenvie.com/ressources/guide-thailande.html</loc>
     <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.com/ressources/guide-cote-est-australie.html</loc>
+    <lastmod>2026-10-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://juenvie.com/ressources/guide-whitsundays.html</loc>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

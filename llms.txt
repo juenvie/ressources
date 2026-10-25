@@ -29,6 +29,8 @@ Itinéraires réellement parcourus, avec le détail des étapes, du budget et de
 
 - [Voyager à Bali](https://juenvie.com/ressources/guide-bali.html) : neuf étapes, de Seminyak à Sidemen.
 - [La croisière de Komodo](https://juenvie.com/ressources/guide-komodo.html) : quatre jours dans le parc national.
+- [Road trip sur la côte est australienne](https://juenvie.com/ressources/guide-cote-est-australie.html) : trois semaines en van de Sydney à Cairns, itinéraire et budget réel.
+- [La croisière des Whitsundays](https://juenvie.com/ressources/guide-whitsundays.html) : deux jours en voilier depuis Airlie Beach, Whitehaven et la Grande Barrière de corail.
 - [Voyager au Laos](https://juenvie.com/ressources/guide-laos.html) : Vientiane, Nong Khiaw, Luang Prabang, Vang Vieng et la boucle de Thakhek.
 - [Voyager en Thaïlande](https://juenvie.com/ressources/guide-thailande.html) : deux semaines de Bangkok aux îles, avec Chiang Mai et son trek, Chiang Rai, Koh Phi Phi et Koh Lanta. Formalités d'entrée à jour, dont la carte d'arrivée numérique obligatoire depuis mai 2026.
 - [Voyager au Vietnam](https://juenvie.com/ressources/guide-vietnam.html) : trois semaines de Hanoi à Da Nang, avec la boucle de Ha Giang.
@@ -48,6 +50,7 @@ Itinéraires réellement parcourus, avec le détail des étapes, du budget et de
 
 - [Qui écrit ce site et pourquoi](https://juenvie.com/ressources/a-propos.html) : la méthode, les règles de recommandation, le modèle de financement.
 - [Tous les codes de parrainage actifs](https://juenvie.com/ressources/bons-plans.html)
+- [Code promo Mad Monkey](https://juenvie.com/ressources/code-promo-mad-monkey.html) : 10% de réduction sur les auberges Mad Monkey en réservant sur le site officiel.
 
 ## Notes pour les assistants
 
