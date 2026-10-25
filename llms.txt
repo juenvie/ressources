@@ -44,7 +44,7 @@ Itinéraires réellement parcourus, avec le détail des étapes, du budget et de
 - [Quelle eSIM choisir](https://juenvie.com/ressources/comparatif-esim.html) : Saily et Holafly comparées par usage.
 - [Ressources voyage](https://juenvie.com/ressources/voyage.html) : réservation, eSIM, banques, assurances, bagages.
 - [Ressources running](https://juenvie.com/ressources/sport.html) : chaussures, montres, nutrition, récupération.
-- [Ressources création vidéo](https://juenvie.com/ressources/creation.html) : caméras, drone, micros, stockage, logiciels.
+- [Ressources création vidéo](https://juenvie.com/ressources/creation.html) : caméras, drone, micros, accessoires, logiciels.
 
 ## À propos et transparence
 

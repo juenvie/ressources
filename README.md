@@ -87,7 +87,7 @@ Six champs facultatifs l'alimentent, tous indépendants. Un champ vide ne s'affi
 | `pourQui` | Encadré doré en bas de la fiche |
 | `depuisQuand` | Ligne courte sous les badges, avec une pastille dorée (ex. « Utilisé depuis 2023 ») |
 
-Les 46 produits ont déjà leurs `avantages`, `inconvenients` et `pourQui` remplis de façon factuelle : corrige librement si ton expérience diffère. Les trois champs personnels (`avis`, `jeUtilisePour`, `depuisQuand`) sont en `[BROUILLON : ...]`, donc invisibles tant que tu ne les as pas écrits.
+Les 38 produits ont déjà leurs `avantages`, `inconvenients` et `pourQui` remplis de façon factuelle : corrige librement si ton expérience diffère. Les trois champs personnels (`avis`, `jeUtilisePour`, `depuisQuand`) sont en `[BROUILLON : ...]`, donc invisibles tant que tu ne les as pas écrits.
 
 Deux règles à garder :
 
