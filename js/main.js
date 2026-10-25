@@ -45,6 +45,50 @@
     return estLienPret(lien) || estCodeSeul(lien);
   }
 
+  /** Mode brouillon : en local, ou avec ?brouillon dans l'adresse (retenu le
+      temps de la session). Il montre ce qui est encore masqué en ligne :
+      textes en [BROUILLON], cartes sans lien. Calculé une seule fois, au
+      démarrage, parce que le rendu des cartes en dépend. */
+  function estModeBrouillon() {
+    var hote = window.location.hostname;
+    var local =
+      hote === "localhost" || hote === "127.0.0.1" || hote === "" || hote.indexOf(".local") > -1;
+    var demande = window.location.search.indexOf("brouillon") > -1;
+
+    if (demande) {
+      try {
+        window.sessionStorage.setItem("brouillon", "1");
+      } catch (e) {
+        /* navigation privée : tant pis, le paramètre d'URL suffit */
+      }
+    }
+
+    var retenu = false;
+    try {
+      retenu = window.sessionStorage.getItem("brouillon") === "1";
+    } catch (e) {
+      retenu = false;
+    }
+    return local || demande || retenu;
+  }
+
+  var BROUILLON = estModeBrouillon();
+
+  /* Langue de la page. Les guides existent aussi en anglais (dossier en/) :
+     les rares textes écrits par le JavaScript y passent en anglais. */
+  var ANGLAIS = /^en\b/.test(document.documentElement.lang || "");
+  function t(fr, en) {
+    return ANGLAIS ? en : fr;
+  }
+
+  /** Une carte s'affiche si elle est utilisable. Une carte sans lien ni
+      code (« Bientôt disponible ») reste masquée en ligne : elle apparaît
+      d'elle même dès que son lien est rempli dans liens.js. En mode
+      brouillon, elle reste visible, grisée, pour que Julien la voie. */
+  function estVisible(lien) {
+    return estUtilisable(lien) || BROUILLON;
+  }
+
   /** Une url de réseau social est réelle si ce n'est pas un placeholder. */
   function estUrlReelle(url) {
     return typeof url === "string" && url.length > 0 && !url.startsWith("LIEN_A_REMPLIR");
@@ -83,9 +127,63 @@
       .replace(/[\u0300-\u036f]/g, "");
   }
 
-  /** Détecte si l'icône est une simple initiale (lettre) ou un emoji. */
+  /** Détecte si l'icône est une simple initiale (lettre) plutôt qu'une clé
+      de pictogramme. */
   function estInitiale(icone) {
-    return typeof icone === "string" && /^[a-zA-ZÀ-ÿ]{1,2}$/.test(icone);
+    return typeof icone === "string" && /^[a-zA-ZÀ-ÿ]{1,2}$/.test(icone) && !ICONES[icone];
+  }
+
+  /* Pictogrammes au trait, une seule famille dessinée sur une grille de 24,
+     à la place des emojis : un emoji change d'allure d'un téléphone à
+     l'autre, ceux ci gardent la couleur et l'épaisseur du site partout.
+     La clé est celle du champ `icone` de liens.js. */
+  var ICONES = {
+    bouclier: '<path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/>',
+    signal: '<path d="M4 20v-3M9 20v-7M14 20V9M19 20V4"/>',
+    billet: '<path d="M4 7h16v3a2 2 0 0 0 0 4v3H4v-3a2 2 0 0 0 0-4z"/><path d="M14 7v10"/>',
+    lit: '<path d="M3 18V7M3 14h18v4M21 14v-2a3 3 0 0 0-3-3h-7v5"/><circle cx="7" cy="11" r="1.6"/>',
+    sac: '<path d="M8 8V6a4 4 0 0 1 8 0v2"/><rect x="5" y="8" width="14" height="13" rx="3"/><path d="M9 14h6"/>',
+    avion: '<path d="M21 3L3 10.5l7 2.5 2.5 7z"/><path d="M10 13l11-10"/>',
+    echange: '<path d="M4 8h14l-3-3M20 16H6l3 3"/>',
+    carte: '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h3"/>',
+    graphique: '<path d="M4 19h16M5 15l4-4 3 3 6-7"/><path d="M15 7h3v3"/>',
+    batterie: '<rect x="3" y="7" width="16" height="10" rx="2"/><path d="M21 11v2M7 10v4M10.5 10v4"/>',
+    prise: '<path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4"/>',
+    livre: '<path d="M5 4h12a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2z"/><path d="M5 18a2 2 0 0 1 2-2h12"/>',
+    plan: '<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14"/>',
+    boussole: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+    chaussure: '<path d="M3 17v-6l4-1 2-4 4 3h2l6 4v4H3zM3 17h18"/>',
+    montre: '<rect x="7" y="6" width="10" height="12" rx="3"/><path d="M9 6l1-3h4l1 3M9 18l1 3h4l1-3M12 10v2.5l1.5 1"/>',
+    feuille: '<path d="M5 19C5 11 10 5 20 5c0 10-6 15-14 15M5 19l7-7"/>',
+    eclair: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
+    telephone: '<rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/>',
+    camera: '<path d="M4 7h3l2-2h6l2 2h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/>',
+    drone: '<circle cx="5.5" cy="5.5" r="2.5"/><circle cx="18.5" cy="5.5" r="2.5"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/><path d="M7.5 7.5l3 3M16.5 7.5l-3 3M7.5 16.5l3-3M16.5 16.5l-3-3"/><rect x="10" y="10" width="4" height="4" rx="1"/>',
+    micro: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',
+    palette: '<path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.6-.8 1.6-1.6 0-1.3-1-1.6-1-2.6 0-.9.7-1.6 1.6-1.6H16a5 5 0 0 0 5-5c0-4-4-7.2-9-7.2z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/>',
+    ciseaux: '<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.5 7.5L20 18M8.5 16.5L20 6"/>',
+    reglages: '<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
+    instagram: '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6"/>',
+    tiktok: '<path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5M14 3c.5 2.6 2.4 4.5 5 4.8"/>',
+    facebook: '<path d="M15 3h-2.5A3.5 3.5 0 0 0 9 6.5V10H6.5v3.5H9V21h3.5v-7.5H15l.5-3.5h-3V7a1 1 0 0 1 1-1H15z"/>',
+    youtube: '<rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.5v5l4.5-2.5z"/>',
+    mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+    linkedin: '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v7M8 7v.01M12 17v-7M12 13a3 3 0 0 1 6 0v4"/>',
+  };
+
+  /** Le SVG d'un pictogramme, ou une chaîne vide si la clé est inconnue. */
+  function iconeSvg(cle) {
+    if (!ICONES[cle]) return "";
+    return (
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      ICONES[cle] + "</svg>"
+    );
+  }
+
+  /** Contenu de la pastille d'icône : le pictogramme, ou l'initiale. */
+  function contenuIcone(icone) {
+    return iconeSvg(icone) || echapper(icone);
   }
 
   var ICONE_COPIE =
@@ -207,7 +305,7 @@
     var classeIcone = estInitiale(lien.icone) ? "icone-lien initiale" : "icone-lien";
     if (lien.logo) {
       /* data-secours : si l'image de marque est introuvable (404),
-         gererErreurLogo() retombe sur l'emoji plutôt que de laisser
+         gererErreurLogo() retombe sur le pictogramme plutôt que de laisser
          une icône cassée. Voir l'écouteur "error" global plus bas. */
       html +=
         '<span class="icone-lien avec-logo">' +
@@ -215,7 +313,7 @@
         'data-secours="' + echapper(lien.icone) + '" ' +
         'data-secours-classe="' + classeIcone + '"></span>';
     } else {
-      html += '<span class="' + classeIcone + '" aria-hidden="true">' + echapper(lien.icone) + "</span>";
+      html += '<span class="' + classeIcone + '" aria-hidden="true">' + contenuIcone(lien.icone) + "</span>";
     }
     html += "<h3>" + nom + "</h3>";
     html += "</div>";
@@ -228,6 +326,17 @@
     }
 
     html += construireBadges(lien);
+
+    /* Sceau « Testé par Julien » : il ne s'affiche que si Julien a rempli
+       lui même depuis quand il utilise le produit. Pas de champ rempli,
+       pas de sceau : il ne peut pas être posé par erreur sur une marque
+       qu'il n'a pas essayée. */
+    if (texteRempli(lien.depuisQuand)) {
+      html +=
+        '<p class="sceau-teste"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+        'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>' +
+        "Testé par Julien</p>";
+    }
 
     /* Preuve d'usage : « Utilisé depuis 2022 », « Testé sur 3 pays »...
        Une ligne courte, factuelle, qui distingue un produit réellement
@@ -322,7 +431,7 @@
        réapparaissent plus bas dans leur sous-catégorie. La section
        se masque dès qu'on recherche ou qu'on filtre (voir appliquer). */
     var indispensables = LIENS.filter(function (l) {
-      return l.categorie === cleCategorie && l.indispensable;
+      return l.categorie === cleCategorie && l.indispensable && estVisible(l);
     });
     if (indispensables.length > 0) {
       var sectionI = document.createElement("section");
@@ -351,11 +460,13 @@
       zone.appendChild(sectionI);
     }
 
+    var sousVisibles = [];
     Object.keys(categorie.sousCategories).forEach(function (cleSous) {
       var liens = LIENS.filter(function (l) {
-        return l.categorie === cleCategorie && l.sousCategorie === cleSous;
+        return l.categorie === cleCategorie && l.sousCategorie === cleSous && estVisible(l);
       });
       if (liens.length === 0) return;
+      sousVisibles.push(cleSous);
 
       var section = document.createElement("section");
       section.className = "section-souscategorie";
@@ -377,26 +488,37 @@
       zone.appendChild(section);
     });
 
+    /* Aucune carte à montrer : la page affiche son encadré « en
+       préparation » (écrit dans le HTML) et retire la barre de recherche,
+       qui n'aurait rien à chercher. */
+    if (sousVisibles.length === 0) {
+      var preparation = document.querySelector("[data-en-preparation]");
+      if (preparation) preparation.hidden = false;
+      var barre = document.querySelector(".toolbar");
+      if (barre) barre.hidden = true;
+      return;
+    }
+
     var message = document.createElement("p");
     message.className = "aucun-resultat";
     message.innerHTML = "<b>Aucun résultat</b>Essaie un autre mot ou retire les filtres.";
     zone.appendChild(message);
 
-    construireToolbar(zone, categorie, cleCategorie);
+    construireToolbar(zone, categorie, sousVisibles);
   }
 
   /* ---------- 4. Recherche, filtres, tri ---------- */
 
-  function construireToolbar(zone, categorie, cleCategorie) {
+  function construireToolbar(zone, categorie, sousVisibles) {
     var toolbar = document.querySelector(".toolbar");
     if (!toolbar) return;
 
     var chipsConteneur = toolbar.querySelector(".filtres-chips");
     var champ = toolbar.querySelector("input[type='search']");
 
-    /* Chips : « Tout » + une par sous-catégorie */
+    /* Chips : « Tout » + une par sous-catégorie qui a des cartes */
     var filtreActif = "tout";
-    var cles = ["tout"].concat(Object.keys(categorie.sousCategories));
+    var cles = ["tout"].concat(sousVisibles);
     cles.forEach(function (cle) {
       var chip = document.createElement("button");
       chip.type = "button";
@@ -462,17 +584,22 @@
     document.querySelectorAll("[data-compteur]").forEach(function (element) {
       var cle = element.dataset.compteur;
       var total = LIENS.filter(function (l) {
-        return l.categorie === cle;
+        return l.categorie === cle && estVisible(l);
       }).length;
+      /* Catégorie encore vide : on l'annonce plutôt qu'un « 0 ressources ». */
+      if (total === 0) {
+        element.textContent = "En préparation";
+        return;
+      }
       element.dataset.vers = String(total);
-      element.dataset.suffixe = " ressources";
+      element.dataset.suffixe = total > 1 ? " ressources" : " ressource";
       element.textContent = "0 ressources";
     });
 
     /* Compteur global du hero */
     var statTotal = document.querySelector("[data-stat-total]");
     if (statTotal) {
-      statTotal.dataset.vers = String(LIENS.length);
+      statTotal.dataset.vers = String(LIENS.filter(estVisible).length);
       statTotal.textContent = "0";
     }
   }
@@ -536,7 +663,7 @@
        qu'une fois dans la bande. À défaut, on déduplique par nom. */
     var vus = {};
     var avecLogo = LIENS.filter(function (l) {
-      if (!l.logo) return false;
+      if (!l.logo || !estVisible(l)) return false;
       var cle = l.marque || l.nom;
       if (vus[cle]) return false;
       vus[cle] = true;
@@ -646,7 +773,7 @@
         if (lien && typeof entree === "object" && entree.url) {
           lien = Object.assign({}, lien, { url: entree.url });
         }
-        if (lien) {
+        if (lien && estVisible(lien)) {
           grille.appendChild(construireCarte(lien, position));
           position += 1;
         }
@@ -727,7 +854,7 @@
           lien.rel = "noopener";
         }
         lien.innerHTML =
-          '<span aria-hidden="true">' + echapper(reseau.icone) + "</span>" + echapper(reseau.nom);
+          '<span class="icone-reseau" aria-hidden="true">' + contenuIcone(reseau.icone) + "</span>" + echapper(reseau.nom);
         item.appendChild(lien);
         liste.appendChild(item);
       });
@@ -770,7 +897,7 @@
       reussi = false;
     }
     document.body.removeChild(zone);
-    afficherToast(reussi ? messageSucces : "Copie impossible sur ce navigateur");
+    afficherToast(reussi ? messageSucces : t("Copie impossible sur ce navigateur", "Copying is not possible in this browser"));
   }
 
   function copierTexte(texte, messageSucces) {
@@ -788,7 +915,7 @@
     }
   }
 
-  /* Repli logo -> emoji : les évènements "error" des <img> ne remontent
+  /* Repli logo -> pictogramme : les évènements "error" des <img> ne remontent
      pas (pas de bubbling), on écoute donc en phase de capture sur le
      document entier plutôt que d'attacher un écouteur par carte. */
   document.addEventListener(
@@ -800,7 +927,7 @@
       conteneur.classList.remove("avec-logo");
       conteneur.className = img.dataset.secoursClasse;
       conteneur.setAttribute("aria-hidden", "true");
-      conteneur.textContent = img.dataset.secours;
+      conteneur.innerHTML = contenuIcone(img.dataset.secours);
     },
     true
   );
@@ -811,7 +938,7 @@
     var bouton = evenement.target.closest("[data-action]");
     if (bouton) {
       if (bouton.dataset.action === "copier-code") {
-        copierTexte(bouton.dataset.code, "Code " + bouton.dataset.code + " copié");
+        copierTexte(bouton.dataset.code, t("Code " + bouton.dataset.code + " copié", "Code " + bouton.dataset.code + " copied"));
       }
       return;
     }
@@ -873,64 +1000,49 @@
     });
   }
 
-  /* Signature animée de l'entête : le wordmark s'écrit lettre après lettre
-     au chargement de chaque page, puis un petit pictogramme s'échappe sur
-     la droite. L'animation elle même est entièrement en CSS (section 19),
-     ici on ne fait que découper le mot et poser le pictogramme.
+  /* Le méga menu est écrit en dur dans chaque page. Un lien vers une
+     rubrique qui n'a aucune carte visible (par exemple sport.html#section-
+     chaussures tant qu'aucun lien n'est rempli) mènerait à une section qui
+     n'existe pas : on le masque, puis la colonne si elle se retrouve vide.
+     Un panneau sans aucune colonne reçoit une courte note à la place. */
+  function elaguerMegaMenu() {
+    var pages = {};
+    Object.keys(CATEGORIES).forEach(function (cle) {
+      pages[CATEGORIES[cle].page] = cle;
+    });
 
-     Pour changer le pictogramme d'une page, ajoute une ligne ci dessous.
-     Toute page absente de cette table reçoit l'avion. */
-  var ENVOL_PAR_PAGE = {
-    "sport.html": "course",
-    "creation.html": "camera",
-  };
+    document.querySelectorAll('.megamenu a[href*="#section-"]').forEach(function (a) {
+      var morceaux = a.getAttribute("href").split("#section-");
+      var cleCategorie = pages[morceaux[0].split("/").pop()];
+      if (!cleCategorie) return;
+      var aDesCartes = LIENS.some(function (l) {
+        return l.categorie === cleCategorie && l.sousCategorie === morceaux[1] && estVisible(l);
+      });
+      if (!aDesCartes) a.closest("li").hidden = true;
+    });
 
-  /* Un pictogramme par clé de ENVOL_PAR_PAGE. Pour en ajouter un, écris le
-     SVG ici, référence sa clé au dessus, et donne lui sa classe
-     .envol-{clé} avec ses @keyframes en section 19 du style. */
-  var PICTOGRAMMES = {
-    avion:
-      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>',
-    course:
-      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 5.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM9.9 19.4l1-4.4 2.1 2V23h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6a1.98 1.98 0 0 0-1.7-1c-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7-1.6 8.1-4.9-1-.4 2z"/></svg>',
-    camera:
-      '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>',
-  };
+    document.querySelectorAll(".megamenu-colonne").forEach(function (colonne) {
+      var liens = colonne.querySelectorAll("li");
+      if (liens.length === 0) return;
+      var restants = [].filter.call(liens, function (li) {
+        return !li.hidden;
+      });
+      if (restants.length === 0) colonne.hidden = true;
+    });
 
-  function initialiserSignature() {
-    var mot = document.querySelector(".mot-logo");
-    if (!mot) return;
-
-    /* Préférence système : on ne touche à rien, le mot reste tel quel. */
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    /* Le découpage est synchrone : le navigateur ne peut pas peindre entre
-       le vidage et le remplissage, donc le mot ne disparaît jamais. */
-    var texte = mot.textContent;
-    mot.textContent = "";
-    for (var i = 0; i < texte.length; i += 1) {
-      var lettre = document.createElement("span");
-      lettre.className = "lettre-logo";
-      lettre.style.setProperty("--i", i);
-      lettre.textContent = texte.charAt(i);
-      mot.appendChild(lettre);
-    }
-
-    var page = window.location.pathname.split("/").pop() || "index.html";
-    var type = ENVOL_PAR_PAGE[page] || "avion";
-    var envol = document.createElement("span");
-    envol.className = "envol envol-" + type;
-    envol.setAttribute("aria-hidden", "true");
-    envol.innerHTML = PICTOGRAMMES[type] || PICTOGRAMMES.avion;
-    /* Le pictogramme part quand la dernière lettre vient d'être posée. */
-    envol.style.setProperty("--depart", texte.length * 55 + 150 + "ms");
-    mot.parentNode.appendChild(envol);
-
-    /* Une fois passé, il n'a plus de raison d'être dans la page. La caméra
-       anime aussi son flash en pseudo élément : les deux se terminent
-       ensemble, le premier événement qui arrive fait le ménage. */
-    envol.addEventListener("animationend", function () {
-      envol.remove();
+    document.querySelectorAll(".megamenu-grille").forEach(function (grille) {
+      var colonnes = grille.querySelectorAll(".megamenu-colonne");
+      var visibles = [].filter.call(colonnes, function (c) {
+        return !c.hidden;
+      });
+      if (colonnes.length === 0 || visibles.length > 0) return;
+      var note = document.createElement("div");
+      note.className = "megamenu-colonne megamenu-preparation";
+      note.innerHTML =
+        '<p class="megamenu-titre">' + t("En préparation", "Coming soon") + "</p>" +
+        "<p>" + t("Ma sélection arrive. Je n'affiche ici que ce que j'utilise, avec un lien vérifié.",
+                  "My selection is on its way. I only list what I use, with a verified link.") + "</p>";
+      grille.insertBefore(note, grille.firstChild);
     });
   }
 
@@ -1004,7 +1116,7 @@
           "https://www.youtube-nocookie.com/embed/" +
           encodeURIComponent(identifiant) +
           "?autoplay=1&rel=0";
-        cadre.title = lien.getAttribute("data-titre") || "Vidéo YouTube";
+        cadre.title = lien.getAttribute("data-titre") || t("Vidéo YouTube", "YouTube video");
         cadre.allow =
           "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
         cadre.allowFullscreen = true;
@@ -1049,27 +1161,7 @@
      pour la session, pour pouvoir naviguer de page en page sans le
      retaper. */
   function initialiserModeBrouillon() {
-    var hote = window.location.hostname;
-    var local =
-      hote === "localhost" || hote === "127.0.0.1" || hote === "" || hote.indexOf(".local") > -1;
-    var demande = window.location.search.indexOf("brouillon") > -1;
-
-    if (demande) {
-      try {
-        window.sessionStorage.setItem("brouillon", "1");
-      } catch (e) {
-        /* navigation privée : tant pis, le paramètre d'URL suffit */
-      }
-    }
-
-    var retenu = false;
-    try {
-      retenu = window.sessionStorage.getItem("brouillon") === "1";
-    } catch (e) {
-      retenu = false;
-    }
-
-    if (local || demande || retenu) {
+    if (BROUILLON) {
       document.documentElement.classList.add("mode-brouillon");
     }
   }
@@ -1088,7 +1180,7 @@
     var pastille = document.createElement("p");
     pastille.className = "pastille-statut";
     pastille.innerHTML =
-      '<span class="point" aria-hidden="true"></span>Mis à jour le ' + echapper(date.textContent);
+      '<span class="point" aria-hidden="true"></span>' + t("Mis à jour le ", "Updated on ") + echapper(date.textContent);
     contenu.insertBefore(pastille, contenu.firstChild);
   }
 
@@ -1262,8 +1354,8 @@
   preparerAnimationsArticle();
   initialiserStagger();
   initialiserCompteurs();
-  initialiserSignature();
   initialiserMenu();
+  elaguerMegaMenu();
   initialiserMegaMenu();
   initialiserRetourHaut();
   initialiserVideosYoutube();

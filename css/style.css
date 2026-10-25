@@ -20,7 +20,7 @@
    16. Menu mobile
    17. Fiche produit dépliable
    18. Méga menu
-   19. Signature animée de l'entête
+   19. (retirée : signature animée de l'entête)
    20. Animations de lecture des articles
    21. Frise animée et pastille de statut
    ============================================================ */
@@ -63,12 +63,34 @@
      Cormorant Garamond en italique light, tout en minuscules. */
   --font-signature: "Cormorant Garamond", Georgia, serif;
 
+  /* Échelle typographique. Huit tailles pour tout le texte du site, plus
+     le titre du hero : une taille qui n'est pas ici ne devrait pas exister.
+     Les seules exceptions sont les chiffres mis en scène (repères, prix,
+     statistiques) et les signatures en Cormorant. */
+  --t-label: 11px;          /* étiquettes en capitales, badges */
+  --t-petit: 0.82rem;       /* légendes, métadonnées, mentions */
+  --t-secondaire: 0.92rem;  /* texte de carte, notes, tableaux */
+  --t-corps: 1rem;          /* texte courant */
+  --t-chapeau: clamp(1.05rem, 2.5vw, 1.2rem); /* introduction d'une page */
+  --t-carte: 1.25rem;       /* titre de carte, intertitre */
+  --t-bloc: clamp(1.35rem, 3.4vw, 1.6rem);    /* titre de bloc, citation */
+  --t-section: clamp(1.5rem, 4vw, 1.9rem);    /* titre de section */
+
   /* Rythme */
   --rayon: 18px;
   --rayon-petit: 12px;
   --ombre-carte: 0 10px 30px rgba(0, 0, 0, 0.25);
-  --ombre-glow: 0 8px 32px rgba(232, 96, 28, 0.28);
+  /* Ombre de survol. Longtemps un halo orange ; une ombre sombre et douce
+     fait plus calme, la couleur reste portée par les bordures et le texte. */
+  --ombre-glow: 0 14px 34px rgba(0, 0, 0, 0.38);
   --transition: 0.25s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+/* L'attribut hidden doit toujours gagner : sans cette règle, un élément
+   qui a son propre display (colonne du méga menu, barre de recherche)
+   resterait affiché alors que le JavaScript l'a masqué. */
+[hidden] {
+  display: none !important;
 }
 
 *,
@@ -142,7 +164,7 @@ a:hover {
 
 /* Label de section : Inter UPPERCASE letter-spacé orange */
 .label-section {
-  font: 700 11px var(--font-corps);
+  font: 700 var(--t-label) var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 3px;
   color: var(--orange-glow);
@@ -269,7 +291,7 @@ a:hover {
   padding: 0.4rem 0.9rem;
   border-radius: 999px;
   font-weight: 600;
-  font-size: 0.92rem;
+  font-size: var(--t-secondaire);
   color: var(--texte-secondaire);
   transition: color var(--transition), background var(--transition);
 }
@@ -395,14 +417,14 @@ a:hover {
 }
 
 .hero .sous-titre {
-  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-size: var(--t-chapeau);
   font-weight: 600;
   color: rgba(255, 255, 255, 0.82);
   margin-bottom: 0.65rem;
 }
 
 .hero .micro-texte {
-  font-size: 0.95rem;
+  font-size: var(--t-secondaire);
   color: rgba(255, 255, 255, 0.66);
   margin-bottom: 1.75rem;
   max-width: 46ch;
@@ -423,7 +445,7 @@ a:hover {
 }
 
 .hero .stat span {
-  font: 700 11px var(--font-corps);
+  font: 700 var(--t-label) var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 2px;
   color: rgba(255, 255, 255, 0.55);
@@ -497,42 +519,19 @@ a:hover {
   border-radius: 999px;
   background: var(--degrade-accent);
   color: var(--nuit-profonde);
-  font: 800 1rem var(--font-corps);
+  font: 800 var(--t-corps) var(--font-corps);
   cursor: pointer;
   box-shadow: var(--ombre-glow);
   transition: transform var(--transition), box-shadow var(--transition);
 }
 
-/* Reflet lumineux qui balaie le bouton au survol */
-.btn-principal::after {
-  content: "";
-  position: absolute;
-  top: -60%;
-  left: 0;
-  width: 45%;
-  height: 220%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.55),
-    transparent
-  );
-  transform: translateX(-160%) rotate(8deg);
-  pointer-events: none;
-}
-
-.btn-principal:hover::after {
-  animation: brillance 0.9s ease;
-}
-
 .btn-principal:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 12px 40px rgba(232, 96, 28, 0.4);
+  transform: translateY(-2px);
   color: var(--nuit-profonde);
 }
 
 .btn-principal:active {
-  transform: translateY(0) scale(0.99);
+  transform: none;
 }
 
 /* ---------- 5. Cartes catégories (accueil) ---------- */
@@ -616,7 +615,7 @@ a:hover {
 
 .carte-categorie h3 {
   margin-top: auto;
-  font: 700 1.9rem var(--font-titre);
+  font: 700 var(--t-section) var(--font-titre);
   text-transform: uppercase;
   letter-spacing: 3px;
   color: var(--sable-chaud);
@@ -637,7 +636,7 @@ a:hover {
 
 .carte-categorie p {
   color: var(--texte-secondaire);
-  font-size: 0.95rem;
+  font-size: var(--t-secondaire);
   max-width: 34ch;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
 }
@@ -651,11 +650,11 @@ a:hover {
   width: 100%;
   color: var(--orange-glow);
   font-weight: 700;
-  font-size: 0.92rem;
+  font-size: var(--t-secondaire);
 }
 
 .carte-categorie .compteur {
-  font: 700 11px var(--font-corps);
+  font: 700 var(--t-label) var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--texte-tertiaire);
@@ -800,7 +799,7 @@ a:hover {
   border-radius: 999px;
   background: transparent;
   color: var(--texte-secondaire);
-  font: 600 0.88rem var(--font-corps);
+  font: 600 var(--t-secondaire) var(--font-corps);
   cursor: pointer;
   transition: background var(--transition), color var(--transition),
     border-color var(--transition);
@@ -829,7 +828,7 @@ a:hover {
 }
 
 .section-souscategorie > h2 {
-  font: 700 clamp(1.45rem, 4vw, 1.9rem) var(--font-titre);
+  font: 700 var(--t-section) var(--font-titre);
   color: var(--sable-chaud);
   margin-bottom: 1.1rem;
 }
@@ -878,7 +877,7 @@ a:hover {
 
 .entete-indispensables h2,
 .section-collection h2 {
-  font: 700 clamp(1.45rem, 4vw, 1.9rem) var(--font-titre);
+  font: 700 var(--t-section) var(--font-titre);
   color: var(--sable-chaud);
   margin-top: 0.2rem;
 }
@@ -886,7 +885,7 @@ a:hover {
 .entete-indispensables p,
 .intro-collection {
   color: var(--texte-secondaire);
-  font-size: 0.95rem;
+  font-size: var(--t-secondaire);
   margin-top: 0.35rem;
   max-width: 60ch;
 }
@@ -929,13 +928,12 @@ a:hover {
   border-left: 4px solid var(--orange-feu);
   border-radius: var(--rayon-petit);
   padding: 1.15rem 1.15rem 1rem;
-  box-shadow: var(--ombre-carte);
   transition: transform var(--transition), box-shadow var(--transition),
     background var(--transition);
 }
 
 .carte-lien:hover {
-  transform: translateY(-3px) scale(1.015);
+  transform: translateY(-3px);
   background: var(--fond-carte-hover);
   box-shadow: var(--ombre-glow);
 }
@@ -967,7 +965,7 @@ a:hover {
 
 .carte-lien.a-venir:hover {
   transform: none;
-  box-shadow: var(--ombre-carte);
+  box-shadow: none;
 }
 
 .entete-carte {
@@ -984,8 +982,40 @@ a:hover {
   place-items: center;
   font-size: 1.35rem;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(244, 135, 75, 0.22), rgba(245, 200, 66, 0.12));
+  background: rgba(244, 135, 75, 0.1);
   border: 1px solid var(--bordure-douce);
+  color: var(--orange-glow);
+}
+
+.icone-lien svg {
+  width: 24px;
+  height: 24px;
+}
+
+.carte-vedette .icone-lien svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* Sceau « Testé par Julien » : posé seulement quand Julien a écrit depuis
+   quand il utilise le produit (voir construireCarte). */
+.sceau-teste {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem 0.2rem 0.45rem;
+  border: 1px solid rgba(245, 200, 66, 0.45);
+  border-radius: 999px;
+  font: 700 var(--t-label) var(--font-corps);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--or-dore);
+}
+
+.sceau-teste svg {
+  width: 14px;
+  height: 14px;
 }
 
 .icone-lien.initiale {
@@ -1009,13 +1039,13 @@ a:hover {
 }
 
 .carte-lien h3 {
-  font: 700 1.08rem var(--font-corps);
+  font: 700 var(--t-corps) var(--font-corps);
   color: var(--sable-chaud);
   line-height: 1.3;
 }
 
 .carte-lien .accroche {
-  font: italic 600 0.92rem var(--font-titre);
+  font: italic 600 var(--t-secondaire) var(--font-titre);
   color: var(--orange-glow);
 }
 
@@ -1032,7 +1062,7 @@ a:hover {
   margin-top: 0.55rem;
   text-align: center;
   color: var(--texte-tertiaire);
-  font: 700 0.72rem var(--font-corps);
+  font: 700 var(--t-label) var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 0.12em;
 }
@@ -1085,7 +1115,7 @@ a:hover {
   border-radius: var(--rayon-petit);
   background: rgba(245, 200, 66, 0.09);
   color: var(--or-dore);
-  font: 700 0.9rem var(--font-corps);
+  font: 700 var(--t-secondaire) var(--font-corps);
   letter-spacing: 0.06em;
   cursor: pointer;
   transition: background var(--transition);
@@ -1096,7 +1126,7 @@ a:hover {
 }
 
 .code-promo .etiquette {
-  font-size: 0.7rem;
+  font-size: var(--t-label);
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: var(--texte-tertiaire);
@@ -1132,7 +1162,7 @@ a:hover {
 
   .carte-lien h3 {
     min-width: 0;
-    font-size: 0.8rem;
+    font-size: var(--t-petit);
     line-height: 1.25;
     overflow-wrap: anywhere;
   }
@@ -1146,7 +1176,7 @@ a:hover {
     overflow-wrap: anywhere;
     min-height: 44px;
     padding: 0.28rem 0.5rem;
-    font-size: 0.78rem;
+    font-size: var(--t-petit);
   }
 
   /* Label « CODE » masqué sur mobile : la pastille dorée pointillée se
@@ -1165,11 +1195,11 @@ a:hover {
   .carte-lien .btn-lien {
     min-height: 44px;
     padding: 0.45rem 0.7rem;
-    font-size: 0.78rem;
+    font-size: var(--t-petit);
   }
 
   .carte-lien .badge {
-    font-size: 0.64rem;
+    font-size: var(--t-label);
     padding: 0.18rem 0.55rem;
   }
 
@@ -1177,7 +1207,7 @@ a:hover {
      commercial. Remonté au plancher de 12 px. */
   .avantage-promo {
     margin-top: 0.4rem;
-    font-size: 0.75rem;
+    font-size: var(--t-petit);
     letter-spacing: 0.08em;
   }
 
@@ -1186,7 +1216,7 @@ a:hover {
   .chip {
     min-height: 44px;
     padding: 0.3rem 0.85rem;
-    font-size: 0.78rem;
+    font-size: var(--t-petit);
   }
 }
 
@@ -1217,7 +1247,7 @@ a:hover {
   border-radius: var(--rayon-petit);
   background: transparent;
   color: var(--orange-glow);
-  font: 800 0.92rem var(--font-corps);
+  font: 800 var(--t-secondaire) var(--font-corps);
   cursor: pointer;
   transition: background var(--transition), color var(--transition),
     border-color var(--transition), transform var(--transition);
@@ -1294,12 +1324,12 @@ a:hover {
 }
 
 .carte-vedette h3 {
-  font: 700 clamp(1.35rem, 3.5vw, 1.75rem) var(--font-titre);
+  font: 700 var(--t-bloc) var(--font-titre);
   color: var(--sable-chaud);
 }
 
 .carte-vedette .accroche {
-  font-size: 1.02rem;
+  font-size: var(--t-corps);
   max-width: 54ch;
 }
 
@@ -1344,7 +1374,7 @@ a:hover {
 
 .aucun-resultat b {
   display: block;
-  font: 700 1.4rem var(--font-titre);
+  font: 700 var(--t-carte) var(--font-titre);
   color: var(--sable-chaud);
   margin-bottom: 0.4rem;
 }
@@ -1357,7 +1387,7 @@ a:hover {
   gap: 0.3rem;
   padding: 0.22rem 0.65rem;
   border-radius: 999px;
-  font: 700 0.72rem var(--font-corps);
+  font: 700 var(--t-label) var(--font-corps);
   letter-spacing: 0.03em;
   text-transform: uppercase;
 }
@@ -1421,7 +1451,7 @@ a:hover {
   border-radius: 999px;
   background: var(--fond-carte);
   color: var(--texte-secondaire);
-  font: 600 0.9rem var(--font-corps);
+  font: 600 var(--t-secondaire) var(--font-corps);
   transition: border-color var(--transition), color var(--transition),
     transform var(--transition);
 }
@@ -1432,12 +1462,22 @@ a:hover {
   transform: translateY(-2px);
 }
 
+.icone-reseau {
+  display: inline-flex;
+  color: var(--orange-glow);
+}
+
+.icone-reseau svg {
+  width: 18px;
+  height: 18px;
+}
+
 .section-reseaux {
   padding: 1.5rem 0 3rem;
 }
 
 .section-reseaux h2 {
-  font: 700 1.5rem var(--font-titre);
+  font: 700 var(--t-bloc) var(--font-titre);
   color: var(--sable-chaud);
   margin-bottom: 1rem;
 }
@@ -1483,13 +1523,13 @@ a:hover {
 }
 
 .mention-affiliation {
-  font-size: 0.85rem;
+  font-size: var(--t-petit);
   color: var(--texte-tertiaire);
   max-width: 62ch;
 }
 
 .signature-marque {
-  font: 700 11px var(--font-corps);
+  font: 700 var(--t-label) var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 3px;
   color: var(--orange-feu);
@@ -1510,7 +1550,7 @@ a:hover {
   border-radius: 999px;
   background: var(--sable-chaud);
   color: var(--nuit-profonde);
-  font: 700 0.92rem var(--font-corps);
+  font: 700 var(--t-secondaire) var(--font-corps);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
   opacity: 0;
   translate: -50% 12px;
@@ -1618,15 +1658,6 @@ a:hover {
   }
 }
 
-@keyframes brillance {
-  from {
-    transform: translateX(-160%) rotate(8deg);
-  }
-  to {
-    transform: translateX(320%) rotate(8deg);
-  }
-}
-
 /* Apparition au scroll en cascade : uniquement quand JS est actif.
    Le décalage --stagger (0 à 2, posé par le JS selon la colonne)
    crée l'effet de vague ligne par ligne. */
@@ -1652,7 +1683,7 @@ a:hover {
 
 .label-marques {
   text-align: center;
-  font: 700 11px var(--font-corps);
+  font: 700 var(--t-label) var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 3px;
   color: var(--orange-glow);
@@ -1743,7 +1774,7 @@ a:hover {
   margin: 0.75rem 1rem 0;
   min-height: 1.2em;
   text-align: center;
-  font: 700 13px var(--font-corps);
+  font: 700 var(--t-petit) var(--font-corps);
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--orange-glow);
@@ -1919,20 +1950,20 @@ a:hover {
 }
 
 .pays-guide {
-  font: 700 12px var(--font-corps);
+  font: 700 var(--t-label) var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 3px;
   color: var(--orange-glow);
 }
 
 .carte-guide h3 {
-  font: 700 1.4rem/1.2 var(--font-titre);
+  font: 700 var(--t-bloc)/1.2 var(--font-titre);
   color: var(--blanc);
 }
 
 .carte-guide p {
   color: var(--texte-secondaire);
-  font-size: 0.95rem;
+  font-size: var(--t-secondaire);
 }
 
 .pied-guide {
@@ -1957,13 +1988,22 @@ a:hover {
 .note-guides {
   margin-top: 1.75rem;
   color: var(--texte-tertiaire);
-  font-size: 0.92rem;
+  font-size: var(--t-secondaire);
 }
 
 /* ---------- 14. Article guide ---------- */
 
 .hero-article {
   border-radius: 0 0 32px 32px;
+}
+
+/* Le texte sous le titre d'un guide est son chapeau : il se lit en plus
+   grand que le corps, comme l'introduction d'un article de magazine. */
+.hero-article .micro-texte {
+  font-size: var(--t-chapeau);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 52ch;
 }
 
 .fil-ariane {
@@ -1976,7 +2016,7 @@ a:hover {
   gap: 0.4rem;
   list-style: none;
   padding: 0;
-  font-size: 0.85rem;
+  font-size: var(--t-petit);
   color: rgba(255, 255, 255, 0.6);
 }
 
@@ -2005,7 +2045,7 @@ a:hover {
 }
 
 .sommaire h2 {
-  font: 700 11px var(--font-corps);
+  font: 700 var(--t-label) var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 3px;
   color: var(--orange-glow);
@@ -2038,13 +2078,13 @@ a:hover {
 }
 
 .section-article h2 {
-  font: 700 clamp(1.5rem, 4vw, 1.9rem)/1.25 var(--font-titre);
+  font: 700 var(--t-section)/1.25 var(--font-titre);
   color: var(--blanc);
   margin-bottom: 0.9rem;
 }
 
 .section-article h3 {
-  font: 700 1.15rem var(--font-corps);
+  font: 700 var(--t-carte) var(--font-corps);
   color: var(--sable-chaud);
   margin: 1.5rem 0 0.5rem;
 }
@@ -2120,7 +2160,7 @@ a:hover {
   border-radius: 4px;
   background: rgba(255, 169, 107, 0.16);
   color: var(--orange-glow);
-  font: 700 0.68rem var(--font-corps);
+  font: 700 var(--t-label) var(--font-corps);
   font-style: normal;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -2150,7 +2190,7 @@ a:hover {
 
 .encadre-offre .label-offre {
   display: block;
-  font: 700 11px var(--font-corps);
+  font: 700 var(--t-label) var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 3px;
   color: var(--orange-glow);
@@ -2163,7 +2203,7 @@ a:hover {
 
 .encadre-offre .prix-offre {
   color: var(--texte-tertiaire);
-  font-size: 0.92rem;
+  font-size: var(--t-secondaire);
 }
 
 .encadre-offre .actions-offre {
@@ -2233,7 +2273,7 @@ a:hover {
 }
 
 .formule-nom {
-  font: 700 11px var(--font-corps);
+  font: 700 var(--t-label) var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 3px;
   color: var(--orange-glow);
@@ -2252,7 +2292,7 @@ a:hover {
 }
 
 .formule-prix span {
-  font-size: 0.8rem;
+  font-size: var(--t-petit);
   color: var(--texte-tertiaire);
 }
 
@@ -2262,7 +2302,7 @@ a:hover {
 }
 
 .formule p {
-  font-size: 0.94rem;
+  font-size: var(--t-secondaire);
 }
 
 .formule-intro {
@@ -2277,7 +2317,7 @@ a:hover {
   list-style: none;
   margin: 0 0 1rem;
   padding: 0;
-  font-size: 0.94rem;
+  font-size: var(--t-secondaire);
 }
 
 .formule-detail li {
@@ -2304,12 +2344,12 @@ a:hover {
   margin-top: auto;
   padding-top: 0.85rem;
   border-top: 1px solid var(--bordure-douce);
-  font-size: 0.85rem;
+  font-size: var(--t-petit);
   color: var(--texte-tertiaire);
 }
 
 .note-tarif {
-  font-size: 0.9rem;
+  font-size: var(--t-secondaire);
   color: var(--texte-tertiaire);
 }
 
@@ -2344,7 +2384,7 @@ a:hover {
 
 .hero .reassurance {
   margin-top: 0.9rem;
-  font: 700 0.82rem var(--font-corps);
+  font: 700 var(--t-petit) var(--font-corps);
   letter-spacing: 0.02em;
   color: var(--orange-glow);
 }
@@ -2356,7 +2396,7 @@ a:hover {
 
 /* La phrase pivot de la page. Elle doit se lire seule, sans contexte. */
 .message-cle {
-  font: 700 clamp(1.45rem, 4.6vw, 2.05rem)/1.3 var(--font-titre);
+  font: 700 var(--t-section)/1.3 var(--font-titre);
   color: var(--blanc);
   margin: 0 0 1.2rem;
   padding-left: 1.1rem;
@@ -2392,14 +2432,14 @@ a:hover {
 
 .grille-points .point b {
   display: block;
-  font: 700 1rem/1.35 var(--font-corps);
+  font: 700 var(--t-corps)/1.35 var(--font-corps);
   color: var(--orange-glow);
   margin-bottom: 0.3rem;
 }
 
 .grille-points .point span {
   display: block;
-  font-size: 0.92rem;
+  font-size: var(--t-secondaire);
   line-height: 1.6;
   color: var(--texte-secondaire);
 }
@@ -2414,7 +2454,7 @@ a:hover {
 /* Avant et après. Le contraste des deux colonnes porte la démonstration,
    donc la première est volontairement plus terne que la seconde. */
 .mention-exemple {
-  font: 700 0.78rem var(--font-corps);
+  font: 700 var(--t-petit) var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: var(--texte-tertiaire);
@@ -2453,7 +2493,7 @@ a:hover {
 }
 
 .etiquette-etape {
-  font: 700 11px var(--font-corps);
+  font: 700 var(--t-label) var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 3px;
   margin: 0 0 0.7rem;
@@ -2465,7 +2505,7 @@ a:hover {
 }
 
 .citation-exemple {
-  font: 400 1rem/1.6 var(--font-corps);
+  font: 400 var(--t-corps)/1.6 var(--font-corps);
   font-style: italic;
   color: var(--texte);
   margin: 0 0 0.9rem;
@@ -2476,7 +2516,7 @@ a:hover {
   list-style: none;
   margin: 0;
   padding: 0;
-  font-size: 0.92rem;
+  font-size: var(--t-secondaire);
 }
 
 .liste-avant li,
@@ -2503,7 +2543,7 @@ a:hover {
    on doit voir six lignes devenir quatre, sans avoir à lire un chiffre. */
 .titre-etapes {
   margin: 1rem 0 0.6rem;
-  font: 700 11px var(--font-corps);
+  font: 700 var(--t-label) var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--texte-tertiaire);
@@ -2522,7 +2562,7 @@ a:hover {
 .etapes li {
   position: relative;
   padding: 0 0 0.55rem 1.5rem;
-  font: 700 0.98rem/1.3 var(--font-corps);
+  font: 700 var(--t-corps)/1.3 var(--font-corps);
   color: var(--texte);
 }
 
@@ -2563,7 +2603,7 @@ a:hover {
 
 .etapes-retirees {
   margin: 0 0 0.9rem;
-  font-size: 0.88rem;
+  font-size: var(--t-secondaire);
   color: var(--texte-tertiaire);
 }
 
@@ -2615,7 +2655,7 @@ a:hover {
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font: 800 12px var(--font-corps);
+  font: 800 var(--t-label) var(--font-corps);
   color: var(--nuit-profonde);
   background: var(--degrade-accent);
 }
@@ -2705,7 +2745,7 @@ a:hover {
   list-style: none;
   cursor: pointer;
   padding: 1rem 2.2rem 1rem 0;
-  font: 700 1rem/1.5 var(--font-corps);
+  font: 700 var(--t-corps)/1.5 var(--font-corps);
   color: var(--texte);
 }
 
@@ -2763,7 +2803,7 @@ a:hover {
 }
 
 .retour-client cite {
-  font: 700 0.8rem var(--font-corps);
+  font: 700 var(--t-petit) var(--font-corps);
   font-style: normal;
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -2784,7 +2824,7 @@ a:hover {
    la quatrième colonne passe inaperçue. */
 .indice-defilement {
   display: block;
-  font-size: 0.8rem;
+  font-size: var(--t-petit);
   color: var(--texte-tertiaire);
   margin-top: -1rem;
   margin-bottom: 1.5rem;
@@ -2886,7 +2926,7 @@ a:hover {
 
 .video-youtube figcaption {
   margin-top: 0.6rem;
-  font-size: 0.85rem;
+  font-size: var(--t-petit);
   font-style: italic;
   color: var(--texte-tertiaire);
   text-align: center;
@@ -2899,7 +2939,7 @@ a:hover {
 }
 
 .autres-guides h2 {
-  font: 700 11px var(--font-corps);
+  font: 700 var(--t-label) var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 3px;
   color: var(--orange-glow);
@@ -2941,7 +2981,7 @@ a:hover {
 .autres-guides a b {
   display: block;
   margin-bottom: 0.35rem;
-  font-size: 1rem;
+  font-size: var(--t-corps);
   line-height: 1.35;
   color: var(--sable-chaud);
 }
@@ -2949,7 +2989,7 @@ a:hover {
 .autres-guides a span:not(.pays-guide) {
   display: block;
   font-weight: 400;
-  font-size: 0.9rem;
+  font-size: var(--t-secondaire);
   line-height: 1.6;
   color: var(--texte-secondaire);
 }
@@ -2958,6 +2998,137 @@ a:hover {
    touchaient, faute de gouttière. */
 .autres-guides > a + a {
   margin-top: 0.75rem;
+}
+
+/* « À lire ensuite » en fin d'article : trois lectures choisies à la main
+   pour la page, avec une vignette. Sur téléphone, chaque carte est une
+   ligne (vignette carrée à gauche) pour ne pas empiler trois grandes
+   photos ; à partir de 720 px, trois colonnes, photo au dessus. */
+.a-lire-ensuite {
+  margin-top: clamp(2rem, 5vw, 2.75rem);
+}
+
+.a-lire-ensuite h2 {
+  font: 700 var(--t-label) var(--font-corps);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--orange-glow);
+  margin-bottom: 1rem;
+}
+
+.a-lire-ensuite ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.a-lire-ensuite li {
+  display: flex;
+}
+
+.a-lire-ensuite li a {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  width: 100%;
+  background: var(--fond-carte);
+  border: 1px solid var(--bordure-douce);
+  border-radius: var(--rayon-petit);
+  overflow: hidden;
+  color: var(--sable-chaud);
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+}
+
+.a-lire-ensuite li a:hover {
+  background: var(--fond-carte-hover);
+  transform: translateY(-3px);
+  box-shadow: var(--ombre-glow);
+  color: var(--sable-chaud);
+}
+
+/* Dégradé de repli derrière la vignette, comme sur les cartes guide :
+   si la photo manque, onerror la retire et la carte reste propre. */
+.a-lire-ensuite li a::before {
+  content: "";
+  grid-column: 1;
+  grid-row: 1;
+  background: var(--degrade-hero);
+}
+
+.a-lire-ensuite img {
+  grid-column: 1;
+  grid-row: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+.a-lire-ensuite li a:hover img {
+  transform: scale(1.05);
+}
+
+.corps-suite {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.85rem 1rem;
+}
+
+.corps-suite .pays-guide {
+  font-size: var(--t-label);
+  letter-spacing: 2px;
+}
+
+.corps-suite b {
+  font: 700 var(--t-corps)/1.3 var(--font-titre);
+  color: var(--blanc);
+}
+
+.corps-suite span:not(.pays-guide) {
+  font-size: var(--t-petit);
+  line-height: 1.5;
+  color: var(--texte-secondaire);
+}
+
+.a-lire-ensuite > p {
+  margin-top: 1.1rem;
+}
+
+@media (min-width: 720px) {
+  .a-lire-ensuite ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .a-lire-ensuite li a {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .a-lire-ensuite li a::before,
+  .a-lire-ensuite img {
+    aspect-ratio: 4 / 3;
+  }
+
+  .corps-suite {
+    grid-column: 1;
+    grid-row: 2;
+    padding: 1rem 1.1rem 1.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .a-lire-ensuite li a,
+  .a-lire-ensuite img {
+    transition: none;
+  }
+
+  .a-lire-ensuite li a:hover,
+  .a-lire-ensuite li a:hover img {
+    transform: none;
+  }
 }
 
 /* Applications citées dans un article. Même chip clair que les logos de
@@ -3017,7 +3188,7 @@ a:hover {
 }
 
 .carte-app h3 {
-  font: 700 1rem var(--font-corps);
+  font: 700 var(--t-corps) var(--font-corps);
   margin-bottom: 0.15rem;
 }
 
@@ -3030,7 +3201,7 @@ a:hover {
 }
 
 .carte-app p {
-  font-size: 0.9rem;
+  font-size: var(--t-secondaire);
   color: var(--texte-secondaire);
   line-height: 1.55;
 }
@@ -3056,7 +3227,7 @@ a:hover {
 
 .photo-article figcaption {
   margin-top: 0.6rem;
-  font-size: 0.85rem;
+  font-size: var(--t-petit);
   font-style: italic;
   color: var(--texte-tertiaire);
   text-align: center;
@@ -3084,38 +3255,79 @@ a:hover {
   max-width: 100%;
 }
 
+/* Deux photos de formats différents dans un même duo (une 3/4 et une
+   9/16) : on les recadre au même format pour que les deux tombent à la
+   même hauteur, comme dans une page de magazine. */
+.duo-photos.meme-format .photo-article img {
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
 /* Repères d'un guide : quatre chiffres clés en tête d'article, pour donner
    le format du voyage avant même de lire. */
+/* Les repères d'un guide se lisent comme une fiche technique : une seule
+   bande, des filets fins entre les valeurs, les chiffres en grand. Deux
+   colonnes sur téléphone, une ligne à partir de 720 px. */
 .reperes {
   display: grid;
-  gap: 0.75rem;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   margin: 0 0 clamp(2rem, 5vw, 2.75rem);
+  background: var(--fond-carte);
+  border: 1px solid var(--bordure-douce);
+  border-radius: var(--rayon);
+  overflow: hidden;
 }
 
 .repere {
-  background: var(--fond-carte);
-  border: 1px solid var(--bordure-douce);
-  border-radius: var(--rayon-petit);
-  padding: 0.9rem 1rem;
+  padding: 1.1rem 1.15rem 1.05rem;
+}
+
+.repere:nth-child(even) {
+  border-left: 1px solid var(--bordure-douce);
+}
+
+.repere:nth-child(n + 3) {
+  border-top: 1px solid var(--bordure-douce);
+}
+
+@media (min-width: 720px) {
+  .reperes {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+  }
+
+  .repere:nth-child(n + 3) {
+    border-top: 0;
+  }
+
+  .repere + .repere {
+    border-left: 1px solid var(--bordure-douce);
+  }
 }
 
 .repere b {
   display: block;
-  font: 800 1.35rem/1.2 var(--font-corps);
+  font: 800 clamp(1.3rem, 3.2vw, 1.5rem)/1.2 var(--font-corps);
+  text-wrap: balance;
+  letter-spacing: -0.01em;
   color: var(--orange-glow);
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.35rem;
 }
 
-/* Certaines valeurs sont du texte et non un nombre : on réduit la taille
-   pour qu'elles tiennent sur deux lignes au maximum. */
+/* Certaines valeurs sont du texte et non un nombre : plus petites, en
+   sable, pour que les chiffres restent ce qu'on lit en premier. */
 .repere.texte b {
-  font-size: 1rem;
+  font-size: var(--t-corps);
+  font-weight: 700;
   line-height: 1.35;
+  letter-spacing: 0;
+  color: var(--sable-chaud);
 }
 
 .repere span {
-  font: 700 10px var(--font-corps);
+  display: block;
+  font: 700 var(--t-label)/1.6 var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--texte-tertiaire);
@@ -3148,7 +3360,7 @@ a:hover {
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font: 800 13px var(--font-corps);
+  font: 800 var(--t-petit) var(--font-corps);
   color: var(--nuit-profonde);
   background: var(--degrade-accent);
 }
@@ -3167,7 +3379,7 @@ a:hover {
 .frise li span {
   display: block;
   font-weight: 400;
-  font-size: 0.92rem;
+  font-size: var(--t-secondaire);
   color: var(--texte-tertiaire);
 }
 
@@ -3187,7 +3399,7 @@ a:hover {
   width: 100%;
   min-width: 620px;
   border-collapse: collapse;
-  font-size: 0.92rem;
+  font-size: var(--t-secondaire);
 }
 
 .tableau-comparatif th,
@@ -3199,7 +3411,7 @@ a:hover {
 }
 
 .tableau-comparatif thead th {
-  font: 700 12px var(--font-corps);
+  font: 700 var(--t-label) var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--orange-glow);
@@ -3254,7 +3466,7 @@ a:hover {
 
 .encart-partenaire .encart-titre {
   margin: 0 0 0.4rem;
-  font: 700 12px var(--font-corps);
+  font: 700 var(--t-label) var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--orange-glow);
@@ -3284,7 +3496,7 @@ a:hover {
   margin-top: clamp(2rem, 5vw, 3rem);
   padding-top: 1.25rem;
   border-top: 1px solid var(--bordure-douce);
-  font-size: 0.85rem;
+  font-size: var(--t-petit);
   color: var(--texte-tertiaire);
 }
 
@@ -3389,7 +3601,7 @@ a:hover {
   .nav-principale a {
     width: 100%;
     border-radius: var(--rayon-petit);
-    font-size: 1rem;
+    font-size: var(--t-corps);
     padding: 0.55rem 0.9rem;
   }
 
@@ -3401,6 +3613,83 @@ a:hover {
 
 @media (min-width: 860px) {
   .bouton-menu {
+    display: none;
+  }
+}
+
+/* Sélecteur FR | EN, sur les pages qui existent dans les deux langues.
+   Sur téléphone il se place à gauche du bouton menu ; sur grand écran il
+   passe tout à droite, après la navigation. */
+.choix-langue {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: auto;
+  padding: 3px;
+  border: 1px solid var(--bordure-douce);
+  border-radius: 999px;
+}
+
+.choix-langue a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 36px;
+  padding: 0 0.6rem;
+  border-radius: 999px;
+  font: 700 var(--t-label) var(--font-corps);
+  letter-spacing: 2px;
+  color: var(--texte-secondaire);
+  transition: color var(--transition), background var(--transition);
+}
+
+.choix-langue a:hover {
+  color: var(--sable-chaud);
+}
+
+.choix-langue a[aria-current="page"] {
+  background: rgba(255, 169, 107, 0.16);
+  color: var(--orange-glow);
+}
+
+@media (min-width: 860px) {
+  .choix-langue {
+    order: 3;
+    margin-left: 0;
+  }
+
+  .entete .conteneur:has(.choix-langue) .nav-principale {
+    order: 2;
+    margin-left: auto;
+  }
+}
+
+/* Entre 860 et 1180 px, les sept rubriques, le bouton Bons plans et le
+   sélecteur de langue ne tenaient pas sur une ligne : l'entête passait sur
+   deux ou trois lignes. On resserre les pastilles sur cette plage. */
+@media (min-width: 860px) and (max-width: 1179px) {
+  .entete .conteneur {
+    gap: 0.6rem;
+  }
+
+  .nav-principale ul {
+    gap: 0;
+  }
+
+  .nav-principale a {
+    padding-inline: 0.55rem;
+  }
+
+  .bouton-deroulant {
+    margin-left: -0.35rem;
+  }
+}
+
+/* Sous 980 px, même resserrée, la navigation française ne tient pas avec
+   le sélecteur : le mot ju.en.vie s'efface, le logo rond reste. */
+@media (min-width: 860px) and (max-width: 979px) {
+  .entete .conteneur:has(.choix-langue) .mot-logo {
     display: none;
   }
 }
@@ -3425,7 +3714,7 @@ a:hover {
   gap: 0.35rem;
   align-self: flex-start;
   color: var(--texte-tertiaire);
-  font: 600 0.76rem var(--font-corps);
+  font: 600 var(--t-petit) var(--font-corps);
 }
 
 .anciennete::before {
@@ -3459,7 +3748,7 @@ a:hover {
   cursor: pointer;
   list-style: none;
   color: var(--orange-glow);
-  font: 700 0.8rem var(--font-corps);
+  font: 700 var(--t-petit) var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   transition: color var(--transition);
@@ -3500,7 +3789,7 @@ a:hover {
   flex-direction: column;
   gap: 0.8rem;
   padding-top: 0.75rem;
-  font-size: 0.88rem;
+  font-size: var(--t-secondaire);
   line-height: 1.55;
   color: var(--texte-secondaire);
 }
@@ -3508,7 +3797,7 @@ a:hover {
 /* L'avis perso est la seule voix à la première personne de la fiche :
    il garde le serif italique utilisé partout pour la parole de Julien. */
 .fiche-avis {
-  font: italic 400 0.98rem/1.5 var(--font-titre);
+  font: italic 400 var(--t-corps)/1.5 var(--font-titre);
   color: var(--texte);
   border-left: 2px solid var(--orange-feu);
   padding-left: 0.75rem;
@@ -3516,7 +3805,7 @@ a:hover {
 
 .fiche-titre {
   color: var(--texte-tertiaire);
-  font: 700 0.7rem var(--font-corps);
+  font: 700 var(--t-label) var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 0.12em;
   margin-bottom: 0.35rem;
@@ -3569,13 +3858,13 @@ a:hover {
   border: 1px solid var(--bordure-douce);
   border-radius: var(--rayon-petit);
   padding: 0.6rem 0.75rem;
-  font-size: 0.85rem;
+  font-size: var(--t-petit);
 }
 
 .fiche-pour-qui span {
   display: block;
   color: var(--or-dore);
-  font: 700 0.68rem var(--font-corps);
+  font: 700 var(--t-label) var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 0.12em;
   margin-bottom: 0.2rem;
@@ -3670,7 +3959,7 @@ a:hover {
 
 .megamenu-titre {
   color: var(--or-dore);
-  font: 700 0.7rem var(--font-corps);
+  font: 700 var(--t-label) var(--font-corps);
   text-transform: uppercase;
   letter-spacing: 0.14em;
   margin-bottom: 0.6rem;
@@ -3707,13 +3996,13 @@ a:hover {
 .megamenu-promos b {
   display: block;
   color: var(--sable-chaud);
-  font: 700 0.88rem var(--font-corps);
+  font: 700 var(--t-secondaire) var(--font-corps);
 }
 
 .megamenu-promos span {
   display: block;
   color: var(--texte-tertiaire);
-  font-size: 0.78rem;
+  font-size: var(--t-petit);
   line-height: 1.35;
 }
 
@@ -3728,7 +4017,7 @@ a:hover {
   text-align: center;
   background: var(--degrade-accent);
   color: var(--nuit-profonde);
-  font: 700 0.82rem var(--font-corps);
+  font: 700 var(--t-petit) var(--font-corps);
   transition: filter var(--transition);
 }
 
@@ -3814,7 +4103,7 @@ a:hover {
     margin-left: -0.6rem;
     border-radius: 8px;
     color: var(--texte-secondaire);
-    font-size: 0.92rem;
+    font-size: var(--t-secondaire);
     font-weight: 500;
     transition: color var(--transition), background var(--transition);
   }
@@ -3885,7 +4174,7 @@ a:hover {
   }
 
   .megamenu ul a {
-    font-size: 0.94rem;
+    font-size: var(--t-secondaire);
     padding: 0.45rem 0.7rem;
   }
 }
@@ -3901,205 +4190,6 @@ a:hover {
   .megamenu,
   .bouton-deroulant {
     transition: none;
-  }
-}
-
-/* ---------- 19. Signature animée de l'entête ---------- */
-
-/* Le wordmark s'écrit lettre après lettre au chargement, puis un petit
-   pictogramme s'échappe sur la droite. Tout est en CSS : le JavaScript ne
-   fait que découper le mot en lettres et poser le pictogramme.
-   Deux garde fous : les lettres restent en opacité 0 et non en display
-   none, donc la largeur est réservée dès le premier rendu et rien ne
-   bouge ; et si le JavaScript ne s'exécute pas, le mot s'affiche
-   normalement, sans animation. */
-
-.logo {
-  position: relative;
-}
-
-.lettre-logo {
-  display: inline-block;
-  opacity: 0;
-  animation: frappe-lettre 0.09s ease-out forwards;
-  animation-delay: calc(var(--i) * 55ms);
-}
-
-@keyframes frappe-lettre {
-  from {
-    opacity: 0;
-    transform: translateY(0.06em);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-/* Le pictogramme est en position absolue, calé juste après le mot : il ne
-   prend aucune place dans le flux et ne décale donc jamais la navigation. */
-.envol {
-  position: absolute;
-  left: 100%;
-  top: 50%;
-  margin-left: 0.3rem;
-  width: 22px;
-  height: 22px;
-  margin-top: -11px;
-  color: var(--orange-glow);
-  opacity: 0;
-  pointer-events: none;
-}
-
-.envol svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-  fill: currentColor;
-}
-
-/* L'avion file vers la droite. Le pictogramme d'origine pointe vers le
-   haut : la rotation de 90 degrés, reprise dans chaque étape, le remet
-   dans le sens de la marche. */
-.envol-avion {
-  animation: vol-droite 1.8s cubic-bezier(0.3, 0, 0.6, 1) forwards;
-  animation-delay: var(--depart, 0.7s);
-}
-
-@keyframes vol-droite {
-  0% {
-    opacity: 0;
-    transform: translateX(-6px) scale(0.7) rotate(90deg);
-  }
-  18% {
-    opacity: 0.9;
-    transform: translateX(0) scale(1) rotate(90deg);
-  }
-  84% {
-    opacity: 0.55;
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(54px) scale(0.9) rotate(90deg);
-  }
-}
-
-/* La caméra se pose, déclenche un flash, puis disparaît. Elle ne se
-   déplace pas : c'est le flash qui fait l'événement. */
-.envol-camera {
-  animation: prise-de-vue 1.8s ease-out forwards;
-  animation-delay: var(--depart, 0.7s);
-}
-
-@keyframes prise-de-vue {
-  0% {
-    opacity: 0;
-    transform: scale(0.7);
-  }
-  16% {
-    opacity: 0.9;
-    transform: scale(1);
-  }
-  52% {
-    opacity: 0.9;
-    transform: scale(1);
-  }
-  /* le petit sursaut du déclenchement */
-  58% {
-    opacity: 1;
-    transform: scale(1.14);
-  }
-  66% {
-    transform: scale(1);
-  }
-  88% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.92);
-  }
-}
-
-/* Le flash lui même : un halo qui gonfle et s'éteint aussitôt. Il est
-   porté par un pseudo élément, donc aucune balise en plus dans la page. */
-.envol-camera::after {
-  content: "";
-  position: absolute;
-  inset: -7px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(245, 200, 66, 0.55) 42%,
-    transparent 70%
-  );
-  opacity: 0;
-  animation: eclair 1.8s ease-out forwards;
-  animation-delay: var(--depart, 0.7s);
-}
-
-@keyframes eclair {
-  0%,
-  52% {
-    opacity: 0;
-    transform: scale(0.35);
-  }
-  58% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  74% {
-    opacity: 0;
-    transform: scale(1.6);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.6);
-  }
-}
-
-/* Le coureur part sur la droite, avec un très léger rebond de foulée. */
-.envol-course {
-  animation: foulee 1.8s cubic-bezier(0.3, 0, 0.6, 1) forwards;
-  animation-delay: var(--depart, 0.7s);
-}
-
-@keyframes foulee {
-  0% {
-    opacity: 0;
-    transform: translate(-4px, 0) scale(0.75);
-  }
-  16% {
-    opacity: 0.9;
-    transform: translate(0, 0) scale(1);
-  }
-  40% {
-    transform: translate(14px, -2px) scale(1);
-  }
-  62% {
-    transform: translate(26px, 0) scale(1);
-  }
-  84% {
-    opacity: 0.55;
-    transform: translate(38px, -2px) scale(0.95);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(52px, 0) scale(0.9);
-  }
-}
-
-/* Préférence système respectée : aucune animation, le mot est là d'emblée
-   et aucun pictogramme n'est inséré (voir initialiserSignature). */
-@media (prefers-reduced-motion: reduce) {
-  .lettre-logo {
-    opacity: 1;
-    animation: none;
-  }
-
-  .envol {
-    display: none;
   }
 }
 
@@ -4187,7 +4277,7 @@ a:hover {
   min-height: 44px;
   padding: 0 0.2rem;
   color: var(--texte-secondaire);
-  font-size: 0.88rem;
+  font-size: var(--t-secondaire);
   font-weight: 600;
   transition: color var(--transition);
 }
@@ -4244,7 +4334,7 @@ a:hover {
   border-radius: 999px;
   background: rgba(255, 169, 107, 0.07);
   color: var(--texte-secondaire);
-  font: 600 0.8rem var(--font-corps);
+  font: 600 var(--t-petit) var(--font-corps);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -4292,4 +4382,98 @@ a:hover {
   .pastille-statut .point::after {
     animation: none;
   }
+}
+
+/* ---------- 22. Catégorie en préparation et signature d'auteur ---------- */
+
+/* Page catégorie sans aucune carte en ligne : un encadré calme à la place
+   d'une grille de cartes grisées. Il est écrit dans le HTML, masqué, et le
+   JavaScript l'affiche quand la catégorie est vide. */
+.en-preparation {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: clamp(1.75rem, 5vw, 2.5rem);
+  background: var(--fond-carte);
+  border: 1px solid var(--bordure-douce);
+  border-top: 4px solid var(--orange-feu);
+  border-radius: var(--rayon);
+  text-align: center;
+}
+
+.en-preparation h2 {
+  font: 700 var(--t-section)/1.25 var(--font-titre);
+  color: var(--blanc);
+  margin: 0.6rem 0 0.8rem;
+}
+
+.en-preparation p {
+  color: var(--texte-secondaire);
+}
+
+.en-preparation .actions-offre {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 1.4rem;
+}
+
+.megamenu-preparation p:not(.megamenu-titre) {
+  font-size: var(--t-secondaire);
+  line-height: 1.55;
+  color: var(--texte-secondaire);
+  max-width: 26ch;
+}
+
+/* Signature en fin de guide : qui a écrit, et sur quelle expérience. */
+.signature-auteur {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: clamp(2rem, 5vw, 2.75rem);
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--bordure-douce);
+  border-bottom: 1px solid var(--bordure-douce);
+}
+
+.signature-auteur img {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 2px var(--fond), 0 0 0 3px var(--orange-glow);
+}
+
+.nom-signature {
+  font: italic 300 1.9rem/1 var(--font-signature);
+  color: var(--sable-chaud);
+  margin-bottom: 0.3rem;
+}
+
+.signature-auteur p:not(.nom-signature) {
+  font-size: var(--t-secondaire);
+  line-height: 1.6;
+  color: var(--texte-secondaire);
+}
+
+/* ---------- 23. Citation d'un guide ---------- */
+
+/* Une phrase de Julien, tirée du guide, mise en avant comme dans un
+   magazine. Le mot clé est en italique orange (voir la charte). Quand la
+   citation reprend une phrase déjà présente dans le paragraphe qui suit,
+   elle porte aria-hidden : un lecteur d'écran ne la lit pas deux fois. */
+/* Préfixé par .section-article pour l'emporter sur la couleur et
+   l'interligne des paragraphes d'article. */
+.section-article .citation-guide {
+  margin: clamp(1.75rem, 5vw, 2.5rem) 0;
+  padding: 0.2rem 0 0.2rem 1.25rem;
+  border-left: 3px solid var(--orange-feu);
+  font: 700 var(--t-bloc)/1.35 var(--font-titre);
+  color: var(--blanc);
+  text-wrap: balance;
+}
+
+.section-article .citation-guide em {
+  color: var(--orange-glow);
 }

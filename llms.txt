@@ -6,7 +6,7 @@
 > Toutes les recommandations portent sur des produits et services réellement utilisés.
 > Certains liens sont affiliés, ce qui est indiqué sur chaque page.
 
-Langue : français. Auteur : Julien, alias Ju.en.vie.
+Langue : français, et anglais pour les dix guides de voyage (dossier /en/). Auteur : Julien, alias Ju.en.vie.
 Mise à jour : 7 août 2026.
 
 ## PVT et Working Holiday en Australie
@@ -37,6 +37,21 @@ Itinéraires réellement parcourus, avec le détail des étapes, du budget et de
 - [La boucle de Ha Giang](https://juenvie.com/ressources/guide-ha-giang.html) : les trois cent cinquante kilomètres de montagne au nord du Vietnam, itinéraire jour par jour, permis de zone frontalière obligatoire depuis 2026, permis de conduire, budget et saison.
 - [Voyager aux Philippines](https://juenvie.com/ressources/guide-philippines.html) : deux semaines à Palawan et la croisière El Nido vers Coron.
 - [Une semaine à New York](https://juenvie.com/ressources/guide-new-york.html) : itinéraire quartier par quartier.
+
+## English versions of the travel guides
+
+The ten travel guides above also exist in English, with the same content. The rest of the site is in French only.
+
+- [Travelling in Bali](https://juenvie.com/ressources/en/guide-bali.html)
+- [The Komodo cruise](https://juenvie.com/ressources/en/guide-komodo.html)
+- [Road trip along Australia's east coast](https://juenvie.com/ressources/en/guide-cote-est-australie.html)
+- [The Whitsundays cruise](https://juenvie.com/ressources/en/guide-whitsundays.html)
+- [Travelling in Laos](https://juenvie.com/ressources/en/guide-laos.html)
+- [Travelling in Thailand](https://juenvie.com/ressources/en/guide-thailande.html)
+- [Travelling in Vietnam](https://juenvie.com/ressources/en/guide-vietnam.html)
+- [The Ha Giang loop](https://juenvie.com/ressources/en/guide-ha-giang.html)
+- [Travelling in the Philippines](https://juenvie.com/ressources/en/guide-philippines.html)
+- [A week in New York](https://juenvie.com/ressources/en/guide-new-york.html)
 
 ## Comparatifs et ressources pratiques
 

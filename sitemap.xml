@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Généré depuis les pages du dossier. Remplace le domaine par ta vraie URL. -->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://juenvie.com/ressources/a-propos.html</loc>
     <lastmod>2026-08-07</lastmod>
@@ -96,18 +96,27 @@
     <lastmod>2026-08-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://juenvie.com/ressources/guide-bali.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juenvie.com/ressources/en/guide-bali.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://juenvie.com/ressources/guide-bali.html"/>
   </url>
   <url>
     <loc>https://juenvie.com/ressources/guide-komodo.html</loc>
     <lastmod>2026-08-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://juenvie.com/ressources/guide-komodo.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juenvie.com/ressources/en/guide-komodo.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://juenvie.com/ressources/guide-komodo.html"/>
   </url>
   <url>
     <loc>https://juenvie.com/ressources/guide-laos.html</loc>
     <lastmod>2026-08-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://juenvie.com/ressources/guide-laos.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juenvie.com/ressources/en/guide-laos.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://juenvie.com/ressources/guide-laos.html"/>
   </url>
   <url>
     <loc>https://juenvie.com/ressources/courir-les-majors.html</loc>
@@ -120,18 +129,27 @@
     <lastmod>2026-08-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://juenvie.com/ressources/guide-new-york.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juenvie.com/ressources/en/guide-new-york.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://juenvie.com/ressources/guide-new-york.html"/>
   </url>
   <url>
     <loc>https://juenvie.com/ressources/guide-philippines.html</loc>
     <lastmod>2026-08-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://juenvie.com/ressources/guide-philippines.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juenvie.com/ressources/en/guide-philippines.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://juenvie.com/ressources/guide-philippines.html"/>
   </url>
   <url>
     <loc>https://juenvie.com/ressources/guide-vietnam.html</loc>
     <lastmod>2026-08-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://juenvie.com/ressources/guide-vietnam.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juenvie.com/ressources/en/guide-vietnam.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://juenvie.com/ressources/guide-vietnam.html"/>
   </url>
   <url>
     <loc>https://juenvie.com/ressources/guides.html</loc>
@@ -176,6 +194,9 @@
     <lastmod>2026-08-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://juenvie.com/ressources/guide-ha-giang.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juenvie.com/ressources/en/guide-ha-giang.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://juenvie.com/ressources/guide-ha-giang.html"/>
   </url>
 
   <url>
@@ -183,17 +204,116 @@
     <lastmod>2026-08-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://juenvie.com/ressources/guide-thailande.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juenvie.com/ressources/en/guide-thailande.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://juenvie.com/ressources/guide-thailande.html"/>
   </url>
   <url>
     <loc>https://juenvie.com/ressources/guide-cote-est-australie.html</loc>
     <lastmod>2026-10-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://juenvie.com/ressources/guide-cote-est-australie.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juenvie.com/ressources/en/guide-cote-est-australie.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://juenvie.com/ressources/guide-cote-est-australie.html"/>
   </url>
   <url>
     <loc>https://juenvie.com/ressources/guide-whitsundays.html</loc>
     <lastmod>2026-10-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://juenvie.com/ressources/guide-whitsundays.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juenvie.com/ressources/en/guide-whitsundays.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://juenvie.com/ressources/guide-whitsundays.html"/>
+  </url>
+  <url>
+    <loc>https://juenvie.com/ressources/en/guide-bali.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://juenvie.com/ressources/guide-bali.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juenvie.com/ressources/en/guide-bali.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://juenvie.com/ressources/guide-bali.html"/>
+  </url>
+  <url>
+    <loc>https://juenvie.com/ressources/en/guide-komodo.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://juenvie.com/ressources/guide-komodo.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juenvie.com/ressources/en/guide-komodo.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://juenvie.com/ressources/guide-komodo.html"/>
+  </url>
+  <url>
+    <loc>https://juenvie.com/ressources/en/guide-laos.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://juenvie.com/ressources/guide-laos.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juenvie.com/ressources/en/guide-laos.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://juenvie.com/ressources/guide-laos.html"/>
+  </url>
+  <url>
+    <loc>https://juenvie.com/ressources/en/guide-thailande.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://juenvie.com/ressources/guide-thailande.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juenvie.com/ressources/en/guide-thailande.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://juenvie.com/ressources/guide-thailande.html"/>
+  </url>
+  <url>
+    <loc>https://juenvie.com/ressources/en/guide-vietnam.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://juenvie.com/ressources/guide-vietnam.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juenvie.com/ressources/en/guide-vietnam.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://juenvie.com/ressources/guide-vietnam.html"/>
+  </url>
+  <url>
+    <loc>https://juenvie.com/ressources/en/guide-ha-giang.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://juenvie.com/ressources/guide-ha-giang.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juenvie.com/ressources/en/guide-ha-giang.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://juenvie.com/ressources/guide-ha-giang.html"/>
+  </url>
+  <url>
+    <loc>https://juenvie.com/ressources/en/guide-philippines.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://juenvie.com/ressources/guide-philippines.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juenvie.com/ressources/en/guide-philippines.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://juenvie.com/ressources/guide-philippines.html"/>
+  </url>
+  <url>
+    <loc>https://juenvie.com/ressources/en/guide-new-york.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://juenvie.com/ressources/guide-new-york.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juenvie.com/ressources/en/guide-new-york.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://juenvie.com/ressources/guide-new-york.html"/>
+  </url>
+  <url>
+    <loc>https://juenvie.com/ressources/en/guide-cote-est-australie.html</loc>
+    <lastmod>2026-10-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://juenvie.com/ressources/guide-cote-est-australie.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juenvie.com/ressources/en/guide-cote-est-australie.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://juenvie.com/ressources/guide-cote-est-australie.html"/>
+  </url>
+  <url>
+    <loc>https://juenvie.com/ressources/en/guide-whitsundays.html</loc>
+    <lastmod>2026-10-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://juenvie.com/ressources/guide-whitsundays.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://juenvie.com/ressources/en/guide-whitsundays.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://juenvie.com/ressources/guide-whitsundays.html"/>
   </url>
 </urlset>

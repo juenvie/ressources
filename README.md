@@ -56,16 +56,17 @@ url: "LIEN_A_REMPLIR_GETYOURGUIDE",
 url: "https://www.getyourguide.fr/?partner_id=TONID",
 ```
 
-C'est tout. La carte passe automatiquement de « Bientôt » à active, avec le bouton Découvrir (et toute la carte devient cliquable vers ton lien).
+C'est tout. La carte apparaît automatiquement en ligne, avec le bouton Découvrir (et toute la carte devient cliquable vers ton lien).
 
 Règles automatiques du moteur :
 
 | Ce que tu fais dans `liens.js` | Ce qui se passe sur le site |
 |---|---|
-| `url` commence par `LIEN_A_REMPLIR` (et pas de `codePromo`) | Carte grisée « Bientôt disponible », jamais de lien mort |
+| `url` commence par `LIEN_A_REMPLIR` (et pas de `codePromo`) | Carte **masquée en ligne** (visible grisée en local et avec `?brouillon`). Elle apparaît toute seule dès que tu remplis le lien. Le menu, les compteurs et la bande de logos l'ignorent aussi. Une catégorie sans aucune carte affiche son encadré « en préparation » |
 | `url` est un vrai lien | Carte active : bouton Découvrir + toute la carte cliquable vers le lien |
 | `codePromo` rempli mais `url` en `LIEN_A_REMPLIR` | Carte active « code seul » : pastille copiable, pas de bouton Découvrir (ex. Fortuneo) |
-| `statut: "a-venir"` | Carte grisée même si l'url est réelle (pour préparer à l'avance) |
+| `statut: "a-venir"` | Carte masquée en ligne même si l'url est réelle (pour préparer à l'avance) |
+| `depuisQuand` rempli (sans `[`) | Sceau « Testé par Julien » sur la carte |
 | `codePromo: "JUENVIE5"` | Encadré doré copiable (tap sur la pastille ou sur le bouton copier à côté) |
 | `avantage: "5% de réduction"` | Légende centrée discrète sous le bouton, pour dire ce que le code offre |
 | `accroche` commence par `[` | La phrase n'est pas affichée (placeholder) |
@@ -87,7 +88,7 @@ Six champs facultatifs l'alimentent, tous indépendants. Un champ vide ne s'affi
 | `pourQui` | Encadré doré en bas de la fiche |
 | `depuisQuand` | Ligne courte sous les badges, avec une pastille dorée (ex. « Utilisé depuis 2023 ») |
 
-Les 38 produits ont déjà leurs `avantages`, `inconvenients` et `pourQui` remplis de façon factuelle : corrige librement si ton expérience diffère. Les trois champs personnels (`avis`, `jeUtilisePour`, `depuisQuand`) sont en `[BROUILLON : ...]`, donc invisibles tant que tu ne les as pas écrits.
+Les 38 fiches (dont 16 visibles en ligne) ont déjà leurs `avantages`, `inconvenients` et `pourQui` remplis de façon factuelle : corrige librement si ton expérience diffère. Les trois champs personnels (`avis`, `jeUtilisePour`, `depuisQuand`) sont en `[BROUILLON : ...]`, donc invisibles tant que tu ne les as pas écrits.
 
 Deux règles à garder :
 
@@ -119,7 +120,7 @@ Dans `data/liens.js`, copie un bloc existant de la même sous-catégorie, colle 
   pourQui: "Qui filme seul et veut du 360 sans trépied.",
   depuisQuand: "[Utilisé depuis 2023]",
   badge: null,
-  icone: "🎥",                        // emoji de repli
+  icone: "camera",                    // pictogramme de repli, clé de ICONES dans main.js
   logo: "assets/logos/insta360.png",  // optionnel, voir section logos plus bas
   statut: "actif",
 },
@@ -192,7 +193,7 @@ L'attribut `hidden` est normal : le bloc reste caché tant que le JavaScript ne 
 
 ## 6. Ajouter une grande catégorie (nouvelle page)
 
-1. Dans `CATEGORIES`, ajoute un bloc sur le modèle de `voyage` (nom, emoji, page, description, sousCategories).
+1. Dans `CATEGORIES`, ajoute un bloc sur le modèle de `voyage` (nom, page, description, sousCategories).
 2. Duplique `voyage.html`, renomme le (exemple `nomade.html`), puis dedans : change `<title>`, les meta, le hero, et surtout `data-categorie="voyage"` en `data-categorie="nomade"`.
 3. Ajoute le lien dans le menu `<nav>` des 4 autres pages et une carte sur `index.html`.
 4. Ajoute l'URL dans `sitemap.xml`.
@@ -234,31 +235,8 @@ Ce qui t'attend, par ordre d'impact :
 1. **Les accroches perso** : chaque produit a maintenant un brouillon du type `[BROUILLON : ...]`, une suggestion de départ à lire, ajuster avec un vrai détail si tu en as un, puis valider. Tant que le texte commence par `[`, rien ne s'affiche sur le site, donc aucun risque de publier un brouillon par erreur. Pour publier : retire `[BROUILLON : ` au début et `]` à la fin. C'est toujours ce qui différencie le site d'un Linktree, donc le passage le plus rentable de ta liste.
 2. **Les `avis` des fiches** : les 77 fiches ont leurs avantages, leurs limites et leur « pour qui », mais l'avis reste vide. Commence par les produits que tu utilises vraiment tous les jours, pas par le haut de la liste. Ajoute `depuisQuand` dans la foulée, c'est une ligne et ça vaut une preuve.
 3. **Les badges** : assigne `"prefere"`, `"qualite-prix"`, `"plus-utilise"`... aux produits que tu veux pousser (clés disponibles dans `BADGES`).
-4. **Les logos manquants** : les produits génériques (powerbank, gourde, adaptateur...) et l'app running affichent encore un emoji, faute de marque précise. Voir la section logos ci-dessous pour en ajouter un.
+4. **Les logos manquants** : les produits génériques (powerbank, gourde, adaptateur...) et l'app running affichent un pictogramme au trait, faute de marque précise. Voir la section logos ci-dessous pour en ajouter un.
 5. **YouTube, mail, LinkedIn, Souvence** : URLs dans `RESEAUX`.
-
-## La signature animée de l'entête
-
-À chaque ouverture de page, le mot `ju.en.vie` s'écrit lettre après lettre, puis un petit pictogramme s'échappe sur la droite et disparaît. L'ensemble dure environ deux secondes et demie.
-
-Le découpage en lettres et la pose du pictogramme sont dans `initialiserSignature()` (`js/main.js`), l'animation elle même est entièrement en CSS (section 19 de `style.css`). Trois garde fous :
-
-- Les lettres restent en opacité 0, jamais en `display: none`. La largeur du mot est donc réservée dès le premier rendu et rien ne bouge à l'écran.
-- Le pictogramme est en position absolue, il ne pousse ni le menu ni le bouton hamburger.
-- Si la personne a demandé à son système de réduire les animations, rien ne se déclenche et le mot s'affiche normalement.
-
-Pour changer le pictogramme d'une page, ajoute une ligne dans `ENVOL_PAR_PAGE`, en haut de la fonction :
-
-```js
-var ENVOL_PAR_PAGE = {
-  "sport.html": "course",      // un coureur part sur la droite
-  "creation.html": "camera",   // un appareil photo, un flash, puis plus rien
-};
-```
-
-Toute page absente de cette table reçoit l'avion, qui file vers la droite.
-
-Les pictogrammes sont des SVG regroupés dans l'objet `PICTOGRAMMES` de `main.js`. Pour en ajouter un, écris le SVG sous une nouvelle clé, référence cette clé dans `ENVOL_PAR_PAGE`, et donne lui une classe `.envol-{clé}` avec ses `@keyframes` en section 19 du style. Le flash de la caméra est un pseudo élément `::after`, donc aucune balise en plus dans la page.
 
 ## Le mode brouillon
 
@@ -339,7 +317,7 @@ Les trois premières affichent un compteur calculé depuis `liens.js`. Les deux 
 
 ## Logos de marque
 
-Chaque produit rattaché à une marque identifiable affiche son vrai logo (`assets/logos/{id}.png`) plutôt qu'un emoji. Les produits sans marque précise (accessoires génériques type gourde, cadenas, adaptateur) et l'app running (marque pas encore choisie) gardent volontairement l'emoji du champ `icone`.
+Chaque produit rattaché à une marque identifiable affiche son vrai logo (`assets/logos/{id}.png`) plutôt qu'un pictogramme. Les produits sans marque précise (accessoires génériques type gourde, cadenas, adaptateur) et l'app running (marque pas encore choisie) gardent volontairement le pictogramme du champ `icone` (une clé de l'objet `ICONES` de `main.js`, la liste est rappelée en tête de `liens.js`).
 
 **Ajouter ou remplacer un logo :**
 
@@ -347,7 +325,7 @@ Chaque produit rattaché à une marque identifiable affiche son vrai logo (`asse
 2. Enregistre le fichier dans `assets/logos/` en le nommant exactement comme l'`id` du produit, exemple `assets/logos/insta360.png`.
 3. Ajoute la ligne `logo: "assets/logos/insta360.png",` dans l'entrée correspondante de `liens.js` (juste après `icone:`).
 
-Pas besoin de fond blanc ni de recadrage : chaque logo est affiché dans un chip clair automatique (`icone-lien.avec-logo` dans `style.css`) qui gère le contraste, que le logo soit sombre, blanc ou coloré. Si le fichier n'existe pas ou ne charge pas, le site retombe automatiquement sur l'emoji, jamais d'icône cassée (écouteur `error` global dans `main.js`).
+Pas besoin de fond blanc ni de recadrage : chaque logo est affiché dans un chip clair automatique (`icone-lien.avec-logo` dans `style.css`) qui gère le contraste, que le logo soit sombre, blanc ou coloré. Si le fichier n'existe pas ou ne charge pas, le site retombe automatiquement sur le pictogramme, jamais d'icône cassée (écouteur `error` global dans `main.js`).
 
 ## L'univers Australie
 
@@ -435,6 +413,32 @@ Les paragraphes affichés en italique barré de pointillés (`class="a-ecrire"`)
 
 Les photos verticales sont bridées à 440 px de large pour ne pas transformer l'article en couloir. Les photos horizontales prennent toute la colonne de lecture, avec `sizes="(min-width: 800px) 720px, 100vw"`.
 
+## Les guides en anglais
+
+Les dix guides de voyage existent aussi en anglais, dans le dossier `en/` : `juenvie.com/ressources/en/guide-bali.html` et ainsi de suite. Le reste du site est en français uniquement.
+
+- **Le français reste la langue par défaut.** Personne n'est redirigé selon la langue de son navigateur.
+- **Le sélecteur FR | EN** est en haut à droite de ces vingt pages. Chaque version déclare l'autre à Google (`hreflang`), et les deux sont dans le sitemap.
+- **Les liens vers une page qui n'existe qu'en français** (PVT, comparatifs, accompagnement, codes) portent la mention « (in French) ». Les titres des vidéos YouTube restent en français pour la même raison.
+- **Tes notes « À compléter » restent en français** dans la version anglaise : elles ne s'affichent pas en ligne et elles sont pour toi.
+
+**La règle : on ne modifie jamais un fichier de `en/` à la main.** Les pages anglaises sont générées à partir de la page française et d'un dictionnaire de traductions (`outils/traduction/dico.json`). Une modification faite à la main serait écrasée à la reconstruction suivante. Toute modification d'un guide se fait donc sur la page française, puis on reporte en anglais :
+
+```
+python3 outils/traduction/extraire.py           # liste les phrases nouvelles ou modifiées, dans fr_<page>.json
+# traduire ces phrases dans en_<page>.json (mêmes numéros)
+python3 outils/traduction/fusionner.py guide-bali   # ajoute au dictionnaire, contrôle les balises et les tirets
+python3 outils/traduction/construire.py guide-bali  # régénère en/guide-bali.html et pose le sélecteur des deux côtés
+python3 outils/traduction/verifier.py guide-bali    # cherche le français oublié et les chemins cassés
+```
+
+Si une phrase n'a pas de traduction, `construire.py` refuse d'écrire la page et liste ce qui manque : une page anglaise ne peut pas partir avec un trou. Les fichiers `fr_*.json` et `en_*.json` sont des fichiers de travail, ignorés par git.
+
+Pour **un nouveau guide en anglais** :
+- ajoute son nom à `GUIDES` dans `extraire.py` ;
+- ajoute sa carte dans `CARTES_EN` et ses trois lectures dans `SUITE_EN` de `construire.py` ;
+- ajoute-le au sitemap et à `llms.txt`.
+
 ## Photos et logo
 
 Toutes les photos du site vivent dans `assets/photos/`, rangées en trois niveaux :
@@ -476,7 +480,6 @@ Le site a une couche d'animations légère, entièrement en CSS natif et petit J
 
 - **Entrée du hero** : titre, sous-titre et boutons apparaissent en cascade au chargement.
 - **Halos vivants** : sur toutes les pages, les lueurs orange du hero dérivent et respirent lentement. Sur l'accueil, la photo fait en plus un très léger zoom continu.
-- **Reflet lumineux** : une bande de lumière balaie au survol le bouton « Explorer les ressources » (accueil) et les boutons « Découvrir » des produits (pages catégories). Les boutons « Bientôt disponible » n'en ont pas.
 - **Compteurs animés** : les chiffres comptent de zéro quand ils entrent à l'écran.
 - **Carrousel de marques** : sur l'accueil, une bande de logos défile en boucle (`construireMarque` dans `main.js`). Elle se construit toute seule à partir des produits qui ont un logo, donc elle grandit quand tu ajoutes des marques. Elle se met en pause au survol.
 - **Apparition au scroll en cascade** : les cartes se révèlent ligne par ligne quand on descend.

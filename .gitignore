@@ -7,3 +7,8 @@ assets/photos/originaux/
 
 # Notes de travail de Julien : brouillons et réponses, pas du contenu publié.
 notes/
+
+# Fichiers de travail de la traduction (outils/traduction)
+outils/traduction/fr_*.json
+outils/traduction/en_*.json
+outils/traduction/__pycache__/
