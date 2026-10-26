@@ -997,27 +997,6 @@ a:hover {
   height: 28px;
 }
 
-/* Sceau « Testé par Julien » : posé seulement quand Julien a écrit depuis
-   quand il utilise le produit (voir construireCarte). */
-.sceau-teste {
-  display: inline-flex;
-  align-items: center;
-  align-self: flex-start;
-  gap: 0.35rem;
-  padding: 0.2rem 0.6rem 0.2rem 0.45rem;
-  border: 1px solid rgba(245, 200, 66, 0.45);
-  border-radius: 999px;
-  font: 700 var(--t-label) var(--font-corps);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--or-dore);
-}
-
-.sceau-teste svg {
-  width: 14px;
-  height: 14px;
-}
-
 .icone-lien.initiale {
   font: italic 700 1.3rem var(--font-titre);
   color: var(--orange-glow);

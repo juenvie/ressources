@@ -327,17 +327,6 @@
 
     html += construireBadges(lien);
 
-    /* Sceau « Testé par Julien » : il ne s'affiche que si Julien a rempli
-       lui même depuis quand il utilise le produit. Pas de champ rempli,
-       pas de sceau : il ne peut pas être posé par erreur sur une marque
-       qu'il n'a pas essayée. */
-    if (texteRempli(lien.depuisQuand)) {
-      html +=
-        '<p class="sceau-teste"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
-        'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>' +
-        "Testé par Julien</p>";
-    }
-
     /* Preuve d'usage : « Utilisé depuis 2022 », « Testé sur 3 pays »...
        Une ligne courte, factuelle, qui distingue un produit réellement
        éprouvé d'une simple recommandation. */
