@@ -633,7 +633,7 @@ const LIENS = [
     categorie: "voyage",
     sousCategorie: "assurance",
     url: "https://www.chapkadirect.fr/index.php?app=Juenvie",
-    codePromo: null,
+    codePromo: "JUENVIE5",
     resume: "Assurance voyage française, référence des PVT et tours du monde.",
     accroche: "L'assurance que j'ai prise pour mon année de PVT en Australie.",
     avis: "Je l'ai prise pour mon PVT en Australie, environ 400 € pour l'année. C'est le contrat le plus clairement pensé pour les PVTistes : il est écrit pour ce cas précis, pas pour un voyage de deux semaines auquel on ajouterait une option. Avant de souscrire, vérifie ligne par ligne si les sports que tu pratiques sont couverts ou s'ils demandent une option.",

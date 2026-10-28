@@ -81,6 +81,35 @@
     return ANGLAIS ? en : fr;
   }
 
+  /* Pages anglaises : les textes de data/liens-en.js remplacent ceux des
+     fiches françaises (les liens, codes et statuts ne bougent pas), et les
+     logos, qui sont des chemins relatifs, remontent d'un dossier. */
+  if (ANGLAIS) {
+    if (typeof LIENS_EN !== "undefined") {
+      LIENS.forEach(function (lien) {
+        if (LIENS_EN[lien.id]) Object.assign(lien, LIENS_EN[lien.id]);
+      });
+    }
+    LIENS.forEach(function (lien) {
+      if (lien.logo && !/^(https?:|\/|\.\.\/)/.test(lien.logo)) lien.logo = "../" + lien.logo;
+    });
+    if (typeof CATEGORIES_EN !== "undefined") {
+      Object.keys(CATEGORIES_EN).forEach(function (cle) {
+        if (CATEGORIES[cle]) Object.assign(CATEGORIES[cle], CATEGORIES_EN[cle]);
+      });
+    }
+    if (typeof COLLECTIONS_EN !== "undefined" && typeof COLLECTIONS !== "undefined") {
+      COLLECTIONS.forEach(function (c) {
+        if (COLLECTIONS_EN[c.id]) Object.assign(c, COLLECTIONS_EN[c.id]);
+      });
+    }
+    if (typeof BADGES_EN !== "undefined") {
+      Object.keys(BADGES_EN).forEach(function (cle) {
+        if (BADGES[cle]) BADGES[cle].label = BADGES_EN[cle];
+      });
+    }
+  }
+
   /** Une carte s'affiche si elle est utilisable. Une carte sans lien ni
       code (« Bientôt disponible ») reste masquée en ligne : elle apparaît
       d'elle même dès que son lien est rempli dans liens.js. En mode
@@ -209,19 +238,19 @@
      « Découvrir » convient aux services (réservation, banque, eSIM).
      Un champ libelleAction sur un lien l'emporte toujours. */
   var LIBELLE_PAR_SOUS_CATEGORIE = {
-    bagages: "Voir le prix",
-    chaussures: "Voir le prix",
-    montres: "Voir le prix",
-    audio: "Voir le prix",
-    accessoires: "Voir le prix",
-    nutrition: "Voir le prix",
-    recuperation: "Voir le prix",
-    materiel: "Voir le prix",
+    bagages: t("Voir le prix", "See the price"),
+    chaussures: t("Voir le prix", "See the price"),
+    montres: t("Voir le prix", "See the price"),
+    audio: t("Voir le prix", "See the price"),
+    accessoires: t("Voir le prix", "See the price"),
+    nutrition: t("Voir le prix", "See the price"),
+    recuperation: t("Voir le prix", "See the price"),
+    materiel: t("Voir le prix", "See the price"),
   };
 
   function libelleAction(lien) {
     if (lien.libelleAction) return lien.libelleAction;
-    return LIBELLE_PAR_SOUS_CATEGORIE[lien.sousCategorie] || "Découvrir";
+    return LIBELLE_PAR_SOUS_CATEGORIE[lien.sousCategorie] || t("Découvrir", "Discover");
   }
 
   /* Fiche détaillée, dépliable, à l'intérieur de la carte.
@@ -240,7 +269,7 @@
     var usages = listeRemplie(lien.jeUtilisePour);
     if (usages.length > 0) {
       morceaux +=
-        '<div class="fiche-bloc"><p class="fiche-titre">Je m\'en sers pour</p><ul class="fiche-usages">' +
+        '<div class="fiche-bloc"><p class="fiche-titre">' + t("Je m'en sers pour", "I use it for") + '</p><ul class="fiche-usages">' +
         usages
           .map(function (u) {
             return "<li>" + echapper(u) + "</li>";
@@ -255,7 +284,7 @@
       morceaux += '<div class="fiche-balance">';
       if (plus.length > 0) {
         morceaux +=
-          '<div class="fiche-bloc"><p class="fiche-titre">Ce que j\'aime</p><ul class="fiche-plus">' +
+          '<div class="fiche-bloc"><p class="fiche-titre">' + t("Ce que j'aime", "What I like") + '</p><ul class="fiche-plus">' +
           plus
             .map(function (p) {
               return "<li>" + echapper(p) + "</li>";
@@ -265,7 +294,7 @@
       }
       if (moins.length > 0) {
         morceaux +=
-          '<div class="fiche-bloc"><p class="fiche-titre">Les limites</p><ul class="fiche-moins">' +
+          '<div class="fiche-bloc"><p class="fiche-titre">' + t("Les limites", "The downsides") + '</p><ul class="fiche-moins">' +
           moins
             .map(function (m) {
               return "<li>" + echapper(m) + "</li>";
@@ -278,14 +307,14 @@
 
     if (texteRempli(lien.pourQui)) {
       morceaux +=
-        '<p class="fiche-pour-qui"><span>Pour qui</span> ' + echapper(lien.pourQui) + "</p>";
+        '<p class="fiche-pour-qui"><span>' + t("Pour qui", "Who it is for") + "</span> " + echapper(lien.pourQui) + "</p>";
     }
 
     if (morceaux === "") return "";
 
     /* Le libellé annonce ce qu'on va lire : un avis perso, ou simplement
        les caractéristiques quand l'avis n'est pas encore écrit. */
-    var libelle = texteRempli(lien.avis) ? "Mon avis en détail" : "Voir le détail";
+    var libelle = texteRempli(lien.avis) ? t("Mon avis en détail", "My detailed review") : t("Voir le détail", "See the details");
     return (
       '<details class="fiche"><summary class="fiche-resume">' +
       libelle +
@@ -338,7 +367,7 @@
 
     if (lien.codePromo) {
       var code = echapper(lien.codePromo);
-      var libelleCopie = 'aria-label="Copier le code ' + code + " de " + nom + '"';
+      var libelleCopie = 'aria-label="' + t("Copier le code ", "Copy the code ") + code + t(" de ", " for ") + nom + '"';
       /* Le code est copiable de deux façons : tap sur la pastille dorée,
          ou tap sur le bouton copier juste à côté (même action). */
       html +=
@@ -369,7 +398,7 @@
           libelle +
           "</a>";
       } else {
-        html += '<span class="btn-lien desactive">Bientôt disponible</span>';
+        html += '<span class="btn-lien desactive">' + t("Bientôt disponible", "Coming soon") + "</span>";
       }
       html += "</div>";
     }
@@ -430,9 +459,9 @@
       var enteteI = document.createElement("div");
       enteteI.className = "entete-indispensables";
       enteteI.innerHTML =
-        '<span class="label-section">À ne pas manquer</span>' +
-        '<h2 id="titre-indispensables">Mes indispensables</h2>' +
-        "<p>Si je ne devais en retenir que quelques uns, ce serait ceux là.</p>";
+        '<span class="label-section">' + t("À ne pas manquer", "Not to be missed") + "</span>" +
+        '<h2 id="titre-indispensables">' + t("Mes indispensables", "My essentials") + "</h2>" +
+        "<p>" + t("Si je ne devais en retenir que quelques uns, ce serait ceux là.", "If I could only keep a few, it would be these.") + "</p>";
       sectionI.appendChild(enteteI);
 
       var grilleI = document.createElement("div");
@@ -490,7 +519,7 @@
 
     var message = document.createElement("p");
     message.className = "aucun-resultat";
-    message.innerHTML = "<b>Aucun résultat</b>Essaie un autre mot ou retire les filtres.";
+    message.innerHTML = t("<b>Aucun résultat</b>Essaie un autre mot ou retire les filtres.", "<b>No results</b>Try another word or remove the filters.");
     zone.appendChild(message);
 
     construireToolbar(zone, categorie, sousVisibles);
@@ -513,7 +542,7 @@
       chip.type = "button";
       chip.className = "chip";
       chip.dataset.filtre = cle;
-      chip.textContent = cle === "tout" ? "Tout" : categorie.sousCategories[cle];
+      chip.textContent = cle === "tout" ? t("Tout", "All") : categorie.sousCategories[cle];
       chip.setAttribute("aria-pressed", cle === "tout" ? "true" : "false");
       chip.addEventListener("click", function () {
         filtreActif = cle;
@@ -577,12 +606,12 @@
       }).length;
       /* Catégorie encore vide : on l'annonce plutôt qu'un « 0 ressources ». */
       if (total === 0) {
-        element.textContent = "En préparation";
+        element.textContent = t("En préparation", "Coming soon");
         return;
       }
       element.dataset.vers = String(total);
-      element.dataset.suffixe = total > 1 ? " ressources" : " ressource";
-      element.textContent = "0 ressources";
+      element.dataset.suffixe = total > 1 ? t(" ressources", " resources") : t(" ressource", " resource");
+      element.textContent = "0" + element.dataset.suffixe;
     });
 
     /* Compteur global du hero */
@@ -804,7 +833,7 @@
       pastille.innerHTML =
         '<span class="point" aria-hidden="true"></span>' +
         avecCode.length +
-        (avecCode.length > 1 ? " codes actifs" : " code actif");
+        (avecCode.length > 1 ? t(" codes actifs", " active codes") : t(" code actif", " active code"));
       contenu.insertBefore(pastille, contenu.firstChild);
     }
   }

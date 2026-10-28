@@ -6,7 +6,7 @@
 > Toutes les recommandations portent sur des produits et services réellement utilisés.
 > Certains liens sont affiliés, ce qui est indiqué sur chaque page.
 
-Langue : français, et anglais pour les dix guides de voyage (dossier /en/). Auteur : Julien, alias Ju.en.vie.
+Langue : français, et anglais pour tout le site (dossier /en/). Auteur : Julien, alias Ju.en.vie.
 Mise à jour : 7 août 2026.
 
 ## PVT et Working Holiday en Australie
@@ -38,20 +38,9 @@ Itinéraires réellement parcourus, avec le détail des étapes, du budget et de
 - [Voyager aux Philippines](https://juenvie.com/ressources/guide-philippines.html) : deux semaines à Palawan et la croisière El Nido vers Coron.
 - [Une semaine à New York](https://juenvie.com/ressources/guide-new-york.html) : itinéraire quartier par quartier.
 
-## English versions of the travel guides
+## English version
 
-The ten travel guides above also exist in English, with the same content. The rest of the site is in French only.
-
-- [Travelling in Bali](https://juenvie.com/ressources/en/guide-bali.html)
-- [The Komodo cruise](https://juenvie.com/ressources/en/guide-komodo.html)
-- [Road trip along Australia's east coast](https://juenvie.com/ressources/en/guide-cote-est-australie.html)
-- [The Whitsundays cruise](https://juenvie.com/ressources/en/guide-whitsundays.html)
-- [Travelling in Laos](https://juenvie.com/ressources/en/guide-laos.html)
-- [Travelling in Thailand](https://juenvie.com/ressources/en/guide-thailande.html)
-- [Travelling in Vietnam](https://juenvie.com/ressources/en/guide-vietnam.html)
-- [The Ha Giang loop](https://juenvie.com/ressources/en/guide-ha-giang.html)
-- [Travelling in the Philippines](https://juenvie.com/ressources/en/guide-philippines.html)
-- [A week in New York](https://juenvie.com/ressources/en/guide-new-york.html)
+The whole site also exists in English, page for page, in the /en/ folder: https://juenvie.com/ressources/en/ for the home page, then the same file names, for example https://juenvie.com/ressources/en/guide-bali.html or https://juenvie.com/ressources/en/australie-visa.html. The working holiday section is written from the point of view of a French citizen: visa age limit, health cover and insurance rules are flagged as such.
 
 ## Comparatifs et ressources pratiques
 

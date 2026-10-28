@@ -6,8 +6,10 @@ D = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, D)
 import segments as S
 R = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")) + "/"
-GUIDES = ["guide-bali", "guide-komodo", "guide-laos", "guide-thailande", "guide-vietnam", "guide-ha-giang",
-          "guide-philippines", "guide-new-york", "guide-cote-est-australie", "guide-whitsundays"]
+import glob
+# Toutes les pages du site existent en anglais (dossier en/). Une nouvelle page
+# à la racine est prise en compte d'office.
+GUIDES = sorted(os.path.basename(p)[:-5] for p in glob.glob(R + "*.html"))
 
 def identite(t):
     """Segments qu'on ne traduit pas : notes « À compléter » de Julien, texte

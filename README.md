@@ -413,16 +413,21 @@ Les paragraphes affichés en italique barré de pointillés (`class="a-ecrire"`)
 
 Les photos verticales sont bridées à 440 px de large pour ne pas transformer l'article en couloir. Les photos horizontales prennent toute la colonne de lecture, avec `sizes="(min-width: 800px) 720px, 100vw"`.
 
-## Les guides en anglais
+## Le site en anglais
 
-Les dix guides de voyage existent aussi en anglais, dans le dossier `en/` : `juenvie.com/ressources/en/guide-bali.html` et ainsi de suite. Le reste du site est en français uniquement.
+Tout le site existe en anglais, page pour page, dans le dossier `en/` : `juenvie.com/ressources/en/` pour l'accueil, puis les mêmes noms de fichiers (`en/guide-bali.html`, `en/australie-visa.html`...).
 
 - **Le français reste la langue par défaut.** Personne n'est redirigé selon la langue de son navigateur.
-- **Le sélecteur FR | EN** est en haut à droite de ces vingt pages. Chaque version déclare l'autre à Google (`hreflang`), et les deux sont dans le sitemap.
-- **Les liens vers une page qui n'existe qu'en français** (PVT, comparatifs, accompagnement, codes) portent la mention « (in French) ». Les titres des vidéos YouTube restent en français pour la même raison.
-- **Tes notes « À compléter » restent en français** dans la version anglaise : elles ne s'affichent pas en ligne et elles sont pour toi.
+- **Le sélecteur FR | EN** est en haut à droite de toutes les pages. Chaque version déclare l'autre à Google (`hreflang`), et les 64 adresses sont dans le sitemap.
+- **Restent volontairement en français** :
+  - les titres de tes vidéos YouTube, puisque les vidéos sont en français, avec la mention « (in French) » ;
+  - tes notes « À compléter », qui ne s'affichent pas en ligne.
+- **Les pages PVT parlent du point de vue d'un Français** (limite d'âge, absence d'accord avec Medicare). La version anglaise le signale.
+- **Les cartes produit** sont construites par le JavaScript à partir de `data/liens.js`. Leurs textes anglais sont dans `data/liens-en.js`, chargé seulement par les pages anglaises. Les liens, codes, logos et statuts restent ceux de `liens.js`. Les boutons et libellés écrits par `main.js` passent par la fonction `t(français, anglais)`.
 
-**La règle : on ne modifie jamais un fichier de `en/` à la main.** Les pages anglaises sont générées à partir de la page française et d'un dictionnaire de traductions (`outils/traduction/dico.json`). Une modification faite à la main serait écrasée à la reconstruction suivante. Toute modification d'un guide se fait donc sur la page française, puis on reporte en anglais :
+**La règle : toute modification se fait dans les deux langues, et on ne modifie jamais un fichier de `en/` à la main.**
+- Les pages anglaises sont générées à partir de la page française et du dictionnaire `outils/traduction/dico.json`. Une modification à la main serait écrasée à la reconstruction suivante.
+- Pour une page HTML, on modifie la page française, puis on reporte en anglais :
 
 ```
 python3 outils/traduction/extraire.py           # liste les phrases nouvelles ou modifiées, dans fr_<page>.json
@@ -432,12 +437,10 @@ python3 outils/traduction/construire.py guide-bali  # régénère en/guide-bali.
 python3 outils/traduction/verifier.py guide-bali    # cherche le français oublié et les chemins cassés
 ```
 
-Si une phrase n'a pas de traduction, `construire.py` refuse d'écrire la page et liste ce qui manque : une page anglaise ne peut pas partir avec un trou. Les fichiers `fr_*.json` et `en_*.json` sont des fichiers de travail, ignorés par git.
-
-Pour **un nouveau guide en anglais** :
-- ajoute son nom à `GUIDES` dans `extraire.py` ;
-- ajoute sa carte dans `CARTES_EN` et ses trois lectures dans `SUITE_EN` de `construire.py` ;
-- ajoute-le au sitemap et à `llms.txt`.
+- Pour une fiche produit, on modifie `data/liens.js`, puis le même champ dans `data/liens-en.js`.
+- Si une phrase n'a pas de traduction, `construire.py` refuse d'écrire la page et liste ce qui manque : une page anglaise ne peut pas partir avec un trou.
+- Les fichiers `fr_*.json` et `en_*.json` sont des fichiers de travail, ignorés par git.
+- Une **nouvelle page** à la racine est prise en compte d'office par `extraire.py` et `construire.py`. Il reste à l'ajouter au sitemap et à `llms.txt`.
 
 ## Photos et logo
 
